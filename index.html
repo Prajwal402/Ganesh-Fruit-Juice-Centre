@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Ganesh Fresh Juice Centre — Fresh, healthy & natural juices, shakes, lassi and meals. Order online for home delivery in Bangalore." />
+  <title>Ganesh Fresh Juice Centre | Fresh & Natural Juices</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #E67E22;
+      --primary-dark: #D35400;
+      --primary-light: #FDEBD0;
+      --secondary: #1ABC9C;
+      --secondary-dark: #16A085;
+      --accent: #E74C8B;
+      --accent-light: #FDEDF4;
+      --bg-cream: #FFF9F0;
+      --bg-mint: #F0FFF4;
+      --bg-dark: #1A1A2E;
+      --text: #2C3E50;
+      --text-light: #7F8C8D;
+      --card-bg: #ffffff;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Inter', 'Segoe UI', sans-serif;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth;
+      height: 100%
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-cream);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* === HEADER === */
+    header {
+      padding: 24px 20px 20px;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(135deg, #fff 0%, var(--primary-light) 50%, #FFF5E6 100%);
+      border-bottom: 3px solid var(--primary);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      letter-spacing: 0.5px;
+      font-family: var(--font-heading);
+      font-weight: 900;
+      color: var(--primary-dark);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    header h2 {
+      margin: 6px 0 0;
+      font-size: 1rem;
+      color: var(--secondary-dark);
+      font-weight: 600;
+      font-family: var(--font-body);
+      letter-spacing: 0.3px;
+    }
+
+    .top-banner {
+      display: inline-block;
+      background: linear-gradient(110deg, var(--primary), #F39C12);
+      color: #fff;
+      padding: 10px 32px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 20px rgba(230, 126, 34, 0.3);
+      margin-bottom: 12px;
+      font-family: var(--font-heading);
+      animation: bannerGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes bannerGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 4px 20px rgba(230, 126, 34, 0.3)
+      }
+
+      50% {
+        box-shadow: 0 4px 30px rgba(230, 126, 34, 0.5)
+      }
+    }
+
+    /* === NAV === */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: box-shadow .3s var(--transition), background .3s;
+      flex-wrap: wrap;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-family: var(--font-heading);
+      transition: all .25s var(--transition);
+      position: relative;
+    }
+
+    nav a:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+    }
+
+    nav a.cta-pulse {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(231, 76, 139, 0.3);
+    }
+
+    nav a.cta-pulse:hover {
+      background: #D63384;
+      transform: translateY(-2px)
+    }
+
+    /* === HERO === */
+    .hero {
+      height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0;
+      background:
+        linear-gradient(180deg, rgba(26, 26, 46, 0.45) 0%, rgba(26, 26, 46, 0.25) 100%),
+        url("j1.jpg") center/cover no-repeat;
+      box-shadow: inset 0 -60px 80px rgba(255, 249, 240, 0.8);
+    }
+
+    .hero .content {
+      z-index: 2;
+      padding: 0 20px;
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      margin: 0 0 10px;
+      font-family: var(--font-heading);
+      font-weight: 900;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      font-weight: 500;
+      font-size: 1.1rem;
+      opacity: 0.95;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3)
+    }
+
+    @keyframes heroFloat {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02));
+      filter: blur(1px);
+      pointer-events: none;
+      animation: floatUp 10s infinite ease-in-out;
+    }
+
+    .bubble.b1 {
+      left: 5%;
+      top: 15%;
+      width: 80px;
+      height: 80px;
+      animation-delay: 0s
+    }
+
+    .bubble.b2 {
+      right: 8%;
+      top: 20%;
+      width: 120px;
+      height: 120px;
+      animation-duration: 14s
+    }
+
+    @keyframes floatUp {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1)
+      }
+
+      50% {
+        transform: translateY(-20px) scale(1.08)
+      }
+    }
+
+    /* === SECTIONS === */
+    section {
+      padding: 48px 20px;
+      max-width: 1200px;
+      margin: 0 auto
+    }
+
+    h1,
+    h2 {
+      font-family: var(--font-heading)
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--text);
+      font-weight: 800;
+      position: relative;
+      display: inline-block
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: var(--text);
+      font-weight: 700
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 50px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    /* === MENU CATEGORY BADGES === */
+    .menu-category {
+      margin: 36px 0 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: var(--radius);
+      display: inline-block;
+      box-shadow: 0 6px 25px rgba(230, 126, 34, 0.25);
+      font-family: var(--font-heading);
+      letter-spacing: 0.3px;
+      transition: transform .25s var(--transition);
+    }
+
+    .menu-category:hover {
+      transform: translateY(-2px)
+    }
+
+    /* === MENU GRID === */
+    .menu-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 18px;
+    }
+
+    /* === CARDS === */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 0;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform .35s var(--transition), box-shadow .35s var(--transition);
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      position: relative;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition: all .6s var(--transition)
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #f5f5f5, #ececec);
+      transition: transform .5s var(--transition);
+    }
+
+    .card:hover img {
+      transform: scale(1.08)
+    }
+
+    .card h3 {
+      margin: 12px 14px 4px;
+      font-size: 1rem;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card p {
+      margin: 0 14px 14px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      font-size: 1.05rem;
+      font-family: var(--font-heading);
+    }
+
+    /* === DELIVERY BOX === */
+    .delivery-box {
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px auto;
+      max-width: 750px;
+      background: linear-gradient(135deg, #E8F8F5, #D5F5E3);
+      border: 2px solid rgba(26, 188, 156, 0.2);
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    /* === FORMS === */
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 900px;
+      margin: 20px auto;
+      gap: 16px
+    }
+
+    input,
+    textarea,
+    select {
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      border: 2px solid #E8E8E8;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      transition: all .25s var(--transition);
+      background: #fff;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.12);
+      transform: translateY(-1px);
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      transition: all .25s var(--transition);
+      box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0)
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      transition: all .25s var(--transition);
+      box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4)
+    }
+
+    .cta-pulse {
+      position: relative;
+      display: inline-block
+    }
+
+    .cta-pulse::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 120%;
+      height: 120%;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(230, 126, 34, 0.2), transparent 50%);
+      animation: pulse 2.5s infinite;
+      z-index: -1;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: translate(-50%, -50%) scale(.9);
+        opacity: 1
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0
+      }
+    }
+
+    .order-item {
+      display: flex;
+      gap: 12px;
+      align-items: center
+    }
+
+    .order-item select,
+    .order-item input {
+      flex: 1;
+      min-width: 0
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg-dark);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 28px 20px;
+      text-align: center;
+      margin-top: 0;
+      font-size: 0.95rem;
+      border-top: 4px solid var(--primary);
+    }
+
+    footer p {
+      font-family: var(--font-body)
+    }
+
+    /* === FLOATING ORDER BUTTON === */
+    .floating-order {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 120;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      font-size: 1.4rem;
+      box-shadow: 0 8px 30px rgba(230, 126, 34, 0.4);
+      cursor: pointer;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      transition: all .3s var(--transition);
+      animation: floatBounce 3s ease-in-out infinite;
+    }
+
+    .floating-order:hover {
+      transform: translateY(-4px) scale(1.1);
+      box-shadow: 0 12px 40px rgba(230, 126, 34, 0.5)
+    }
+
+    @keyframes floatBounce {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-6px)
+      }
+    }
+
+    @media(min-width:900px) {
+      .floating-order {
+        display: none
+      }
+    }
+
+    /* === TOTALS === */
+    .totals {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      font-weight: 700
+    }
+
+    .totals .box {
+      background: linear-gradient(135deg, #fff, #FFF5E6);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      border: 2px solid rgba(230, 126, 34, 0.15);
+      box-shadow: var(--shadow-sm);
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+    }
+
+    .print-btn {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--text);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      transition: all .25s var(--transition);
+    }
+
+    .print-btn:hover {
+      background: var(--text);
+      color: #fff
+    }
+
+    .muted {
+      color: var(--text-light)
+    }
+
+    .small {
+      font-size: 0.9rem
+    }
+
+    /* === CONFIRM OVERLAY === */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      background: rgba(26, 26, 46, 0.5);
+      backdrop-filter: blur(8px);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity .3s, visibility .3s;
+    }
+
+    .confirm-overlay.visible {
+      visibility: visible;
+      opacity: 1
+    }
+
+    .confirm-box {
+      background: #fff;
+      padding: 32px;
+      border-radius: var(--radius);
+      max-width: 440px;
+      width: 92%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      animation: slideUp .4s var(--transition);
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    .confirm-box h3 {
+      margin: 0 0 10px;
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: var(--text)
+    }
+
+    .confirm-box p {
+      margin: 8px 0;
+      color: var(--text-light)
+    }
+
+    .confirm-box .orderno {
+      font-weight: 900;
+      color: var(--primary);
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+      font-family: var(--font-heading)
+    }
+
+    .confirm-box button {
+      margin-top: 14px;
+      padding: 12px 20px;
+      border-radius: 999px
+    }
+
+    /* === OWNER/TRACKING PANELS === */
+    .owner-panel {
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      z-index: 250;
+      background: #fff;
+      padding: 18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-width: 380px;
+      display: none;
+      width: 380px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .owner-panel h4 {
+      font-family: var(--font-heading);
+      color: var(--text)
+    }
+
+    .owner-list {
+      max-height: 340px;
+      overflow: auto;
+      margin-top: 10px
+    }
+
+    .owner-item {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 10px 0
+    }
+
+    .tracking-panel {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 250;
+      background: #fff;
+      padding: 18px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-width: 380px;
+      display: none;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .tracking-panel .small {
+      font-size: 0.9rem;
+      color: #555
+    }
+
+    .upi-qr {
+      max-width: 150px;
+      border-radius: var(--radius-sm);
+      border: 2px solid #f0f0f0;
+      padding: 8px;
+      background: #fff
+    }
+
+    /* === ABOUT SECTION === */
+    #about {
+      background: linear-gradient(135deg, var(--bg-mint), #E8F8F5);
+      border-radius: var(--radius);
+      margin: 20px auto;
+      padding: 48px 32px;
+      max-width: 1200px;
+    }
+
+    #about p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text);
+      max-width: 700px
+    }
+
+    /* === CONTACT SECTION === */
+    #contact {
+      background: linear-gradient(135deg, #fff, var(--primary-light));
+      border-radius: var(--radius);
+      margin: 20px auto;
+      padding: 48px 32px;
+      max-width: 1200px;
+    }
+
+    #contact p {
+      margin: 10px 0;
+      font-size: 1.05rem
+    }
+
+    #contact a.btn {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+
+    #contact a.btn:hover {
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4)
+    }
+
+    /* === GALLERY HOVER OVERLAY === */
+    #gallery .card {
+      cursor: pointer
+    }
+
+    #gallery .card:hover h3 {
+      color: var(--primary)
+    }
+
+    /* === RESPONSIVE === */
+    @media(max-width:768px) {
+      header h1 {
+        font-size: 1.6rem
+      }
+
+      .hero {
+        height: 400px
+      }
+
+      .hero h2 {
+        font-size: 1.8rem
+      }
+
+      .menu-items {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 14px
+      }
+
+      .card img {
+        height: 140px
+      }
+
+      h1 {
+        font-size: 1.8rem
+      }
+
+      h2 {
+        font-size: 1.4rem
+      }
+
+      nav {
+        gap: 4px;
+        padding: 10px 8px
+      }
+
+      nav a {
+        padding: 6px 10px;
+        font-size: 0.82rem
+      }
+
+      .delivery-box {
+        flex-direction: column;
+        text-align: center
+      }
+
+      .top-banner {
+        padding: 8px 20px;
+        font-size: 0.82rem
+      }
+
+      #about,
+      #contact {
+        margin: 12px;
+        padding: 32px 20px;
+        border-radius: var(--radius-sm)
+      }
+
+      .owner-panel {
+        left: 8px;
+        bottom: 8px;
+        width: calc(100vw - 16px);
+        max-width: none
+      }
+
+      .tracking-panel {
+        right: 8px;
+        bottom: 8px;
+        max-width: calc(100vw - 16px)
+      }
+    }
+
+    @media(max-width:480px) {
+      .hero {
+        height: 340px
+      }
+
+      .hero h2 {
+        font-size: 1.5rem
+      }
+
+      .menu-items {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px
+      }
+
+      .card h3 {
+        font-size: 0.9rem;
+        margin: 8px 10px 2px
+      }
+
+      .card p {
+        margin: 0 10px 10px;
+        font-size: 0.95rem
+      }
+
+      .card img {
+        height: 120px
+      }
+
+      nav a {
+        padding: 5px 8px;
+        font-size: 0.78rem
+      }
+
+      .totals {
+        justify-content: center
+      }
+    }
+
+    /* === HIGHLIGHT span for promo === */
+    .highlight {
+      color: #fff;
+      font-weight: 900
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Ganesh Fresh Juice Centre</h1>
+    <h2>Fresh, Healthy & Natural Juices</h2>
+    <div style="margin-top:10px">
+      <button class="print-btn" id="printMenuBtn" title="Printable menu">📄 Print / Download Menu</button>
+    </div>
+  </header>
+
+  <nav id="mainNav">
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#delivery">Delivery</a>
+    <a href="#contact" class="cta-pulse">Contact</a>
+    <a id="ownerToggle" href="#"
+      style="margin-left:6px;background:transparent;color:var(--text-light);padding:6px 12px;border-radius:999px;text-decoration:none;border:2px solid #ddd;font-size:0.82rem">⚙️
+      Owner</a>
+  </nav>
+
+  <div class="hero" id="home">
+    <div class="bubble b1" aria-hidden="true"></div>
+    <div class="bubble b2" aria-hidden="true"></div>
+    <div class="content" role="img" aria-label="Fresh juice hero">
+      <h2>Welcome to Ganesh Fresh Juice Centre</h2>
+      <p style="margin-top:10px;font-size:1.05rem">Natural taste, juice made with love — open 9 AM – 9 PM</p>
+      <div style="margin-top:16px">
+        <a href="#menu" class="btn" style="font-size:1.1rem;padding:14px 36px">🍹 Explore Our Menu</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Section (UNCHANGED) -->
+  <section id="menu">
+    <h1>Our Menu</h1>
+
+    <!-- Juices -->
+    <div class="menu-category">🍹 Juices</div>
+    <div class="menu-items">
+      <div class="card"><img src="apple.jpg" alt="">
+        <h3>Apple Juice</h3>
+        <p>₹75</p>
+      </div>
+      <div class="card"><img src="orange .jpg" alt="">
+        <h3>Orange Juice</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="pain apple.jpg" alt="">
+        <h3>Pineapple Juice</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="grapes .jpg" alt="">
+        <h3>Grape Juice</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="puply grape.jpg" alt="">
+        <h3>Pulpy Grape</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="water million .jpg" alt="">
+        <h3>Watermelon Juice</h3>
+        <p>₹45</p>
+      </div>
+      <div class="card"><img src="karbuja.jpg" alt="">
+        <h3>Musk Melon Juice</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="carrot .jpg" alt="">
+        <h3>Carrot Juice</h3>
+        <p>₹65</p>
+      </div>
+      <div class="card"><img src="abc.webp" alt="">
+        <h3>ABC Juice</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="nalikayi.jpg" alt="">
+        <h3>Amla Juice</h3>
+        <p>₹65</p>
+      </div>
+      <div class="card"><img src="bitrot.jpg" alt="">
+        <h3>Beetroot Juice</h3>
+        <p>₹65</p>
+      </div>
+      <div class="card"><img src="lemon juice.jpg" alt="">
+        <h3>Lemon Juice</h3>
+        <p>₹35</p>
+      </div>
+      <div class="card"><img src="mosubi.jpg" alt="">
+        <h3>Mosambi Juice</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="Fruit bowl.jpg" alt="">
+        <h3>Fruit Bowl</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="mosubi.jpg" alt="">
+        <h3> Pure Mosambi Juice {without water}</h3>
+        <p>₹75</p>
+      </div>
+      <div class="card"><img src="orange .jpg" alt="">
+        <h3>Pure orange Juice {Without water}</h3>
+        <p>₹75</p>
+      </div>
+    </div>
+
+    <!-- Shakes -->
+    <div class="menu-category">🥤 Shakes</div>
+    <div class="menu-items">
+      <div class="card"><img src="apple shake.jpg">
+        <h3>Apple Shake</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="bananas .jpg">
+        <h3>Banana Shake</h3>
+        <p>₹50</p>
+      </div>
+      <div class="card"><img src="butter fruits .jpg">
+        <h3>Butter Fruit Shake</h3>
+        <p>₹90</p>
+      </div>
+      <div class="card"><img src="papaya.jpg">
+        <h3>Papaya Shake</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="promogante.jpg">
+        <h3>Pomegranate Shake</h3>
+        <p>₹80</p>
+      </div>
+      <div class="card"><img src="mango.jpeg">
+        <h3>Mango Shake</h3>
+        <p>₹75</p>
+      </div>
+      <div class="card"><img src="kiwi .jpg">
+        <h3>Kiwi Shake</h3>
+        <p>₹75</p>
+      </div>
+      <div class="card"><img src="anjeer.jpg">
+        <h3>Anjeer Shake</h3>
+        <p>₹75</p>
+      </div>
+      <div class="card"><img src="dry fruit.jpg">
+        <h3>Dry Fruit Shake</h3>
+        <p>₹125</p>
+      </div>
+      <div class="card"><img src="dates.jpg">
+        <h3>Dates Shake</h3>
+        <p>₹80</p>
+      </div>
+      <div class="card"><img src="orio shake.jpg">
+        <h3>Oreo Shake</h3>
+        <p>₹70</p>
+      </div>
+      <div class="card"><img src="cold badam.jpg">
+        <h3>Cold Badam</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="cold cofee.jpg">
+        <h3>Cold Coffee</h3>
+        <p>₹65</p>
+      </div>
+      <div class="card"><img src="chocolate .jpg">
+        <h3>Chocolate Coffee</h3>
+        <p>₹75</p>
+      </div>
+      <div class="card"><img src="rose milk.jpg">
+        <h3>Rose Milk</h3>
+        <p>₹55</p>
+      </div>
+      <div class="card"><img src="sharja.jpg">
+        <h3>Sharja</h3>
+        <p>₹75</p>
+      </div>
+      <div class="card"><img src="trender coco.jpg">
+        <h3>Tender Coconut Shake</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="sapota.jpg">
+        <h3>Sapota Shake</h3>
+        <p>₹65</p>
+      </div>
+    </div>
+
+    <!-- Lassi -->
+    <div class="menu-category">🥛 Lassi</div>
+    <div class="menu-items">
+      <div class="card"><img src="sweet lassi.jpg">
+        <h3>Sweet Lassi</h3>
+        <p>₹50</p>
+      </div>
+      <div class="card"><img src="banana lassi.jpg">
+        <h3>Banana Lassi</h3>
+        <p>₹65</p>
+      </div>
+      <div class="card"><img src="apple lassi.jpg">
+        <h3>Apple Lassi</h3>
+        <p>₹70</p>
+      </div>
+      <div class="card"><img src="mango lassi.jpeg">
+        <h3>Mango Lassi</h3>
+        <p>₹70</p>
+      </div>
+      <div class="card"><img src="pinapple lassi.jpg">
+        <h3>Pineapple Lassi</h3>
+        <p>₹65</p>
+      </div>
+      <div class="card"><img src="fruit lassi.jpg">
+        <h3>Fruit Lassi</h3>
+        <p>₹80</p>
+      </div>
+    </div>
+
+    <!-- Ice Cream Shakes -->
+    <div class="menu-category">🍨 Ice Cream Shakes</div>
+    <div class="menu-items">
+      <div class="card"><img src="butter scorch ice cream .jpg">
+        <h3>Butterscotch Shake</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="chocolate .jpg">
+        <h3>Chocolate Shake</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="pista ice cream shake.jpg">
+        <h3>Pista Shake</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="strawberry .jpg">
+        <h3>Strawberry Shake</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="vanila ice cream .jpg">
+        <h3>Vanilla Shake</h3>
+        <p>₹85</p>
+      </div>
+    </div>
+
+    <!-- Sugarcane -->
+    <div class="menu-category">🥤 Sugarcane Juice</div>
+    <div class="menu-items">
+      <div class="card"><img src="sugar_cane_juice.webp">
+        <h3>Sugarcane Juice 1 Ltr</h3>
+        <p>₹115</p>
+      </div>
+      <div class="card"><img src="sugarcane-juice2.jpg">
+        <h3>Sugarcane Juice 2 Ltr</h3>
+        <p>₹215</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>At Ganesh Fresh Juice Centre, we serve the freshest and healthiest juices made from quality fruits. Grab a
+      healthy drink, quick meal, or a refreshing shake — our mission is to refresh you with natural taste in every sip!
+    </p>
+  </section>
+
+  <!-- Meals (UNCHANGED) -->
+  <section>
+    <div class="menu-category">🍱 Meals</div>
+    <div class="menu-items">
+      <div class="card"><img src="healthy meal.jpg" alt="Healthy Meal">
+        <h3>Healthy Meal</h3>
+        <p>₹85</p>
+      </div>
+      <div class="card"><img src="protein meal.jpg" alt="Protein Meal">
+        <h3>Protein Meal</h3>
+        <p>₹90</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery (UNCHANGED) -->
+  <section id="gallery">
+    <h2>Our Gallery</h2>
+    <p class="muted small">📸 Take a look at our shop and fresh juice creations!</p>
+    <div class="menu-items">
+      <div class="card"><img src="g1.jpg" alt="Shop View">
+        <h3>Our Juice Centre</h3>
+      </div>
+      <div class="card"><img src="g2.jpg" alt="Shop View">
+        <h3>Our Juice Centre</h3>
+      </div>
+      <div class="card"><img src="g3.jpg" alt="Shop View">
+        <h3>Our Juice Centre</h3>
+      </div>
+      <div class="card"><img src="g1.jpg" alt="Inside Shop">
+        <h3>Inside the Shop</h3>
+      </div>
+      <div class="card"><img src="g4.jpg" alt="Benifits">
+        <h3>Inside the Shop</h3>
+      </div>
+      <div class="card"><img src="g6.jpg" alt="Benifit">
+        <h3>Inside the Shop</h3>
+      </div>
+      <div class="card"><img src="g5.jpg" alt="Benifits">
+        <h3>Inside the Shop</h3>
+      </div>
+      <div class="card"><img src="j3.jpg" alt="Fresh Juice">
+        <h3>Fresh Juices</h3>
+      </div>
+      <div class="card"><img src="pain apple.jpg" alt="Lassi">
+        <h3>Creamy Lassi</h3>
+      </div>
+      <div class="card"><img src="sugar_cane_juice.webp" alt="Sugarcane">
+        <h3>Sugarcane Juice</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERY / ORDER FORM (updated: auto-distance, UPI, COD, shop link) -->
+  <section id="delivery">
+    <h1>Home Delivery</h1>
+    <div class="delivery-box">
+      <div>
+        <p style="margin:0;font-size:1.05rem">🚚 We now offer <b>home delivery</b> for your favorite juices and shakes!
+        </p>
+        <p class="small muted" style="margin-top:6px">✔ Minimum Order: 199 &nbsp; ✔ Delivery Hours: 9 AM – 9 PM &nbsp; ✔
+          Delivery Radius: 2 km</p>
+        <p class="small muted" style="margin-top:6px">Free delivery within 2 km. Above 2 km: ₹15 per extra km.</p>
+        <div class="top-banner">🎉 <strong>Sunday Special:</strong> Buy any 6 items — Get <span class="highlight">1
+            Watermelon Juice FREE🍉🍉 </span></div>
+      </div>
+      <div style="text-align:right">
+        <a href="#contact" class="btn">Contact / Order</a>
+      </div>
+    </div>
+
+    <h3>Place Your Order Online</h3>
+    <form id="orderForm">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <textarea name="address" placeholder="Delivery Address" rows="3" required></textarea>
+
+      <!-- Distance input now auto-detects from user's device if allowed -->
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <label class="small muted" style="margin-right:8px">Distance from shop (km):</label>
+        <input type="number" id="distanceInput" step="0.1" min="0" value="1" style="width:140px" />
+        <div class="small muted" id="distanceSource" style="margin-left:8px">(manual)</div>
+        <button type="button" id="detectDistanceBtn" style="margin-left:8px">Detect my location</button>
+      </div>
+
+      <div id="cart">
+        <div class="order-item">
+          <select class="item" required>
+            <option value="">Select Item</option>
+            <optgroup label="Juices">
+              <option>Apple Juice - ₹75</option>
+              <option>Orange Juice - ₹55</option>
+              <option>Mosambi Juice - ₹55</option>
+              <option>Pineapple Juice - ₹55</option>
+              <option>Grape Juice - ₹55</option>
+              <option>Pulpy Grape - ₹55</option>
+              <option>Watermelon Juice - ₹45</option>
+              <option>Musk Melon Juice - ₹55</option>
+              <option>Carrot Juice - ₹65</option>
+              <option>ABC Juice - ₹85</option>
+              <option>Amla Juice - ₹65</option>
+              <option>Beetroot Juice - ₹65</option>
+              <option>Lemon Juice - ₹35</option>
+              <option>Fruit Bowl - ₹85</option>
+              <option> Pure Orange Juice - ₹75</option>
+              <option>Pure Mosambi Juice - ₹75</option>
+
+            </optgroup>
+            <optgroup label="Shakes">
+              <option>Apple Shake - ₹75</option>
+              <option>Banana Shake - ₹50</option>
+              <option>Butter Fruit Shake - ₹90</option>
+              <option>Papaya Shake - ₹55</option>
+              <option>Pomegranate Shake - ₹80</option>
+              <option>Mango Shake - ₹75</option>
+              <option>Kiwi Shake - ₹75</option>
+              <option>Anjeer Shake - ₹75</option>
+              <option>Dry Fruit Shake - ₹125</option>
+              <option>Dates Shake - ₹80</option>
+              <option>Oreo Shake - ₹70</option>
+              <option>Cold Badam - ₹55</option>
+              <option>Cold Coffee - ₹65</option>
+              <option>Chocolate Coffee - ₹75</option>
+              <option>Rose Milk - ₹55</option>
+              <option>Sharja - ₹75</option>
+              <option>Tender Coconut Shake - ₹85</option>
+              <option>Sapota Shake - ₹65</option>
+            </optgroup>
+            <optgroup label="Lassi">
+              <option>Sweet Lassi - ₹50</option>
+              <option>Banana Lassi - ₹65</option>
+              <option>Apple Lassi - ₹70</option>
+              <option>Mango Lassi - ₹70</option>
+              <option>Pineapple Lassi - ₹65</option>
+              <option>Fruit Lassi - ₹80</option>
+            </optgroup>
+            <optgroup label="Ice Cream Shakes">
+              <option>Butterscotch Shake - ₹85</option>
+              <option>Chocolate Shake - ₹85</option>
+              <option>Pista Shake - ₹85</option>
+              <option>Strawberry Shake - ₹85</option>
+              <option>Vanilla Shake - ₹85</option>
+            </optgroup>
+            <optgroup label="Sugarcane Juice">
+              <option>Sugarcane Juice 1 Ltr - ₹115</option>
+              <option>Sugarcane Juice 2 Ltr - ₹210</option>
+            </optgroup>
+
+            <optgroup label="Meals">
+              <option>Healthy Meal - ₹85</option>
+              <option>Protein Meal - ₹90</option>
+            </optgroup>
+
+          </select>
+          <input type="number" class="quantity" placeholder="Qty" min="1" value="1" required />
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:8px;align-items:center">
+          <button type="button" onclick="addItem()">➕ Add Another Item</button>
+          <button type="button" onclick="removeLastItem()" title="Remove last item">➖ Remove Last</button>
+        </div>
+
+        <div class="totals" id="totalsDisplay" aria-live="polite">
+          <div class="box">Subtotal: <span id="subtotal">₹0</span></div>
+          <div class="box">Delivery: <span id="deliveryFee">₹0</span></div>
+          <div class="box">Total: <span id="grandTotal">₹0</span></div>
+        </div>
+      </div>
+
+      <!-- PAYMENT OPTIONS: COD and UPI -->
+      <div style="margin-top:6px">
+        <h4 style="margin:6px 0">Payment method</h4>
+        <label style="margin-right:12px"><input type="radio" name="payment" value="cod" checked> Cash on Delivery
+          (COD)</label>
+        <label style="margin-right:12px"><input type="radio" name="payment" value="upi"> Online (UPI)</label>
+
+        <div id="upiOptions" style="display:none;margin-top:10px;align-items:center;gap:12px">
+          <div>
+            <div class="small">UPI ID: <strong id="upiIdDisplay">jnaneshappu85-1@oksbi</strong></div>
+            <div style="margin-top:6px;display:flex;gap:8px">
+              <button type="button" id="copyUpiBtn">Copy UPI ID</button>
+              <button type="button" id="upiPayBtn">Open UPI App (mobile)</button>
+            </div>
+          </div>
+          <div>
+            <!-- put your QR image in same folder as this page and name it 'upi_qr.jpg' or change the src -->
+            <img id="upiQrImg" class="upi-qr" src="qrcode.jpg" alt="UPI QR" onerror="this.style.display='none'" />
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button type="submit" id="submitOrder" class="cta-pulse">Submit Order via WhatsApp >>>Also Location</button>
+      </div>
+
+      <div id="orderWarnings" style="color:#b71c1c;font-weight:700;margin-top:8px"></div>
+    </form>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>📍 <strong>Location:</strong> GR Building, Nagavarapalya Main Road Bangalore 560093</p>
+    <p>📞 <strong>Phone:</strong> +91 99025 93591</p>
+    <P> Mail: jnaneshappu85@gmail.com </P>
+    <p class="small">💬 WhatsApp: <a class="btn" id="waChat" href="https://wa.me/qr/GLVIIQSHMJQDG1" target="_blank">Chat
+        Now</a></p>
+    <p class="small">📍 Google Maps Location: <a href="https://maps.app.goo.gl/oF3CBc7Tn2J6uxHv5" target="_blank">Open
+        in Google Maps</a></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Ganesh Fresh Juice Centre | All Rights Reserved</p>
+  </footer>
+
+  <!-- Floating order button (mobile) -->
+  <div class="floating-order" id="floatOrderBtn" title="Quick order">
+    🛒
+  </div>
+
+  <!-- Tracking panel (keeps original features) -->
+  <div id="trackingPanel" class="tracking-panel" style="display:none" aria-live="polite">
+    <div><strong>Order:</strong> <span id="tpOrderNo">—</span></div>
+    <div style="margin-top:6px"><strong>Last location:</strong></div>
+    <div id="tpCoords" class="small">waiting…</div>
+    <div id="tpAddress" class="small muted" style="margin-top:6px">Address: —</div>
+    <div style="margin-top:6px"><a id="tpMapLink" href="#" target="_blank" class="small">Open in Google Maps</a></div>
+    <div style="margin-top:8px;display:flex;gap:6px">
+      <button id="btnStopShare" style="flex:1;background:#777">Stop Sharing</button>
+      <button id="btnDelivered" style="flex:1;background:#0b853b">Delivered</button>
+    </div>
+    <div id="tpStatus" class="small muted" style="margin-top:8px"></div>
+  </div>
+
+  <!-- Owner dashboard (toggleable) -->
+  <div id="ownerPanel" class="owner-panel">
+    <h4>Owner Dashboard</h4>
+    <div class="small muted">Paste your Apps Script Web App URL (deployed) below and click Apply & Start</div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="appsUrlInput" placeholder="Apps Script Web App URL" style="flex:1;padding:8px" />
+      <button id="applyAppsBtn" style="white-space:nowrap">Apply</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="pollInterval" type="number" value="6" style="width:70px;padding:8px" />
+      <button id="startOwnerBtn">Start Polling</button>
+      <button id="stopOwnerBtn" disabled>Stop</button>
+    </div>
+
+    <div class="owner-list" id="ownerList" style="margin-top:10px">
+      <div class="small muted">No data — start polling</div>
+    </div>
+    <div style="margin-top:8px" class="small muted">Click a map link to open Google Maps</div>
+  </div>
+
+  <!-- Confirmation overlay -->
+  <div class="confirm-overlay" id="confirmOverlay" aria-hidden="true">
+    <div class="confirm-box" role="dialog" aria-modal="true">
+      <h3>Order Placed</h3>
+      <p>Thank you — your order is being prepared.</p>
+      <p>Order Number:</p>
+      <div class="orderno" id="confirmOrderNo">GFJ-0000</div>
+      <p class="small muted" id="confirmSummary"></p>
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
+        <button id="copyOrderBtn">Placed Order</button>
+        <button id="closeConfirmBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /****************************************************************
+     * CONFIG
+     ****************************************************************/
+    // Exact shop coordinates (from your plus-code/address)
+    const SHOP_LAT = 12.9928802;
+    const SHOP_LON = 77.6637468;
+
+    // Payment / shop settings
+    const UPI_ID = "jnaneshappu85-1@oksbi"; // your UPI id
+    const SHOP_PHONE = "919902593591";     // used for WhatsApp messaging
+    const MIN_ORDER = 199;
+    const FREE_RADIUS_KM = 2;
+    const EXTRA_PER_KM = 15;
+
+    // Apps Script endpoint (optional) - set via owner panel or change here
+    let APPS_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+
+    // Your Google Maps short link (included in messages)
+    const SHOP_MAP_SHORTLINK = "https://maps.app.goo.gl/Htv3XTBydDyto7qVA";
+
+    /****************************************************************
+     * Utilities
+     ****************************************************************/
+    function makeWhatsAppUrl(phone, text) { return "https://wa.me/" + phone + "?text=" + encodeURIComponent(text); }
+    document.getElementById("waChat").href = makeWhatsAppUrl(SHOP_PHONE, "Hi Ganesh Fresh Juice Centre! I would like to place an order. Please assist.");
+
+    function toFixedNumber(n, decimals = 2) { return Number(n.toFixed(decimals)); }
+
+    // Haversine formula to compute distance in km
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const toRad = v => v * Math.PI / 180;
+      const R = 6371; // earth radius km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    /****************************************************************
+     * Card reveal on scroll
+     ****************************************************************/
+    function observeCards() {
+      const cards = document.querySelectorAll(".card");
+      if (!('IntersectionObserver' in window)) { cards.forEach(c => c.classList.add("visible")); return; }
+      const obs = new IntersectionObserver((entries, o) => {
+        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("visible"); o.unobserve(en.target); } });
+      }, { threshold: 0.12 });
+      cards.forEach(c => { if (!c.classList.contains("visible")) obs.observe(c); });
+    }
+    setTimeout(observeCards, 300);
+
+    /****************************************************************
+     * Sticky nav
+     ****************************************************************/
+    const nav = document.getElementById("mainNav");
+    window.addEventListener("scroll", () => { if (window.scrollY > 8) nav.classList.add("scrolled"); else nav.classList.remove("scrolled"); });
+
+    /****************************************************************
+     * Cart logic and totals
+     ****************************************************************/
+    function extractPrice(text) {
+      const m = text.match(/₹\s*([0-9]+(?:\.[0-9]+)?)/);
+      if (m) return parseFloat(m[1]);
+      const mm = text.match(/(\d+)\s*$/);
+      return mm ? parseFloat(mm[1]) : 0;
+    }
+
+    function calculateTotals() {
+      const items = document.querySelectorAll(".order-item");
+      let subtotal = 0;
+      items.forEach(it => {
+        const sel = it.querySelector(".item");
+        const qty = Number(it.querySelector(".quantity").value) || 0;
+        const text = sel.value || "";
+        const price = extractPrice(text);
+        subtotal += price * qty;
+      });
+      subtotal = Math.round(subtotal);
+
+      let distance = Number(document.getElementById("distanceInput").value) || 0;
+      if (distance < 0) distance = 0;
+      let deliveryFee = 0;
+      if (subtotal === 0) { deliveryFee = 0; }
+      else {
+        if (distance <= FREE_RADIUS_KM) deliveryFee = 0;
+        else { const extraKm = Math.max(0, Math.ceil(distance - FREE_RADIUS_KM)); deliveryFee = extraKm * EXTRA_PER_KM; }
+      }
+      const grandTotal = subtotal + deliveryFee;
+      document.getElementById("subtotal").textContent = "₹" + subtotal;
+      document.getElementById("deliveryFee").textContent = "₹" + deliveryFee;
+      document.getElementById("grandTotal").textContent = "₹" + grandTotal;
+
+      const warnings = document.getElementById("orderWarnings");
+      const submitBtn = document.getElementById("submitOrder");
+      warnings.textContent = "";
+      if (subtotal < MIN_ORDER) {
+        warnings.textContent = "Minimum order ₹" + MIN_ORDER + " is required. Add more items.";
+        submitBtn.disabled = true; submitBtn.style.opacity = 0.6; submitBtn.title = "Minimum order not met";
+      } else {
+        submitBtn.disabled = false; submitBtn.style.opacity = 1; submitBtn.title = "Submit Order via WhatsApp";
+      }
+      return { subtotal, deliveryFee, grandTotal };
+    }
+
+    function attachChangeListenersToRow(row) {
+      const sel = row.querySelector('.item'); const qty = row.querySelector('.quantity');
+      sel.addEventListener('change', calculateTotals);
+      qty.addEventListener('input', calculateTotals);
+    }
+    document.querySelectorAll('.order-item').forEach(attachChangeListenersToRow);
+    document.getElementById("distanceInput").addEventListener("input", calculateTotals);
+    window.addEventListener("load", calculateTotals);
+
+    function addItem() {
+      const cart = document.getElementById("cart");
+      const template = document.querySelector(".order-item");
+      const clone = template.cloneNode(true);
+      clone.querySelector(".item").selectedIndex = 0;
+      clone.querySelector(".quantity").value = 1;
+      attachChangeListenersToRow(clone);
+      cart.appendChild(clone);
+      calculateTotals();
+    }
+    function removeLastItem() {
+      const cart = document.getElementById("cart");
+      const items = cart.querySelectorAll(".order-item");
+      if (items.length > 1) { items[items.length - 1].remove(); calculateTotals(); }
+      else { alert("You must have at least one item."); }
+    }
+
+    /****************************************************************
+     * UPI & Payment UI
+     ****************************************************************/
+    const upiPanel = document.getElementById('upiOptions');
+    document.querySelectorAll('input[name="payment"]').forEach(r => {
+      r.addEventListener('change', () => {
+        upiPanel.style.display = (document.querySelector('input[name="payment"]:checked').value === 'upi') ? 'flex' : 'none';
+      });
+    });
+    document.getElementById('upiIdDisplay').textContent = UPI_ID;
+
+    document.getElementById('copyUpiBtn').addEventListener('click', () => {
+      navigator.clipboard?.writeText(UPI_ID).then(() => {
+        const b = document.getElementById('copyUpiBtn'); b.textContent = 'Copied ✓';
+        setTimeout(() => b.textContent = 'Copy UPI ID', 2000);
+      }).catch(() => alert('Copy not supported'));
+    });
+
+    function makeUpiUrl(payee, amount = 0, note = 'Payment to Ganesh Fresh Juice Centre') {
+      const params = [
+        `pa=${encodeURIComponent(payee)}`,
+        `pn=${encodeURIComponent("Ganesh Fresh Juice Centre")}`,
+        `tn=${encodeURIComponent(note)}`,
+        `cu=INR`
+      ].join('&');
+      return `upi://pay?${params}`;
+    }
+    document.getElementById('upiPayBtn').addEventListener('click', () => {
+      const url = makeUpiUrl(UPI_ID);
+      window.location.href = url;
+    });
+
+    /****************************************************************
+     * Geolocation -> distance detection
+     ****************************************************************/
+    const distanceSource = document.getElementById('distanceSource');
+    async function setDistanceFromGeolocation(allowUpdateInput = true) {
+      if (!navigator.geolocation) { alert("Geolocation not supported in this browser."); return null; }
+      distanceSource.textContent = 'detecting…';
+      try {
+        const pos = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 });
+        });
+        const lat = pos.coords.latitude, lon = pos.coords.longitude;
+        const km = haversineKm(SHOP_LAT, SHOP_LON, lat, lon);
+        const kmRounded = Math.round(km * 10) / 10;
+        if (allowUpdateInput) {
+          const inp = document.getElementById("distanceInput");
+          inp.value = kmRounded;
+          distanceSource.textContent = 'detected (auto)';
+          calculateTotals();
+        } else {
+          distanceSource.textContent = `detected (${kmRounded} km)`;
+        }
+        return { lat, lon, km: kmRounded };
+      } catch (err) {
+        console.warn('geolocation error', err);
+        distanceSource.textContent = '(manual)';
+        // do not spam alert on load; only alert when user explicitly requested detection
+        if (allowUpdateInput) alert("Unable to determine location (permission denied or timeout). Please enter distance manually.");
+        return null;
+      }
+    }
+    document.getElementById('detectDistanceBtn').addEventListener('click', () => setDistanceFromGeolocation(true));
+
+    // Attempt auto-detect once on load (best-effort)
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        setDistanceFromGeolocation(true).catch(() => {/*fail silently*/ });
+      }, 800);
+    });
+
+    /****************************************************************
+     * Order submission (WhatsApp + optional Apps Script)
+     ****************************************************************/
+    function generateOrderNumber() {
+      const now = new Date();
+      const pad = (n, d = 2) => String(n).padStart(d, '0');
+      const YYYY = now.getFullYear(), MM = pad(now.getMonth() + 1), DD = pad(now.getDate());
+      const hh = pad(now.getHours()), mm = pad(now.getMinutes()), ss = pad(now.getSeconds());
+      const rand = Math.floor(Math.random() * 900) + 100;
+      return `GFJ-${YYYY}${MM}${DD}-${hh}${mm}${ss}-${rand}`;
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const totals = calculateTotals();
+      if (totals.subtotal < MIN_ORDER) { alert("Minimum order ₹" + MIN_ORDER + " is required. Please add more items."); return; }
+
+      const name = this.name.value.trim();
+      const phone = this.phone.value.trim();
+      const address = this.address.value.trim();
+      const distance = Number(document.getElementById("distanceInput").value) || 0;
+      const payment = document.querySelector('input[name="payment"]:checked').value;
+      const itemsEls = document.querySelectorAll(".order-item");
+      const items = [];
+      itemsEls.forEach(it => {
+        const item = it.querySelector(".item").value.trim();
+        const qty = Number(it.querySelector(".quantity").value) || 0;
+        if (item && qty > 0) items.push(item + " x " + qty);
+      });
+
+      const currentOrderNo = generateOrderNumber();
+      document.getElementById("confirmOrderNo").textContent = currentOrderNo;
+      document.getElementById("confirmSummary").textContent = `Total: ₹${totals.grandTotal} · Items: ${items.length}`;
+      document.getElementById("confirmOverlay").classList.add("visible");
+
+      // best-effort get precise location for tracking
+      let detectedLoc = null;
+      try {
+        detectedLoc = await new Promise((resolve, reject) => {
+          if (!navigator.geolocation) return reject('no geolocation');
+          navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 10000 });
+        });
+        detectedLoc = { lat: detectedLoc.coords.latitude, lon: detectedLoc.coords.longitude, accuracy: detectedLoc.coords.accuracy };
+      } catch (err) {
+        detectedLoc = null; // proceed without location
+      }
+
+      // payload for Apps Script (if configured)
+      const payload = {
+        action: "create_order",
+        orderNo: currentOrderNo,
+        name, phone, address, distance,
+        items, subtotal: totals.subtotal, delivery: totals.deliveryFee, total: totals.grandTotal,
+        paymentMethod: payment,
+        upiId: (payment === 'upi') ? UPI_ID : '',
+        location: detectedLoc,
+        mapLink: detectedLoc ? `https://www.google.com/maps/search/?api=1&query=${detectedLoc.lat},${detectedLoc.lon}` : '',
+        timestamp: new Date().toISOString()
+      };
+
+      // post to Apps Script if URL present
+      try {
+        const url = APPS_SCRIPT_URL || document.getElementById('appsUrlInput')?.value?.trim();
+        if (url && !url.includes('YOUR_GOOGLE_APPS_SCRIPT_URL')) {
+          fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+            .catch(err => console.warn('POST to Apps Script failed', err));
+        }
+      } catch (err) { console.warn('post error', err); }
+
+      // Build WhatsApp message and include shop map shortlink
+      const lines = [
+        "🍹 New Order",
+        `Order No: ${payload.orderNo}`,
+        `Name: ${name}`,
+        `Phone: ${phone}`,
+        `Address: ${address}`,
+        `Distance (km): ${distance}`,
+        "Items:",
+        ...(items || []),
+        `Subtotal: ₹${totals.subtotal}`,
+        `Delivery: ₹${totals.deliveryFee}`,
+        `Total: ₹${totals.grandTotal}`,
+        `Payment: ${payment === 'cod' ? 'Cash on Delivery' : 'UPI (' + UPI_ID + ')'}`,
+        `Shop: ${SHOP_MAP_SHORTLINK}`
+      ];
+      if (payload.mapLink) lines.push(`Location: ${payload.mapLink}`);
+      const msg = lines.join("\n");
+      window.open(makeWhatsAppUrl(SHOP_PHONE, msg), '_blank');
+
+      if (payment === 'upi') {
+        alert('You selected UPI. Please pay ₹' + totals.grandTotal + ' using the UPI ID shown or scan the shop QR code. After paying, inform us on WhatsApp.');
+      }
+    });
+
+    /****************************************************************
+     * Tracking controls (keeps earlier behavior placeholders)
+     ****************************************************************/
+    let watchId = null;
+    let trackingActive = false;
+    function startWatchPosition() { /* implement if you want live tracking started from client */ }
+    function stopTracking(reason = 'stopped_by_customer') {
+      if (watchId !== null && navigator.geolocation.clearWatch) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+      trackingActive = false;
+      document.getElementById('tpStatus').textContent = 'Not sharing';
+      if (typeof (APPS_SCRIPT_URL) !== 'undefined' && APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL')) {
+        fetch(APPS_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'stop_sharing', reason, timestamp: new Date().toISOString() }) }).catch(() => { });
+      }
+    }
+    document.getElementById('btnDelivered')?.addEventListener('click', () => { if (!confirm('Mark order as delivered?')) return; stopTracking('delivered_by_customer'); alert('Marked delivered'); });
+    document.getElementById('btnStopShare')?.addEventListener('click', () => { if (!confirm('Stop sharing location?')) return; stopTracking('stopped_by_customer'); alert('Location sharing stopped.'); });
+
+    /****************************************************************
+     * Owner dashboard (polling)
+     ****************************************************************/
+    document.getElementById('ownerToggle').addEventListener('click', function (e) { e.preventDefault(); const panel = document.getElementById('ownerPanel'); panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none'; });
+
+    document.getElementById('applyAppsBtn').addEventListener('click', () => {
+      const v = document.getElementById('appsUrlInput').value.trim();
+      if (!v) return alert('Paste your deployed Apps Script Web App URL first.');
+      APPS_SCRIPT_URL = v;
+      alert('Apps Script URL applied.');
+    });
+
+    let ownerPoller = null;
+    document.getElementById('startOwnerBtn').addEventListener('click', () => {
+      const url = document.getElementById('appsUrlInput').value.trim() || APPS_SCRIPT_URL;
+      if (!url || url.includes('YOUR_GOOGLE_APPS_SCRIPT_URL')) return alert('Set your Apps Script Web App URL (deploy Apps Script first).');
+      const secs = Math.max(2, Number(document.getElementById('pollInterval').value) || 6);
+      if (ownerPoller) clearInterval(ownerPoller);
+      fetchOwnerData();
+      ownerPoller = setInterval(fetchOwnerData, secs * 1000);
+      document.getElementById('startOwnerBtn').disabled = true; document.getElementById('stopOwnerBtn').disabled = false;
+    });
+    document.getElementById('stopOwnerBtn').addEventListener('click', () => { if (ownerPoller) clearInterval(ownerPoller); ownerPoller = null; document.getElementById('startOwnerBtn').disabled = false; document.getElementById('stopOwnerBtn').disabled = true; });
+
+    async function fetchOwnerData() {
+      const url = APPS_SCRIPT_URL || document.getElementById('appsUrlInput').value.trim();
+      if (!url) { document.getElementById('ownerList').innerHTML = '<div class="small muted">No Apps Script URL set</div>'; return; }
+      try {
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json.status !== 'ok') { document.getElementById('ownerList').innerHTML = '<div class="small muted">No data</div>'; return; }
+        const rows = json.data || [];
+        const html = rows.map(r => {
+          const map = r.mapLink || (r.lat && r.lon ? `https://www.google.com/maps/search/?api=1&query=${r.lat},${r.lon}` : '#');
+          const addr = r.addressDetected ? `<div class="small muted">Detected: ${r.addressDetected}</div>` : '';
+          return `<div class="owner-item"><div><strong>Order:</strong> ${r.orderNo || '(n/a)'}</div><div class="small muted">${r.timestamp || ''} · ${r.action || ''}</div><div style="margin-top:6px">${r.name || ''} · ${r.phone || ''}</div>${addr}<div style="margin-top:6px"><a href="${map}" target="_blank" class="small">Open in Google Maps</a></div></div>`;
+        }).join('');
+        document.getElementById('ownerList').innerHTML = html || '<div class="small muted">No orders yet</div>';
+      } catch (err) {
+        document.getElementById('ownerList').innerHTML = '<div class="small muted">Error fetching — check URL/deployment</div>';
+      }
+    }
+
+    /****************************************************************
+     * Print menu
+     ****************************************************************/
+    document.getElementById("printMenuBtn").addEventListener("click", function () {
+      const header = `<div style="text-align:center;margin-bottom:10px"><h1>Ganesh Fresh Juice Centre - Menu</h1><p>GR Building, Nagavarapalya Main Road Bangalore 560093 | +91 99025 93591</p></div>`;
+      const styles = `<style>body{font-family: Arial;padding:20px;color:#111}h1{font-size:18px;margin-bottom:6px}.menu-category{font-weight:800;margin-top:12px}</style>`;
+      const cards = document.querySelectorAll("#menu .card");
+      let content = "<div>";
+      let currentCategory = "";
+      cards.forEach(c => {
+        const cat = c.closest(".menu-items")?.previousElementSibling?.textContent || "";
+        if (cat && cat !== currentCategory) { currentCategory = cat; content += `<h3 class="menu-category">${currentCategory}</h3>`; }
+        const title = c.querySelector("h3")?.textContent || "";
+        const price = c.querySelector("p")?.textContent || "";
+        content += `<div class="item">${title} — ${price}</div>`;
+      });
+      content += "</div>";
+      const win = window.open("", "_blank", "toolbar=0,location=0,menubar=0");
+      win.document.write(`<html><head><title>Menu - Ganesh Fresh Juice Centre</title>${styles}</head><body>${header}${content}</body></html>`);
+      win.document.close();
+      setTimeout(() => win.print(), 500);
+    });
+
+    /****************************************************************
+     * Small UX bits
+     ****************************************************************/
+    document.getElementById('floatOrderBtn').addEventListener('click', function () { document.getElementById('delivery').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => document.querySelector("#orderForm input[name='name']").focus(), 600); });
+    document.getElementById('closeConfirmBtn').addEventListener('click', () => { document.getElementById('confirmOverlay').classList.remove('visible'); });
+    document.getElementById('copyOrderBtn').addEventListener('click', () => { const code = document.getElementById('confirmOrderNo').textContent; navigator.clipboard?.writeText(code).then(() => { const b = document.getElementById('copyOrderBtn'); b.textContent = 'Copied ✓'; setTimeout(() => b.textContent = 'Copy Order', 2000); }).catch(() => alert('Copy not supported.')); });
+
+    // beforeunload warn if trackingActive (kept for compatibility)
+    window.addEventListener('beforeunload', function (e) {
+      if (trackingActive) { const msg = 'Location sharing active — leaving will stop sharing.'; e.returnValue = msg; return msg; }
+    });
+
+  </script>
+</body>
+
+</html>
