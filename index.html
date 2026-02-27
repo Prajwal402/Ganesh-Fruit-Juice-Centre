@@ -2852,23 +2852,6 @@
       currentPaymentToken = null;
     }
 
-    function triggerUpiPay(scheme) {
-      if (!currentUpiOrder) return;
-      const url = buildUpiUrl(currentUpiOrder.total, currentUpiOrder.orderNo, scheme);
-      const st = document.getElementById('upiPayStatus');
-      st.className = 'upi-status initiated';
-      st.textContent = '✅ Payment initiated — complete in your UPI app, then enter transaction ID below';
-      window.location.href = url;
-    }
-
-    /* Main UPI pay button */
-    document.getElementById('upiPayAnyBtn').addEventListener('click', () => triggerUpiPay('upi://'));
-
-    /* App-specific buttons */
-    document.querySelectorAll('.upi-app-btn').forEach(btn => {
-      btn.addEventListener('click', () => triggerUpiPay(btn.dataset.app));
-    });
-
     /* Copy UPI ID */
     document.getElementById('upiCopyOverlay')?.addEventListener('click', () => {
       navigator.clipboard?.writeText(UPI_ID).then(() => {
