@@ -3001,25 +3001,34 @@
       const items = cart.map(i => i.name + ' × ' + i.qty);
       const itemsDetailed = cart.map(i => ({ name: i.name, qty: i.qty, price: i.price, lineTotal: i.price * i.qty }));
 
-      /* Get location */
+      const submitBtn = document.getElementById('submitOrder');
+
+      /* Show feedback IMMEDIATELY */
+      submitBtn.disabled = true;
+      if (pay === 'cod') {
+        submitBtn.textContent = '⏳ Placing order...';
+      } else {
+        submitBtn.textContent = '⏳ Initiating payment...';
+      }
+
+      /* Get location (short timeout, non-blocking) */
       let loc = null;
       try {
-        const p = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 10000 }));
+        const p = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }));
         loc = { lat: p.coords.latitude, lon: p.coords.longitude };
-      } catch (e) { }
-
-      const submitBtn = document.getElementById('submitOrder');
+      } catch (e) { /* location unavailable — continue without it */ }
 
       if (pay === 'cod') {
         /* ===== COD FLOW: Create order immediately, send WhatsApp ===== */
-        submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ Placing order...';
         const oNo = genON();
 
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 15000);
           const resp = await fetch('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
             body: JSON.stringify({
               orderNo: oNo, name, phone, address, distance: dist,
               items, itemsDetailed,
@@ -3030,6 +3039,7 @@
               timestamp: new Date().toISOString()
             })
           });
+          clearTimeout(timeoutId);
           const data = await resp.json();
 
           if (resp.ok && data.success) {
@@ -3052,20 +3062,24 @@
             alert('Error: ' + (data.error || 'Could not place order. Please try again.'));
           }
         } catch (err) {
-          alert('Connection error. Please check your internet and try again.');
+          if (err.name === 'AbortError') {
+            alert('Request timed out. Please check your internet connection and try again.');
+          } else {
+            alert('Connection error. Please check your internet and try again.');
+          }
         }
         submitBtn.disabled = false;
         submitBtn.textContent = '🚀 Submit Order via WhatsApp';
 
       } else {
         /* ===== UPI FLOW: Initiate payment first, verify before order ===== */
-        submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ Initiating payment...';
-
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 15000);
           const resp = await fetch('/api/payment/initiate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
             body: JSON.stringify({
               name, phone, address, distance: dist,
               items, itemsDetailed,
@@ -3075,6 +3089,7 @@
               mapLink: loc ? `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}` : ''
             })
           });
+          clearTimeout(timeoutId);
           const data = await resp.json();
 
           if (resp.ok && data.success) {
@@ -3083,7 +3098,11 @@
             alert('Error: ' + (data.error || 'Could not initiate payment. Please try again.'));
           }
         } catch (err) {
-          alert('Connection error. Please check your internet and try again.');
+          if (err.name === 'AbortError') {
+            alert('Request timed out. Please check your internet connection and try again.');
+          } else {
+            alert('Connection error. Please check your internet and try again.');
+          }
         }
         submitBtn.disabled = false;
         submitBtn.textContent = '💳 Proceed to Payment';
