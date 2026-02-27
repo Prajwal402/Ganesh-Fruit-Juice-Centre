@@ -2556,9 +2556,16 @@
           <div class="qr-label">Scan with any UPI app</div>
         </div>
 
-        <div class="upi-id-row">
-          <span class="uid" id="upiIdOverlay">jnaneshappu85-2@okicici</span>
-          <button type="button" id="upiCopyOverlay">📋 Copy</button>
+        <div class="upi-id-row" style="background: #FFF9C4; border: 1px solid #FBC02D;">
+          <span class="uid" id="upiIdOverlay" style="font-size: 1rem; color: #7B1FA2;">jnaneshappu85-2@okicici</span>
+          <button type="button" id="upiCopyOverlay">📋 Copy ID</button>
+        </div>
+
+        <div
+          style="background: #f8f9fa; padding: 12px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #5B2D8E;">
+          <p style="font-size: 0.82rem; margin: 0; font-weight: 600; color: #555;">💡 Manual Pay Fallback:</p>
+          <p style="font-size: 0.78rem; margin: 4px 0 0; color: #777;">If the app buttons above don't work, just <b>Copy
+              the UPI ID</b> or <b>Scan the QR Code</b>, pay in any app, and enter <b>Transaction ID</b> below.</p>
         </div>
 
         <div class="upi-status pending" id="upiPayStatus">⏳ Waiting for payment...</div>
@@ -2813,8 +2820,8 @@
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
       const amtStr = Number(amount).toFixed(2);
-      // Minimized URI: pa, pn, am, cu are the standard core fields
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR`;
+      // tr: Transaction Reference (Order ID) - highly recommended for PhonePe/GPay
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}`;
       return prefix + params;
     }
 
