@@ -2830,8 +2830,10 @@
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
       const amtStr = Number(amount).toFixed(2);
-      // tr: Transaction Reference (Order ID) - highly recommended for PhonePe/GPay
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}`;
+      // tr: Transaction Reference (Order ID)
+      // mc: Merchant Category Code (5411 = Grocery stores)
+      // mode: 02 (Secure Deep Link - sometimes bypasses app restrictions)
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}&mc=5411&mode=02`;
       return prefix + params;
     }
 
