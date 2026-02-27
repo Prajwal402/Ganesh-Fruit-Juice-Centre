@@ -1354,9 +1354,6 @@
       border-radius: var(--r);
       max-width: 440px;
       width: 92%;
-      max-height: 94vh;
-      display: flex;
-      flex-direction: column;
       box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
       animation: popIn .4s var(--ez);
       overflow: hidden
@@ -1438,9 +1435,7 @@
     }
 
     .upi-body {
-      padding: 16px 20px;
-      overflow-y: auto;
-      flex: 1
+      padding: 20px 24px
     }
 
     .upi-section-title {
@@ -1532,10 +1527,10 @@
 
     .upi-qr-section {
       text-align: center;
-      padding: 10px;
+      padding: 16px;
       background: #FAFAFA;
       border-radius: var(--rs);
-      margin-bottom: 12px
+      margin-bottom: 14px
     }
 
     .upi-qr-section img {
@@ -2389,22 +2384,12 @@
       <p class="small muted" style="text-align:center;margin-bottom:14px">Items from your cart will be included
         automatically</p>
       <form id="orderForm">
-        <div class="fg">
-          <label>Your Name</label>
-          <input type="text" name="name" placeholder="Enter your name" required minlength="2" maxlength="50">
+        <div class="fg"><label>Your Name</label><input type="text" name="name" placeholder="Enter your name" required>
         </div>
-        <div class="fg">
-          <label>Phone Number (10 digits)</label>
-          <input type="tel" name="phone" placeholder="Enter 10-digit phone number" required inputmode="numeric"
-            pattern="[0-9]{10}" maxlength="10" minlength="10"
-            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
-            oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-        </div>
-        <div class="fg">
-          <label>Delivery Address</label>
-          <textarea name="address" placeholder="Enter complete delivery address" rows="3" required minlength="10"
-            maxlength="300"></textarea>
-        </div>
+        <div class="fg"><label>Phone Number</label><input type="tel" name="phone" placeholder="Enter phone number"
+            required></div>
+        <div class="fg"><label>Delivery Address</label><textarea name="address" placeholder="Enter delivery address"
+            rows="3" required></textarea></div>
         <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
           <div class="fg" style="flex:1;min-width:130px">
             <label>Distance from shop (km)</label>
@@ -2571,16 +2556,9 @@
           <div class="qr-label">Scan with any UPI app</div>
         </div>
 
-        <div class="upi-id-row" style="background: #FFF9C4; border: 1px solid #FBC02D;">
-          <span class="uid" id="upiIdOverlay" style="font-size: 1rem; color: #7B1FA2;">jnaneshappu85-2@okicici</span>
-          <button type="button" id="upiCopyOverlay">📋 Copy ID</button>
-        </div>
-
-        <div
-          style="background: #f8f9fa; padding: 12px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #5B2D8E;">
-          <p style="font-size: 0.82rem; margin: 0; font-weight: 600; color: #555;">💡 Manual Pay Fallback:</p>
-          <p style="font-size: 0.78rem; margin: 4px 0 0; color: #777;">If the app buttons above don't work, just <b>Copy
-              the UPI ID</b> or <b>Scan the QR Code</b>, pay in any app, and enter <b>Transaction ID</b> below.</p>
+        <div class="upi-id-row">
+          <span class="uid" id="upiIdOverlay">jnaneshappu85-2@okicici</span>
+          <button type="button" id="upiCopyOverlay">📋 Copy</button>
         </div>
 
         <div class="upi-status pending" id="upiPayStatus">⏳ Waiting for payment...</div>
@@ -2835,8 +2813,8 @@
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
       const amtStr = Number(amount).toFixed(2);
-      // tr: Transaction Reference (Order ID) - highly recommended for PhonePe/GPay
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}`;
+      // Minimized URI: pa, pn, am, cu are the standard core fields
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR`;
       return prefix + params;
     }
 
