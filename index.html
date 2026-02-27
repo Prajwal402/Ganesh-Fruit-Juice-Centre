@@ -2567,7 +2567,7 @@
         <div class="upi-status pending" id="upiPayStatus">⏳ Waiting for payment...</div>
 
         <div class="upi-txn-group">
-          <label for="upiTxnInput">📝 UPI Transaction Reference / UTR Number</label>
+          <label for="upiTxnInput">📝 UPI Transaction ID / UTR (12 digits)</label>
           <input type="text" class="upi-txn-input" id="upiTxnInput" placeholder="Enter your UPI transaction ID"
             autocomplete="off">
           <div class="upi-txn-error" id="upiTxnError"></div>
@@ -2815,7 +2815,8 @@
 
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('Ganesh Juice Centre')}&am=${amount}&cu=INR&tn=${encodeURIComponent('Order ' + orderNo)}`;
+      // Use the exact recipient name 'JNANESHA C M' for better compatibility
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amount}&cu=INR&tn=${encodeURIComponent('Order ' + orderNo)}&mc=0000`;
       return prefix + params;
     }
 
