@@ -2384,12 +2384,20 @@
       <p class="small muted" style="text-align:center;margin-bottom:14px">Items from your cart will be included
         automatically</p>
       <form id="orderForm">
-        <div class="fg"><label>Your Name</label><input type="text" name="name" placeholder="Enter your name" required>
+        <div class="fg">
+          <label>Your Name</label>
+          <input type="text" name="name" placeholder="Enter your name" required minlength="2" maxlength="50">
         </div>
-        <div class="fg"><label>Phone Number</label><input type="tel" name="phone" placeholder="Enter phone number"
-            required></div>
-        <div class="fg"><label>Delivery Address</label><textarea name="address" placeholder="Enter delivery address"
-            rows="3" required></textarea></div>
+        <div class="fg">
+          <label>Phone Number (10 digits)</label>
+          <input type="tel" name="phone" placeholder="Enter 10-digit phone number" required pattern="[0-9]{10}"
+            maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+        </div>
+        <div class="fg">
+          <label>Delivery Address</label>
+          <textarea name="address" placeholder="Enter complete delivery address" rows="3" required minlength="10"
+            maxlength="300"></textarea>
+        </div>
         <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
           <div class="fg" style="flex:1;min-width:130px">
             <label>Distance from shop (km)</label>
