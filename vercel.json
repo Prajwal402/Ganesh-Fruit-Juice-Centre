@@ -4,6 +4,30 @@
         {
             "src": "server.js",
             "use": "@vercel/node"
+        },
+        {
+            "src": "*.html",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "*.jpg",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "*.jpeg",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "*.webp",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "*.png",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "images/**",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
@@ -32,6 +56,14 @@
         {
             "src": "/(orders\\.db|server\\.js|package\\.json|package-lock\\.json|\\.env)",
             "dest": "server.js"
+        },
+        {
+            "src": "/(.*\\.(jpg|jpeg|webp|png|css|js|ico))",
+            "dest": "/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
         }
     ]
 }
