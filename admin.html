@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — Ganesh Fresh Juice Centre</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --pri: #E67E22;
+            --pri-dk: #D35400;
+            --pri-lt: #FDEBD0;
+            --sec: #1ABC9C;
+            --sec-dk: #16A085;
+            --acc: #E74C8B;
+            --bg: #FFF9F0;
+            --bg-dk: #1A1A2E;
+            --txt: #2C3E50;
+            --txt-lt: #7F8C8D;
+            --fh: 'Poppins', sans-serif;
+            --fb: 'Inter', sans-serif;
+            --r: 16px;
+            --rs: 10px;
+            --sh: 0 4px 20px rgba(0, 0, 0, .06);
+            --sh-lg: 0 8px 40px rgba(0, 0, 0, .08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: var(--fb);
+            background: var(--bg);
+            color: var(--txt);
+            min-height: 100vh
+        }
+
+        /* ===== LOGIN VIEW ===== */
+        .login-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--bg), #FFF3E0)
+        }
+
+        .login-card {
+            background: #fff;
+            padding: 40px 36px;
+            border-radius: var(--r);
+            box-shadow: var(--sh-lg);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeUp .5s ease both
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .login-card h1 {
+            font: 800 1.5rem var(--fh);
+            color: var(--pri-dk);
+            margin-bottom: 4px
+        }
+
+        .login-card .sub {
+            font-size: .9rem;
+            color: var(--txt-lt);
+            margin-bottom: 24px
+        }
+
+        .login-card .emoji {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: block
+        }
+
+        .fg {
+            text-align: left;
+            margin-bottom: 16px
+        }
+
+        .fg label {
+            display: block;
+            font: 600 .85rem var(--fh);
+            color: var(--txt);
+            margin-bottom: 5px
+        }
+
+        .fg input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: var(--rs);
+            border: 2px solid #e8e8e8;
+            font: 500 .95rem var(--fb);
+            transition: all .3s ease;
+            background: #fff
+        }
+
+        .fg input:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 4px rgba(230, 126, 34, .1)
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, var(--pri), var(--pri-dk));
+            color: #fff;
+            font: 700 1rem var(--fh);
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(230, 126, 34, .3);
+            transition: all .3s ease;
+            margin-top: 8px
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(230, 126, 34, .4)
+        }
+
+        .login-btn:active {
+            transform: scale(.97)
+        }
+
+        .login-err {
+            color: var(--acc);
+            font: 600 .85rem var(--fh);
+            margin-top: 10px;
+            min-height: 20px
+        }
+
+        /* ===== DASHBOARD VIEW ===== */
+        .dashboard {
+            display: none
+        }
+
+        .dash-header {
+            background: var(--bg-dk);
+            color: #fff;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .2)
+        }
+
+        .dash-header h1 {
+            font: 800 1.2rem var(--fh);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .dash-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .dash-btn {
+            padding: 9px 18px;
+            border-radius: 999px;
+            border: none;
+            font: 600 .85rem var(--fh);
+            cursor: pointer;
+            transition: all .3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .dash-btn.primary {
+            background: linear-gradient(135deg, var(--sec), var(--sec-dk));
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(26, 188, 156, .3)
+        }
+
+        .dash-btn.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(26, 188, 156, .4)
+        }
+
+        .dash-btn.danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(231, 76, 60, .3)
+        }
+
+        .dash-btn.danger:hover {
+            transform: translateY(-1px)
+        }
+
+        .dash-btn.ghost {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .dash-btn.ghost:hover {
+            background: rgba(255, 255, 255, .2)
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: flex;
+            gap: 16px;
+            padding: 20px 24px;
+            flex-wrap: wrap
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 180px;
+            background: #fff;
+            border-radius: var(--r);
+            padding: 20px;
+            box-shadow: var(--sh);
+            border-left: 4px solid var(--pri);
+            transition: transform .3s ease
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px)
+        }
+
+        .stat-card:nth-child(2) {
+            border-color: var(--sec)
+        }
+
+        .stat-card:nth-child(3) {
+            border-color: var(--acc)
+        }
+
+        .stat-card:nth-child(4) {
+            border-color: #9b59b6
+        }
+
+        .stat-card .label {
+            font: 600 .8rem var(--fh);
+            color: var(--txt-lt);
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .stat-card .value {
+            font: 800 1.8rem var(--fh);
+            color: var(--txt);
+            margin-top: 4px
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            padding: 12px 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            padding: 9px 14px;
+            border-radius: var(--rs);
+            border: 2px solid #e8e8e8;
+            font: 500 .88rem var(--fb);
+            transition: border-color .3s;
+            background: #fff
+        }
+
+        .filter-bar input:focus,
+        .filter-bar select:focus {
+            outline: none;
+            border-color: var(--pri)
+        }
+
+        .filter-bar input[type="text"] {
+            min-width: 240px
+        }
+
+        /* Table */
+        .table-wrap {
+            padding: 0 24px 24px;
+            overflow-x: auto
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: var(--r);
+            overflow: hidden;
+            box-shadow: var(--sh);
+            font-size: .88rem
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--bg-dk), #16213E);
+            color: #fff
+        }
+
+        th {
+            padding: 14px 12px;
+            font: 600 .82rem var(--fh);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            text-align: left;
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            position: relative
+        }
+
+        th:hover {
+            background: rgba(255, 255, 255, .08)
+        }
+
+        th .sort-icon {
+            opacity: .4;
+            margin-left: 4px;
+            font-size: .7rem
+        }
+
+        th.sorted .sort-icon {
+            opacity: 1
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f5f5f5;
+            vertical-align: top;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        tr:hover td {
+            background: rgba(230, 126, 34, .03)
+        }
+
+        tr:last-child td {
+            border-bottom: none
+        }
+
+        .order-id {
+            font: 700 .85rem var(--fh);
+            color: var(--pri-dk);
+            white-space: nowrap
+        }
+
+        .amount {
+            font: 700 .9rem var(--fh);
+            color: var(--sec-dk);
+            white-space: nowrap
+        }
+
+        .badge-wa {
+            display: inline-block;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font: 600 .72rem var(--fh);
+            white-space: nowrap
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--txt-lt)
+        }
+
+        .no-orders span {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px
+        }
+
+        /* Responsive */
+        @media(max-width:768px) {
+            .stats-row {
+                padding: 12px
+            }
+
+            .stat-card {
+                min-width: 140px;
+                padding: 14px
+            }
+
+            .stat-card .value {
+                font-size: 1.4rem
+            }
+
+            .table-wrap {
+                padding: 0 12px 12px
+            }
+
+            .filter-bar {
+                padding: 8px 12px
+            }
+
+            .filter-bar input[type="text"] {
+                min-width: 100%;
+            }
+
+            .dash-header {
+                padding: 12px 16px
+            }
+
+            .dash-header h1 {
+                font-size: 1rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== LOGIN VIEW ===== -->
+    <div class="login-wrap" id="loginView">
+        <div class="login-card">
+            <span class="emoji">🔐</span>
+            <h1>Admin Panel</h1>
+            <p class="sub">Ganesh Fresh Juice Centre</p>
+            <form id="loginForm">
+                <div class="fg">
+                    <label>Username</label>
+                    <input type="text" id="loginUser" placeholder="Enter username" required autocomplete="username">
+                </div>
+                <div class="fg">
+                    <label>Password</label>
+                    <input type="password" id="loginPass" placeholder="Enter password" required
+                        autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-btn">🔓 Login</button>
+                <div class="login-err" id="loginErr"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== DASHBOARD VIEW ===== -->
+    <div class="dashboard" id="dashView">
+        <div class="dash-header">
+            <h1>🍹 Ganesh Juice — Orders</h1>
+            <div class="dash-actions">
+                <button class="dash-btn primary" id="btnRefresh">🔄 Refresh</button>
+                <button class="dash-btn primary" id="btnExportCSV">📊 Export CSV</button>
+                <button class="dash-btn ghost" id="btnBackSite" onclick="window.open('/', '_blank')">🏠 View
+                    Site</button>
+                <button class="dash-btn danger" id="btnLogout">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="label">Total Orders</div>
+                <div class="value" id="statTotal">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Today's Orders</div>
+                <div class="value" id="statToday">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total Revenue</div>
+                <div class="value" id="statRevenue">₹0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Avg Order Value</div>
+                <div class="value" id="statAvg">₹0</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <input type="text" id="filterSearch" placeholder="🔍 Search orders (name, phone, ID...)">
+            <input type="date" id="filterDateFrom" title="From date">
+            <input type="date" id="filterDateTo" title="To date">
+            <button class="dash-btn primary" id="btnClearFilters" style="padding:8px 14px;font-size:.82rem">✖
+                Clear</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap">
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th data-col="order_id">Order ID <span class="sort-icon">▲▼</span></th>
+                        <th data-col="order_date">Date & Time <span class="sort-icon">▲▼</span></th>
+                        <th data-col="customer_name">Customer <span class="sort-icon">▲▼</span></th>
+                        <th data-col="customer_phone">Phone <span class="sort-icon">▲▼</span></th>
+                        <th data-col="delivery_address">Address</th>
+                        <th data-col="distance_km">Dist (km) <span class="sort-icon">▲▼</span></th>
+                        <th data-col="items_list">Items</th>
+                        <th data-col="quantities">Qty</th>
+                        <th data-col="item_prices">Prices</th>
+                        <th data-col="subtotal">Subtotal <span class="sort-icon">▲▼</span></th>
+                        <th data-col="delivery_charges">Delivery <span class="sort-icon">▲▼</span></th>
+                        <th data-col="total_amount">Total <span class="sort-icon">▲▼</span></th>
+                        <th data-col="payment_method">Payment</th>
+                        <th data-col="order_source">Source</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        /* ===== STATE ===== */
+        let allOrders = [];
+        let sortCol = 'order_date';
+        let sortDir = -1; // -1 = desc
+
+        /* ===== LOGIN ===== */
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const errEl = document.getElementById('loginErr');
+            errEl.textContent = '';
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            try {
+                const res = await fetch('/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pass })
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    errEl.textContent = data.error || 'Login failed';
+                    return;
+                }
+                showDashboard();
+            } catch (err) {
+                errEl.textContent = 'Connection error. Is the server running?';
+            }
+        });
+
+        /* ===== DASHBOARD ===== */
+        function showDashboard() {
+            document.getElementById('loginView').style.display = 'none';
+            document.getElementById('dashView').style.display = 'block';
+            loadOrders();
+        }
+
+        async function loadOrders() {
+            try {
+                const res = await fetch('/api/admin/orders');
+                if (res.status === 401) {
+                    document.getElementById('loginView').style.display = '';
+                    document.getElementById('dashView').style.display = 'none';
+                    return;
+                }
+                const data = await res.json();
+                allOrders = data.orders || [];
+                updateStats();
+                renderTable();
+            } catch (err) {
+                console.error('Failed to load orders:', err);
+            }
+        }
+
+        /* ===== STATS ===== */
+        function updateStats() {
+            const total = allOrders.length;
+            const today = new Date().toISOString().slice(0, 10);
+            const todayOrders = allOrders.filter(o => (o.order_date || '').slice(0, 10) === today);
+            const revenue = allOrders.reduce((s, o) => s + (o.total_amount || 0), 0);
+            const avg = total > 0 ? Math.round(revenue / total) : 0;
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statToday').textContent = todayOrders.length;
+            document.getElementById('statRevenue').textContent = '₹' + revenue.toLocaleString('en-IN');
+            document.getElementById('statAvg').textContent = '₹' + avg.toLocaleString('en-IN');
+        }
+
+        /* ===== RENDER TABLE ===== */
+        function renderTable() {
+            let filtered = getFilteredOrders();
+
+            // Sort
+            filtered.sort((a, b) => {
+                let va = a[sortCol], vb = b[sortCol];
+                if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * sortDir;
+                va = String(va || '').toLowerCase();
+                vb = String(vb || '').toLowerCase();
+                return va < vb ? -sortDir : va > vb ? sortDir : 0;
+            });
+
+            const tbody = document.getElementById('ordersBody');
+            if (!filtered.length) {
+                tbody.innerHTML = '<tr><td colspan="14"><div class="no-orders"><span>📭</span><p>No orders found</p></div></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(o => `
+        <tr>
+          <td class="order-id">${esc(o.order_id)}</td>
+          <td>${formatDate(o.order_date)}</td>
+          <td>${esc(o.customer_name)}</td>
+          <td>${esc(o.customer_phone)}</td>
+          <td title="${esc(o.delivery_address)}">${esc(o.delivery_address)}</td>
+          <td>${o.distance_km || 0}</td>
+          <td title="${esc(o.items_list)}">${esc(o.items_list)}</td>
+          <td>${esc(o.quantities)}</td>
+          <td title="${esc(o.item_prices)}">${esc(o.item_prices)}</td>
+          <td class="amount">₹${o.subtotal || 0}</td>
+          <td class="amount">₹${o.delivery_charges || 0}</td>
+          <td class="amount">₹${o.total_amount || 0}</td>
+          <td>${esc(o.payment_method)}</td>
+          <td><span class="badge-wa">${esc(o.order_source)}</span></td>
+        </tr>
+      `).join('');
+
+            // Update sort headers
+            document.querySelectorAll('#ordersTable th').forEach(th => {
+                th.classList.toggle('sorted', th.dataset.col === sortCol);
+                const icon = th.querySelector('.sort-icon');
+                if (icon && th.dataset.col === sortCol) {
+                    icon.textContent = sortDir === 1 ? '▲' : '▼';
+                } else if (icon) {
+                    icon.textContent = '▲▼';
+                }
+            });
+        }
+
+        function getFilteredOrders() {
+            let list = [...allOrders];
+            const search = document.getElementById('filterSearch').value.trim().toLowerCase();
+            const dateFrom = document.getElementById('filterDateFrom').value;
+            const dateTo = document.getElementById('filterDateTo').value;
+
+            if (search) {
+                list = list.filter(o =>
+                    (o.order_id || '').toLowerCase().includes(search) ||
+                    (o.customer_name || '').toLowerCase().includes(search) ||
+                    (o.customer_phone || '').toLowerCase().includes(search) ||
+                    (o.items_list || '').toLowerCase().includes(search) ||
+                    (o.delivery_address || '').toLowerCase().includes(search)
+                );
+            }
+            if (dateFrom) {
+                list = list.filter(o => (o.order_date || '').slice(0, 10) >= dateFrom);
+            }
+            if (dateTo) {
+                list = list.filter(o => (o.order_date || '').slice(0, 10) <= dateTo);
+            }
+            return list;
+        }
+
+        /* ===== HELPERS ===== */
+        function esc(s) {
+            if (s === null || s === undefined) return '';
+            const d = document.createElement('div');
+            d.textContent = String(s);
+            return d.innerHTML;
+        }
+
+        function formatDate(d) {
+            if (!d) return '—';
+            try {
+                const dt = new Date(d);
+                return dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) +
+                    ' ' + dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                return d;
+            }
+        }
+
+        /* ===== SORT ===== */
+        document.querySelectorAll('#ordersTable th[data-col]').forEach(th => {
+            th.addEventListener('click', () => {
+                if (sortCol === th.dataset.col) {
+                    sortDir *= -1;
+                } else {
+                    sortCol = th.dataset.col;
+                    sortDir = -1;
+                }
+                renderTable();
+            });
+        });
+
+        /* ===== FILTERS ===== */
+        document.getElementById('filterSearch').addEventListener('input', renderTable);
+        document.getElementById('filterDateFrom').addEventListener('change', renderTable);
+        document.getElementById('filterDateTo').addEventListener('change', renderTable);
+        document.getElementById('btnClearFilters').addEventListener('click', () => {
+            document.getElementById('filterSearch').value = '';
+            document.getElementById('filterDateFrom').value = '';
+            document.getElementById('filterDateTo').value = '';
+            renderTable();
+        });
+
+        /* ===== ACTIONS ===== */
+        document.getElementById('btnRefresh').addEventListener('click', loadOrders);
+
+        document.getElementById('btnExportCSV').addEventListener('click', () => {
+            window.location.href = '/api/admin/export/csv';
+        });
+
+        document.getElementById('btnLogout').addEventListener('click', async () => {
+            try {
+                await fetch('/admin/logout', { method: 'POST' });
+            } catch (e) { }
+            document.getElementById('loginView').style.display = '';
+            document.getElementById('dashView').style.display = 'none';
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+        });
+
+        /* ===== AUTO-CHECK AUTH ===== */
+        (async function () {
+            try {
+                const res = await fetch('/api/admin/orders');
+                if (res.ok) showDashboard();
+            } catch (e) { }
+        })();
+    </script>
+</body>
+
+</html>

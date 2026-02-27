@@ -911,13 +911,291 @@
       border: 0
     }
 
-    /* ABOUT */
+    /* ABOUT — 3D IMMERSIVE SECTION */
     #about {
-      background: linear-gradient(135deg, #F0FFF4, #E8F8F5);
-      border-radius: var(--r);
-      margin: 20px auto;
-      padding: 46px 30px;
-      max-width: 1200px
+      position: relative;
+      overflow: hidden;
+      border-radius: 0;
+      margin: 0;
+      padding: 80px 30px;
+      max-width: 100%;
+      background: linear-gradient(135deg, #1A1A2E 0%, #16213E 40%, #0F3460 70%, #1A1A2E 100%);
+      isolation: isolate
+    }
+
+    #aboutCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none
+    }
+
+    .about-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: aboutGlowFloat 8s ease-in-out infinite alternate
+    }
+
+    .about-glow.g1 {
+      width: 300px;
+      height: 300px;
+      left: -5%;
+      top: -10%;
+      background: radial-gradient(circle, rgba(230, 126, 34, .25), transparent 70%)
+    }
+
+    .about-glow.g2 {
+      width: 350px;
+      height: 350px;
+      right: -8%;
+      top: 20%;
+      background: radial-gradient(circle, rgba(231, 76, 139, .2), transparent 70%);
+      animation-delay: -3s;
+      animation-duration: 10s
+    }
+
+    .about-glow.g3 {
+      width: 280px;
+      height: 280px;
+      left: 30%;
+      bottom: -15%;
+      background: radial-gradient(circle, rgba(26, 188, 156, .2), transparent 70%);
+      animation-delay: -5s;
+      animation-duration: 12s
+    }
+
+    .about-glow.g4 {
+      width: 200px;
+      height: 200px;
+      right: 20%;
+      bottom: 10%;
+      background: radial-gradient(circle, rgba(241, 196, 15, .15), transparent 70%);
+      animation-delay: -2s;
+      animation-duration: 9s
+    }
+
+    @keyframes aboutGlowFloat {
+      0% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      100% {
+        transform: translate(20px, -15px) scale(1.15)
+      }
+    }
+
+    /* Floating Fruit Shapes */
+    .about-shape {
+      position: absolute;
+      z-index: 1;
+      font-size: 2.5rem;
+      opacity: .12;
+      pointer-events: none;
+      animation: aboutShapeFloat 12s ease-in-out infinite
+    }
+
+    .about-shape:nth-child(1) {
+      left: 5%;
+      top: 15%;
+      animation-delay: 0s;
+      font-size: 3rem
+    }
+
+    .about-shape:nth-child(2) {
+      right: 8%;
+      top: 10%;
+      animation-delay: -2s;
+      font-size: 2rem
+    }
+
+    .about-shape:nth-child(3) {
+      left: 15%;
+      bottom: 10%;
+      animation-delay: -4s;
+      font-size: 2.8rem
+    }
+
+    .about-shape:nth-child(4) {
+      right: 12%;
+      bottom: 20%;
+      animation-delay: -6s;
+      font-size: 2.2rem
+    }
+
+    .about-shape:nth-child(5) {
+      left: 50%;
+      top: 8%;
+      animation-delay: -8s;
+      font-size: 1.8rem
+    }
+
+    .about-shape:nth-child(6) {
+      right: 35%;
+      bottom: 5%;
+      animation-delay: -10s;
+      font-size: 2.4rem
+    }
+
+    @keyframes aboutShapeFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg)
+      }
+
+      25% {
+        transform: translateY(-15px) rotate(5deg)
+      }
+
+      50% {
+        transform: translateY(-8px) rotate(-3deg)
+      }
+
+      75% {
+        transform: translateY(-20px) rotate(4deg)
+      }
+    }
+
+    /* Glass Content Card */
+    .about-glass {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, .08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      padding: 48px 40px;
+      box-shadow: 0 16px 60px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .1);
+      transform: perspective(1000px) rotateX(0deg);
+      transition: transform .6s ease
+    }
+
+    .about-glass:hover {
+      transform: perspective(1000px) rotateX(1deg) translateY(-4px);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .15)
+    }
+
+    .about-glass .stitle {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 8px
+    }
+
+    .about-glass .stitle::after {
+      background: linear-gradient(90deg, var(--pri), var(--sec), var(--acc)) !important
+    }
+
+    .about-tagline {
+      text-align: center;
+      font: 600 .9rem var(--fh);
+      color: rgba(255, 255, 255, .5);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 20px
+    }
+
+    .about-text {
+      font-size: 1.08rem;
+      line-height: 1.9;
+      color: rgba(255, 255, 255, .85);
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 30px
+    }
+
+    /* Feature Cards */
+    .about-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px
+    }
+
+    .about-feat {
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 16px;
+      padding: 24px 18px;
+      text-align: center;
+      transition: all .4s ease
+    }
+
+    .about-feat:hover {
+      background: rgba(255, 255, 255, .12);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .2)
+    }
+
+    .about-feat .feat-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      display: block
+    }
+
+    .about-feat .feat-title {
+      font: 700 .92rem var(--fh);
+      color: #fff;
+      margin-bottom: 6px
+    }
+
+    .about-feat .feat-desc {
+      font: 400 .82rem var(--fb);
+      color: rgba(255, 255, 255, .6);
+      line-height: 1.5
+    }
+
+    .about-cta {
+      text-align: center;
+      margin-top: 30px
+    }
+
+    .about-cta a {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--pri), var(--pri-dk));
+      color: #fff;
+      padding: 14px 36px;
+      border-radius: 999px;
+      text-decoration: none;
+      font: 700 .95rem var(--fh);
+      box-shadow: 0 6px 24px rgba(230, 126, 34, .35);
+      transition: all .3s ease
+    }
+
+    .about-cta a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(230, 126, 34, .45)
+    }
+
+    @media(max-width:768px) {
+      #about {
+        padding: 50px 16px
+      }
+
+      .about-glass {
+        padding: 28px 20px;
+        border-radius: 18px
+      }
+
+      .about-features {
+        grid-template-columns: 1fr;
+        gap: 12px
+      }
+
+      .about-glow {
+        filter: blur(60px)
+      }
+
+      .about-shape {
+        display: none
+      }
     }
 
     #about p {
@@ -1048,6 +1326,371 @@
       max-width: 360px;
       display: none;
       border: 1px solid rgba(0, 0, 0, .05)
+    }
+
+    /* UPI PAYMENT OVERLAY */
+    .upi-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 310;
+      background: rgba(26, 26, 46, .55);
+      backdrop-filter: blur(10px);
+      visibility: hidden;
+      opacity: 0;
+      transition: all .3s ease
+    }
+
+    .upi-overlay.vis {
+      visibility: visible;
+      opacity: 1
+    }
+
+    .upi-card {
+      background: #fff;
+      padding: 0;
+      border-radius: var(--r);
+      max-width: 440px;
+      width: 92%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+      animation: popIn .4s var(--ez);
+      overflow: hidden
+    }
+
+    .upi-header {
+      background: linear-gradient(135deg, #5B2D8E, #3F1D6B);
+      color: #fff;
+      padding: 22px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .upi-header::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, .06);
+      border-radius: 50%
+    }
+
+    .upi-header h3 {
+      font: 700 1.15rem var(--fh);
+      margin-bottom: 4px
+    }
+
+    .upi-header .upi-order-id {
+      font: 600 .82rem var(--fh);
+      opacity: .8
+    }
+
+    .upi-amount-box {
+      text-align: center;
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #f0f0f0
+    }
+
+    .upi-amount-label {
+      font: 600 .82rem var(--fh);
+      color: var(--txt-lt);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 4px
+    }
+
+    .upi-amount-value {
+      font: 900 2.4rem var(--fh);
+      color: var(--pri-dk);
+      animation: amtPulse 2s ease-in-out 1
+    }
+
+    @keyframes amtPulse {
+      0% {
+        transform: scale(.8);
+        opacity: 0
+      }
+
+      50% {
+        transform: scale(1.05)
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .upi-amount-breakdown {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 6px;
+      font: 500 .82rem var(--fb);
+      color: var(--txt-lt)
+    }
+
+    .upi-body {
+      padding: 20px 24px
+    }
+
+    .upi-section-title {
+      font: 700 .88rem var(--fh);
+      color: var(--txt);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .upi-apps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px
+    }
+
+    .upi-app-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border-radius: var(--rs);
+      border: 2px solid #e8e8e8;
+      background: #fff;
+      font: 600 .88rem var(--fh);
+      color: var(--txt);
+      cursor: pointer;
+      transition: all .25s ease;
+      text-decoration: none
+    }
+
+    .upi-app-btn:hover {
+      border-color: var(--pri);
+      background: var(--pri-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .08)
+    }
+
+    .upi-app-btn:active {
+      transform: scale(.97)
+    }
+
+    .upi-app-btn .app-icon {
+      font-size: 1.4rem
+    }
+
+    .upi-any-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #5B2D8E, #3F1D6B);
+      color: #fff;
+      font: 700 .95rem var(--fh);
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(91, 45, 142, .3);
+      transition: all .3s ease;
+      margin-bottom: 16px
+    }
+
+    .upi-any-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(91, 45, 142, .4)
+    }
+
+    .upi-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+      color: var(--txt-lt);
+      font: 500 .82rem var(--fb)
+    }
+
+    .upi-divider::before,
+    .upi-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e8e8e8
+    }
+
+    .upi-qr-section {
+      text-align: center;
+      padding: 16px;
+      background: #FAFAFA;
+      border-radius: var(--rs);
+      margin-bottom: 14px
+    }
+
+    .upi-qr-section img {
+      max-width: 150px;
+      border-radius: var(--rs);
+      border: 2px solid #e8e8e8;
+      padding: 6px;
+      background: #fff;
+      margin: 8px 0
+    }
+
+    .upi-qr-section .qr-label {
+      font: 600 .8rem var(--fh);
+      color: var(--txt-lt);
+      margin-top: 4px
+    }
+
+    .upi-id-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #F5F0FF;
+      padding: 10px 16px;
+      border-radius: var(--rs);
+      margin-bottom: 14px
+    }
+
+    .upi-id-row .uid {
+      font: 600 .88rem var(--fh);
+      color: #5B2D8E
+    }
+
+    .upi-id-row button {
+      padding: 5px 12px;
+      font-size: .78rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #5B2D8E, #3F1D6B);
+      min-width: auto
+    }
+
+    .upi-footer {
+      padding: 14px 24px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      gap: 8px;
+      justify-content: center
+    }
+
+    .upi-footer button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 999px;
+      font-size: .9rem
+    }
+
+    .upi-status {
+      text-align: center;
+      padding: 8px;
+      font: 600 .82rem var(--fh);
+      border-radius: var(--rs);
+      margin-top: 8px
+    }
+
+    .upi-status.pending {
+      background: #FFF3E0;
+      color: #E67E22
+    }
+
+    .upi-status.initiated {
+      background: #E8F5E9;
+      color: #27AE60
+    }
+
+    .upi-status.verifying {
+      background: #E3F2FD;
+      color: #1976D2
+    }
+
+    .upi-status.success {
+      background: #E8F5E9;
+      color: #2E7D32
+    }
+
+    .upi-status.failed {
+      background: #FFEBEE;
+      color: #C62828
+    }
+
+    .upi-txn-group {
+      margin: 14px 0 8px;
+    }
+
+    .upi-txn-group label {
+      display: block;
+      font: 600 .82rem var(--fh);
+      color: var(--txt);
+      margin-bottom: 5px;
+      text-align: left
+    }
+
+    .upi-txn-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--rs);
+      border: 2px solid #e8e8e8;
+      font: 500 .95rem var(--fb);
+      transition: all .3s ease;
+      background: #fff;
+      text-align: center;
+      letter-spacing: .5px;
+      box-sizing: border-box
+    }
+
+    .upi-txn-input:focus {
+      outline: none;
+      border-color: #5B2D8E;
+      box-shadow: 0 0 0 4px rgba(91, 45, 142, .1)
+    }
+
+    .upi-txn-input.error {
+      border-color: #e74c3c;
+      box-shadow: 0 0 0 4px rgba(231, 76, 60, .1)
+    }
+
+    .upi-txn-error {
+      font: 600 .78rem var(--fb);
+      color: #e74c3c;
+      margin-top: 4px;
+      text-align: left;
+      min-height: 16px
+    }
+
+    .upi-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255, 255, 255, .3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: upiSpin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px
+    }
+
+    @keyframes upiSpin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .payment-required-msg {
+      text-align: center;
+      font: 600 .85rem var(--fh);
+      color: #5B2D8E;
+      background: #F5F0FF;
+      padding: 10px 16px;
+      border-radius: var(--rs);
+      border: 1px solid rgba(91, 45, 142, .15);
+      margin-top: 8px
     }
 
     .upi-qr {
@@ -1195,226 +1838,34 @@
     }
 
     /* ===== 3D ANIMATED BACKGROUND ===== */
-    .bg-canvas {
+    #bgCanvas {
       position: fixed;
       inset: 0;
       z-index: -1;
-      overflow: hidden;
-      pointer-events: none
+      pointer-events: none;
+      width: 100%;
+      height: 100%
     }
 
-    .bg-blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: .18;
-      will-change: transform;
-      transform: translate3d(0, 0, 0)
-    }
-
-    .bg-blob.b1 {
-      width: 340px;
-      height: 340px;
-      top: -5%;
-      left: -8%;
-      background: radial-gradient(circle, #E67E22, #F39C12);
-      animation: drift1 18s ease-in-out infinite
-    }
-
-    .bg-blob.b2 {
-      width: 280px;
-      height: 280px;
-      top: 20%;
-      right: -6%;
-      background: radial-gradient(circle, #F1C40F, #F9E547);
-      animation: drift2 22s ease-in-out infinite;
-      animation-delay: -4s
-    }
-
-    .bg-blob.b3 {
-      width: 300px;
-      height: 300px;
-      bottom: 15%;
-      left: 5%;
-      background: radial-gradient(circle, #E74C8B, #C0392B);
-      animation: drift3 20s ease-in-out infinite;
-      animation-delay: -8s
-    }
-
-    .bg-blob.b4 {
-      width: 250px;
-      height: 250px;
-      top: 55%;
-      right: 12%;
-      background: radial-gradient(circle, #1ABC9C, #2ECC71);
-      animation: drift4 24s ease-in-out infinite;
-      animation-delay: -3s
-    }
-
-    .bg-blob.b5 {
-      width: 200px;
-      height: 200px;
-      top: 10%;
-      left: 40%;
-      background: radial-gradient(circle, #FDEBD0, #F5B041);
-      opacity: .12;
-      animation: drift5 19s ease-in-out infinite;
-      animation-delay: -6s
-    }
-
-    .bg-blob.b6 {
-      width: 220px;
-      height: 220px;
-      bottom: 5%;
-      right: 30%;
-      background: radial-gradient(circle, #A3E4D7, #48C9B0);
-      opacity: .14;
-      animation: drift6 21s ease-in-out infinite;
-      animation-delay: -10s
-    }
-
-    @keyframes drift1 {
-
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0) scale(1)
-      }
-
-      25% {
-        transform: translate3d(30px, 40px, 0) scale(1.05)
-      }
-
-      50% {
-        transform: translate3d(-20px, 60px, 0) scale(.95)
-      }
-
-      75% {
-        transform: translate3d(40px, -10px, 0) scale(1.03)
-      }
-    }
-
-    @keyframes drift2 {
-
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0) scale(1)
-      }
-
-      25% {
-        transform: translate3d(-35px, 25px, 0) scale(1.04)
-      }
-
-      50% {
-        transform: translate3d(25px, -30px, 0) scale(.97)
-      }
-
-      75% {
-        transform: translate3d(-15px, 45px, 0) scale(1.02)
-      }
-    }
-
-    @keyframes drift3 {
-
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0) scale(1)
-      }
-
-      25% {
-        transform: translate3d(20px, -35px, 0) scale(1.06)
-      }
-
-      50% {
-        transform: translate3d(-30px, 20px, 0) scale(.94)
-      }
-
-      75% {
-        transform: translate3d(35px, 15px, 0) scale(1.01)
-      }
-    }
-
-    @keyframes drift4 {
-
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0) scale(1)
-      }
-
-      25% {
-        transform: translate3d(-25px, -20px, 0) scale(1.03)
-      }
-
-      50% {
-        transform: translate3d(15px, 35px, 0) scale(.96)
-      }
-
-      75% {
-        transform: translate3d(-10px, -30px, 0) scale(1.05)
-      }
-    }
-
-    @keyframes drift5 {
-
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0) scale(1)
-      }
-
-      33% {
-        transform: translate3d(20px, 25px, 0) scale(1.04)
-      }
-
-      66% {
-        transform: translate3d(-25px, -15px, 0) scale(.96)
-      }
-    }
-
-    @keyframes drift6 {
-
-      0%,
-      100% {
-        transform: translate3d(0, 0, 0) scale(1)
-      }
-
-      33% {
-        transform: translate3d(-20px, 30px, 0) scale(1.03)
-      }
-
-      66% {
-        transform: translate3d(30px, -20px, 0) scale(.97)
-      }
-    }
-
-    @media(max-width:768px) {
-      .bg-blob {
-        filter: blur(60px);
-        opacity: .12
-      }
-
-      .bg-blob.b5,
-      .bg-blob.b6 {
-        display: none
-      }
-    }
-
-    @media(prefers-reduced-motion:reduce) {
-      .bg-blob {
-        animation: none !important
-      }
+    .bg-fallback {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 15% 20%, rgba(230, 126, 34, .10) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 25%, rgba(241, 196, 15, .08) 0%, transparent 45%),
+        radial-gradient(ellipse at 10% 75%, rgba(231, 76, 139, .07) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 70%, rgba(26, 188, 156, .08) 0%, transparent 45%),
+        var(--bg)
     }
   </style>
 </head>
 
 <body>
   <!-- 3D ANIMATED BACKGROUND -->
-  <div class="bg-canvas" id="bgCanvas">
-    <div class="bg-blob b1"></div>
-    <div class="bg-blob b2"></div>
-    <div class="bg-blob b3"></div>
-    <div class="bg-blob b4"></div>
-    <div class="bg-blob b5"></div>
-    <div class="bg-blob b6"></div>
-  </div>
+  <canvas id="bgCanvas"></canvas>
+  <div class="bg-fallback" id="bgFallback" style="display:none"></div>
   <header>
     <h1>🍹 Ganesh Fresh Juice Centre</h1>
     <h2>Fresh, Healthy & Natural Juices</h2>
@@ -1808,12 +2259,54 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
+  <!-- ABOUT — 3D IMMERSIVE SECTION -->
   <section id="about">
-    <div class="stitle">About Us</div>
-    <p style="margin-top:14px">At Ganesh Fresh Juice Centre, we serve the freshest and healthiest juices made from
-      quality fruits. Grab a healthy drink, quick meal, or a refreshing shake — our mission is to refresh you with
-      natural taste in every sip!</p>
+    <canvas id="aboutCanvas"></canvas>
+
+    <!-- Radial Glow Layers -->
+    <div class="about-glow g1"></div>
+    <div class="about-glow g2"></div>
+    <div class="about-glow g3"></div>
+    <div class="about-glow g4"></div>
+
+    <!-- Floating Fruit Shapes -->
+    <div class="about-shape">🍊</div>
+    <div class="about-shape">🍓</div>
+    <div class="about-shape">🍋</div>
+    <div class="about-shape">🥝</div>
+    <div class="about-shape">🍉</div>
+    <div class="about-shape">🍍</div>
+
+    <!-- Glass Content Card -->
+    <div class="about-glass">
+      <div class="about-tagline">✨ Our Story</div>
+      <div class="stitle">About Us</div>
+      <p class="about-text">At Ganesh Fresh Juice Centre, we serve the freshest and healthiest juices made from
+        quality fruits. Grab a healthy drink, quick meal, or a refreshing shake — our mission is to refresh you with
+        natural taste in every sip!</p>
+
+      <div class="about-features">
+        <div class="about-feat">
+          <span class="feat-icon">🍊</span>
+          <div class="feat-title">100% Fresh</div>
+          <div class="feat-desc">Made with hand-picked, quality fruits every single day</div>
+        </div>
+        <div class="about-feat">
+          <span class="feat-icon">⚡</span>
+          <div class="feat-title">Quick Service</div>
+          <div class="feat-desc">From order to glass in minutes — fast, fresh delivery</div>
+        </div>
+        <div class="about-feat">
+          <span class="feat-icon">💚</span>
+          <div class="feat-title">No Preservatives</div>
+          <div class="feat-desc">Pure natural taste, zero chemicals, always healthy</div>
+        </div>
+      </div>
+
+      <div class="about-cta">
+        <a href="#menu">🍹 Explore Our Menu</a>
+      </div>
+    </div>
   </section>
 
   <!-- GALLERY -->
@@ -1929,27 +2422,33 @@
 
         <div style="margin-top:6px">
           <h4 style="font:600 .92rem var(--fh);margin:5px 0">Payment Method</h4>
-          <label style="margin-right:14px;cursor:pointer"><input type="radio" name="payment" value="cod" checked> 💵
-            Cash on Delivery</label>
-          <label style="cursor:pointer"><input type="radio" name="payment" value="upi"> 📱 UPI</label>
-          <div id="upiOpts" style="display:none;margin-top:10px;gap:10px;align-items:center">
-            <div>
-              <div class="small">UPI ID: <strong id="upiIdDisp">jnaneshappu85-1@oksbi</strong></div>
-              <div style="margin-top:5px;display:flex;gap:6px">
-                <button type="button" id="copyUpi" style="padding:7px 14px;font-size:.83rem">📋 Copy
-                  UPI</button>
-                <button type="button" id="upiPay"
-                  style="padding:7px 14px;font-size:.83rem;background:linear-gradient(135deg,#9b59b6,#8e44ad)">Open
-                  UPI App</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+            <label
+              style="flex:1;min-width:140px;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:var(--rs);border:2px solid #e8e8e8;background:#fff;transition:all .3s ease"
+              class="pay-option" id="payOptCod">
+              <input type="radio" name="payment" value="cod" style="accent-color:var(--pri);width:18px;height:18px">
+              <div>
+                <div style="font:600 .9rem var(--fh);color:var(--txt)">💵 Cash on Delivery</div>
+                <div class="small muted">Pay when you receive</div>
               </div>
-            </div>
-            <div><img class="upi-qr" src="qrcode.jpg" alt="QR" onerror="this.style.display='none'"></div>
+            </label>
+            <label
+              style="flex:1;min-width:140px;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:var(--rs);border:2px solid #5B2D8E;background:#F5F0FF;transition:all .3s ease"
+              class="pay-option" id="payOptUpi">
+              <input type="radio" name="payment" value="upi" checked
+                style="accent-color:#5B2D8E;width:18px;height:18px">
+              <div>
+                <div style="font:600 .9rem var(--fh);color:var(--txt)">📱 Pay via UPI</div>
+                <div class="small muted">GPay, PhonePe, Paytm</div>
+              </div>
+            </label>
           </div>
+          <div class="payment-required-msg" id="paymentMsg">🔒 UPI: Payment verified before order confirmation | COD:
+            Pay on delivery</div>
         </div>
 
         <div style="text-align:center;margin-top:8px">
-          <button type="submit" id="submitOrder" style="padding:15px 36px;font-size:1.02rem">🚀 Submit Order
-            via WhatsApp</button>
+          <button type="submit" id="submitOrder" style="padding:15px 36px;font-size:1.02rem">Place Order</button>
         </div>
         <div id="orderWarnings" style="color:#e74c3c;font:700 .88rem var(--fh);margin-top:5px;text-align:center"></div>
       </form>
@@ -1966,10 +2465,26 @@
         WhatsApp</a></p>
     <p class="small" style="margin-top:6px">📍 <a href="https://maps.app.goo.gl/oF3CBc7Tn2J6uxHv5" target="_blank"
         style="color:var(--pri);font-weight:600">Open in Google Maps</a></p>
+    <p class="small" style="margin-top:6px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+        viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        style="vertical-align:middle;margin-right:4px">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg><a href="https://www.instagram.com/sri_ganesh_juice_09/" target="_blank"
+        style="color:#E1306C;font-weight:600">Follow us on Instagram</a></p>
   </section>
 
   <footer>
     <p>&copy; 2025 Ganesh Fresh Juice Centre | All Rights Reserved</p>
+    <p style="margin-top:6px"><a href="https://www.instagram.com/sri_ganesh_juice_09/" target="_blank"
+        style="color:#E1306C;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:6px"><svg
+          xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E1306C"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+        </svg> @sri_ganesh_juice_09</a></p>
   </footer>
 
   <!-- CART FLOAT ICON -->
@@ -1995,14 +2510,74 @@
   <!-- CONFIRM OVERLAY -->
   <div class="covl" id="confirmOverlay">
     <div class="cbox">
-      <h3>✅ Order Placed!</h3>
-      <p>Thank you — your order is being prepared.</p>
+      <h3>✅ Order Confirmed!</h3>
+      <p>Payment verified — your order is being prepared.</p>
       <p>Order Number:</p>
       <div class="ono" id="confirmOrderNo">GFJ-0000</div>
+      <p class="small muted" id="confirmTxnId" style="margin-top:4px"></p>
       <p class="small muted" id="confirmSummary"></p>
       <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
         <button id="copyOrderBtn">📋 Copy</button>
         <button id="closeConfirmBtn" style="background:linear-gradient(135deg,#95a5a6,#7f8c8d)">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPI PAYMENT OVERLAY -->
+  <div class="upi-overlay" id="upiOverlay">
+    <div class="upi-card">
+      <div class="upi-header">
+        <h3>📱 Complete UPI Payment</h3>
+        <div class="upi-order-id" id="upiOrderIdDisp">Order: GFJ-0000</div>
+      </div>
+      <div class="upi-amount-box">
+        <div class="upi-amount-label">Amount to Pay</div>
+        <div class="upi-amount-value" id="upiAmountDisp">₹0</div>
+        <div class="upi-amount-breakdown">
+          <span>Subtotal: <strong id="upiSubDisp">₹0</strong></span>
+          <span>Delivery: <strong id="upiDelDisp">₹0</strong></span>
+        </div>
+      </div>
+      <div class="upi-body">
+        <button class="upi-any-btn" id="upiPayAnyBtn" type="button">📱 Open UPI App to Pay</button>
+
+        <div class="upi-section-title">📲 Or choose your app</div>
+        <div class="upi-apps-grid">
+          <button class="upi-app-btn" type="button" data-app="tez://"><span class="app-icon">💳</span> Google
+            Pay</button>
+          <button class="upi-app-btn" type="button" data-app="phonepe://"><span class="app-icon">📲</span>
+            PhonePe</button>
+          <button class="upi-app-btn" type="button" data-app="paytmmp://"><span class="app-icon">💰</span>
+            Paytm</button>
+          <button class="upi-app-btn" type="button" data-app="upi://"><span class="app-icon">🏦</span> BHIM UPI</button>
+        </div>
+
+        <div class="upi-divider">or scan QR code</div>
+
+        <div class="upi-qr-section">
+          <img src="qrcode.jpg" alt="UPI QR Code" onerror="this.parentElement.style.display='none'">
+          <div class="qr-label">Scan with any UPI app</div>
+        </div>
+
+        <div class="upi-id-row">
+          <span class="uid" id="upiIdOverlay">jnaneshappu85-1@oksbi</span>
+          <button type="button" id="upiCopyOverlay">📋 Copy</button>
+        </div>
+
+        <div class="upi-status pending" id="upiPayStatus">⏳ Waiting for payment...</div>
+
+        <div class="upi-txn-group">
+          <label for="upiTxnInput">📝 UPI Transaction Reference / UTR Number</label>
+          <input type="text" class="upi-txn-input" id="upiTxnInput" placeholder="Enter your UPI transaction ID"
+            autocomplete="off">
+          <div class="upi-txn-error" id="upiTxnError"></div>
+        </div>
+      </div>
+      <div class="upi-footer">
+        <button type="button" id="upiDoneBtn" style="background:linear-gradient(135deg,#27AE60,#2ECC71)">✅ Verify
+          Payment</button>
+        <button type="button" id="upiCancelBtn" style="background:linear-gradient(135deg,#95a5a6,#7f8c8d)">✖
+          Cancel</button>
       </div>
     </div>
   </div>
@@ -2024,7 +2599,7 @@
   <script>
     /* ===== CONFIG ===== */
     const SHOP_PHONE = '919902593591', SHOP_LAT = 12.9863, SHOP_LON = 77.6514, UPI_ID = 'jnaneshappu85-1@oksbi';
-    const FREE_R = 2, EXTRA_KM = 15, MIN_ORDER = 199, SHOP_MAP = 'https://maps.app.goo.gl/oF3CBc7Tn2J6uxHv5', APPS_URL = '';
+    const FREE_R = 2, EXTRA_KM = 15, MIN_ORDER = 199, SHOP_MAP = 'https://maps.app.goo.gl/oF3CBc7Tn2J6uxHv5', APPS_URL = '/api/orders';
     const waUrl = (ph, msg) => 'https://wa.me/' + ph + '?text=' + encodeURIComponent(msg);
     const genON = () => 'GFJ-' + Date.now().toString(36).toUpperCase().slice(-6);
     document.getElementById('waChat').href = waUrl(SHOP_PHONE, 'Hi! I want to place an order.');
@@ -2207,17 +2782,6 @@
     document.getElementById('detectBtn').addEventListener('click', () => detectDist(true));
     detectDist(false);
 
-    /* ===== UPI ===== */
-    document.querySelectorAll('input[name="payment"]').forEach(r => {
-      r.addEventListener('change', () => { document.getElementById('upiOpts').style.display = r.value === 'upi' && r.checked ? 'flex' : 'none'; });
-    });
-    document.getElementById('copyUpi')?.addEventListener('click', () => {
-      navigator.clipboard?.writeText(UPI_ID).then(() => { const b = document.getElementById('copyUpi'); b.textContent = 'Copied ✓'; setTimeout(() => b.textContent = '📋 Copy UPI', 1500); }).catch(() => alert('Copy failed'));
-    });
-    document.getElementById('upiPay')?.addEventListener('click', () => {
-      const t = updateTotals(); window.open('upi://pay?pa=' + UPI_ID + '&pn=Ganesh+Juice&am=' + t.total + '&cu=INR', '_self');
-    });
-
     /* ===== TRACKING ===== */
     let trackActive = false, trackInt = null;
     function startTrack(oNo) {
@@ -2240,29 +2804,290 @@
     document.getElementById('btnStop').addEventListener('click', stopTrack);
     document.getElementById('btnDlvd').addEventListener('click', () => { alert('Delivered!'); stopTrack(); });
 
-    /* ===== ORDER SUBMIT ===== */
+    /* ===== UPI OVERLAY & PAYMENT (PAYMENT-FIRST FLOW) ===== */
+    let currentUpiOrder = null;
+    let currentPaymentToken = null;
+
+    function buildUpiUrl(amount, orderNo, scheme) {
+      const prefix = scheme || 'upi://';
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('Ganesh Juice Centre')}&am=${amount}&cu=INR&tn=${encodeURIComponent('Order ' + orderNo)}`;
+      return prefix + params;
+    }
+
+    function openUpiOverlay(orderNo, sub, del, total, paymentToken) {
+      currentUpiOrder = { orderNo, total, sub, del };
+      currentPaymentToken = paymentToken;
+      document.getElementById('upiOrderIdDisp').textContent = 'Order: ' + orderNo;
+      document.getElementById('upiAmountDisp').textContent = '₹' + total;
+      document.getElementById('upiSubDisp').textContent = '₹' + sub;
+      document.getElementById('upiDelDisp').textContent = '₹' + del;
+      document.getElementById('upiIdOverlay').textContent = UPI_ID;
+      const st = document.getElementById('upiPayStatus');
+      st.className = 'upi-status pending';
+      st.textContent = '⏳ Complete payment, then enter transaction ID below';
+      /* Reset transaction input */
+      document.getElementById('upiTxnInput').value = '';
+      document.getElementById('upiTxnInput').classList.remove('error');
+      document.getElementById('upiTxnError').textContent = '';
+      document.getElementById('upiDoneBtn').disabled = false;
+      document.getElementById('upiDoneBtn').innerHTML = '✅ Verify Payment';
+      document.getElementById('upiOverlay').classList.add('vis');
+    }
+
+    function closeUpiOverlay() {
+      document.getElementById('upiOverlay').classList.remove('vis');
+      currentUpiOrder = null;
+      currentPaymentToken = null;
+    }
+
+    function triggerUpiPay(scheme) {
+      if (!currentUpiOrder) return;
+      const url = buildUpiUrl(currentUpiOrder.total, currentUpiOrder.orderNo, scheme);
+      const st = document.getElementById('upiPayStatus');
+      st.className = 'upi-status initiated';
+      st.textContent = '✅ Payment initiated — complete in your UPI app, then enter transaction ID below';
+      window.location.href = url;
+    }
+
+    /* Main UPI pay button */
+    document.getElementById('upiPayAnyBtn').addEventListener('click', () => triggerUpiPay('upi://'));
+
+    /* App-specific buttons */
+    document.querySelectorAll('.upi-app-btn').forEach(btn => {
+      btn.addEventListener('click', () => triggerUpiPay(btn.dataset.app));
+    });
+
+    /* Copy UPI ID */
+    document.getElementById('upiCopyOverlay')?.addEventListener('click', () => {
+      navigator.clipboard?.writeText(UPI_ID).then(() => {
+        const b = document.getElementById('upiCopyOverlay');
+        b.textContent = '✓ Copied';
+        setTimeout(() => b.textContent = '📋 Copy', 1500);
+      }).catch(() => alert('Copy failed'));
+    });
+
+    /* ===== VERIFY PAYMENT (Done button) ===== */
+    document.getElementById('upiDoneBtn').addEventListener('click', async () => {
+      if (!currentUpiOrder || !currentPaymentToken) return;
+
+      const txnInput = document.getElementById('upiTxnInput');
+      const txnError = document.getElementById('upiTxnError');
+      const txnId = txnInput.value.trim();
+      const st = document.getElementById('upiPayStatus');
+      const doneBtn = document.getElementById('upiDoneBtn');
+
+      /* Validate transaction ID */
+      txnError.textContent = '';
+      txnInput.classList.remove('error');
+      if (!txnId || txnId.length < 3) {
+        txnInput.classList.add('error');
+        txnError.textContent = 'Please enter a valid UPI transaction reference ID';
+        txnInput.focus();
+        return;
+      }
+
+      /* Show verifying state */
+      doneBtn.disabled = true;
+      doneBtn.innerHTML = '<span class="upi-spinner"></span> Verifying...';
+      st.className = 'upi-status verifying';
+      st.textContent = '🔄 Verifying payment with server...';
+
+      try {
+        const resp = await fetch('/api/payment/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paymentToken: currentPaymentToken,
+            transactionId: txnId
+          })
+        });
+        const data = await resp.json();
+
+        if (resp.ok && data.success) {
+          /* === PAYMENT VERIFIED — Now create order confirmation === */
+          st.className = 'upi-status success';
+          st.textContent = '✅ Payment verified — order confirmed!';
+          doneBtn.innerHTML = '✅ Verified!';
+
+          const orderNo = data.orderId;
+          const orderData = data.orderData;
+
+          /* Show confirm overlay */
+          document.getElementById('confirmOrderNo').textContent = orderNo;
+          document.getElementById('confirmTxnId').textContent = 'Transaction: ' + data.transactionId;
+          document.getElementById('confirmSummary').textContent = `Total: ₹${orderData.total} · Paid via UPI`;
+
+          /* Send WhatsApp message NOW (only after payment verified) */
+          const items = orderData.items || [];
+          const lines = ['🍹 *Order Confirmed (Paid)*', `Order: ${orderNo}`, `TXN: ${data.transactionId}`, `Name: ${orderData.name}`, `Phone: ${orderData.phone}`, `Address: ${orderData.address}`, 'Items:', ...items, `Subtotal: ₹${orderData.subtotal}`, `Delivery: ₹${orderData.delivery}`, `Total: ₹${orderData.total}`, `Payment: UPI ✅ (${UPI_ID})`, `Shop: ${SHOP_MAP}`];
+          if (orderData.mapLink) lines.push(`Location: ${orderData.mapLink}`);
+
+          setTimeout(() => {
+            closeUpiOverlay();
+            document.getElementById('confirmOverlay').classList.add('vis');
+            window.open(waUrl(SHOP_PHONE, lines.join('\n')), '_blank');
+            startTrack(orderNo);
+            /* Clear cart after successful order */
+            cart = [];
+            renderCart();
+            updateTotals();
+          }, 1500);
+
+        } else {
+          /* Payment verification failed */
+          st.className = 'upi-status failed';
+          st.textContent = '❌ ' + (data.error || 'Verification failed');
+          doneBtn.disabled = false;
+          doneBtn.innerHTML = '🔄 Retry Verification';
+          if (data.error?.includes('transaction')) {
+            txnInput.classList.add('error');
+            txnError.textContent = data.error;
+          }
+        }
+      } catch (err) {
+        st.className = 'upi-status failed';
+        st.textContent = '❌ Connection error — please try again';
+        doneBtn.disabled = false;
+        doneBtn.innerHTML = '🔄 Retry Verification';
+      }
+    });
+
+    /* Cancel payment — cart is preserved, no order created */
+    document.getElementById('upiCancelBtn').addEventListener('click', () => {
+      if (currentPaymentToken) {
+        /* Payment was initiated but not verified — no order created */
+        currentPaymentToken = null;
+      }
+      closeUpiOverlay();
+    });
+
+    /* ===== PAYMENT METHOD SWITCHING ===== */
+    document.querySelectorAll('input[name="payment"]').forEach(r => {
+      r.addEventListener('change', () => {
+        const pay = document.querySelector('input[name="payment"]:checked').value;
+        const submitBtn = document.getElementById('submitOrder');
+        const msg = document.getElementById('paymentMsg');
+        document.querySelectorAll('.pay-option').forEach(el => {
+          el.style.borderColor = '#e8e8e8';
+          el.style.background = '#fff';
+        });
+        const sel = r.closest('.pay-option');
+        if (sel && r.checked) {
+          sel.style.borderColor = pay === 'upi' ? '#5B2D8E' : 'var(--pri)';
+          sel.style.background = pay === 'upi' ? '#F5F0FF' : 'var(--pri-lt)';
+        }
+        if (pay === 'upi') {
+          submitBtn.textContent = '💳 Proceed to Payment';
+          msg.textContent = '🔒 UPI payment must be verified before order confirmation';
+        } else {
+          submitBtn.textContent = '🚀 Submit Order via WhatsApp';
+          msg.textContent = '💵 Pay cash when your order is delivered';
+        }
+      });
+    });
+    /* Trigger initial highlight */
+    document.querySelector('input[name="payment"]:checked')?.dispatchEvent(new Event('change'));
+
+    /* ===== ORDER SUBMIT (BRANCHES BY PAYMENT METHOD) ===== */
     document.getElementById('orderForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       if (!cart.length) { alert('Your cart is empty! Add items from the menu first.'); return; }
       const t = updateTotals();
       if (t.sub < MIN_ORDER) { alert('Minimum order ₹' + MIN_ORDER + ' required.'); return; }
+
       const name = this.name.value.trim(), phone = this.phone.value.trim(), address = this.address.value.trim();
       const dist = Number(document.getElementById('distanceInput').value) || 0;
       const pay = document.querySelector('input[name="payment"]:checked').value;
       const items = cart.map(i => i.name + ' × ' + i.qty);
-      const oNo = genON();
-      document.getElementById('confirmOrderNo').textContent = oNo;
-      document.getElementById('confirmSummary').textContent = `Total: ₹${t.total} · ${getCartCount()} items`;
-      document.getElementById('confirmOverlay').classList.add('vis');
+      const itemsDetailed = cart.map(i => ({ name: i.name, qty: i.qty, price: i.price, lineTotal: i.price * i.qty }));
+
+      /* Get location */
       let loc = null;
-      try { const p = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 10000 })); loc = { lat: p.coords.latitude, lon: p.coords.longitude }; } catch (e) { }
-      const payload = { action: 'create_order', orderNo: oNo, name, phone, address, distance: dist, items, subtotal: t.sub, delivery: t.del, total: t.total, paymentMethod: pay, upiId: pay === 'upi' ? UPI_ID : '', location: loc, mapLink: loc ? `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}` : '', timestamp: new Date().toISOString() };
-      try { if (APPS_URL && !APPS_URL.includes('YOUR_')) { fetch(APPS_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(() => { }); } } catch (e) { }
-      const lines = ['🍹 New Order', `Order: ${oNo}`, `Name: ${name}`, `Phone: ${phone}`, `Address: ${address}`, `Distance: ${dist} km`, 'Items:', ...items, `Subtotal: ₹${t.sub}`, `Delivery: ₹${t.del}`, `Total: ₹${t.total}`, `Payment: ${pay === 'cod' ? 'Cash on Delivery' : 'UPI (' + UPI_ID + ')'}`, `Shop: ${SHOP_MAP}`];
-      if (payload.mapLink) lines.push(`Location: ${payload.mapLink}`);
-      window.open(waUrl(SHOP_PHONE, lines.join('\n')), '_blank');
-      if (pay === 'upi') alert('Please pay ₹' + t.total + ' via UPI (' + UPI_ID + ') and inform us on WhatsApp.');
-      startTrack(oNo);
+      try {
+        const p = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 10000 }));
+        loc = { lat: p.coords.latitude, lon: p.coords.longitude };
+      } catch (e) { }
+
+      const submitBtn = document.getElementById('submitOrder');
+
+      if (pay === 'cod') {
+        /* ===== COD FLOW: Create order immediately, send WhatsApp ===== */
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ Placing order...';
+        const oNo = genON();
+
+        try {
+          const resp = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              orderNo: oNo, name, phone, address, distance: dist,
+              items, itemsDetailed,
+              subtotal: t.sub, delivery: t.del, total: t.total,
+              paymentMethod: 'cod',
+              location: loc,
+              mapLink: loc ? `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}` : '',
+              timestamp: new Date().toISOString()
+            })
+          });
+          const data = await resp.json();
+
+          if (resp.ok && data.success) {
+            /* Show confirmation */
+            document.getElementById('confirmOrderNo').textContent = oNo;
+            document.getElementById('confirmTxnId').textContent = 'Payment: Cash on Delivery';
+            document.getElementById('confirmSummary').textContent = `Total: ₹${t.total} · ${getCartCount()} items`;
+            document.getElementById('confirmOverlay').classList.add('vis');
+
+            /* Send WhatsApp */
+            const lines = ['🍹 New Order (COD)', `Order: ${oNo}`, `Name: ${name}`, `Phone: ${phone}`, `Address: ${address}`, `Distance: ${dist} km`, 'Items:', ...items, `Subtotal: ₹${t.sub}`, `Delivery: ₹${t.del}`, `Total: ₹${t.total}`, `Payment: 💵 Cash on Delivery`, `Shop: ${SHOP_MAP}`];
+            if (loc) lines.push(`Location: https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`);
+            window.open(waUrl(SHOP_PHONE, lines.join('\n')), '_blank');
+
+            startTrack(oNo);
+            cart = [];
+            renderCart();
+            updateTotals();
+          } else {
+            alert('Error: ' + (data.error || 'Could not place order. Please try again.'));
+          }
+        } catch (err) {
+          alert('Connection error. Please check your internet and try again.');
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🚀 Submit Order via WhatsApp';
+
+      } else {
+        /* ===== UPI FLOW: Initiate payment first, verify before order ===== */
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ Initiating payment...';
+
+        try {
+          const resp = await fetch('/api/payment/initiate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name, phone, address, distance: dist,
+              items, itemsDetailed,
+              subtotal: t.sub, delivery: t.del, total: t.total,
+              upiId: UPI_ID,
+              location: loc,
+              mapLink: loc ? `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}` : ''
+            })
+          });
+          const data = await resp.json();
+
+          if (resp.ok && data.success) {
+            openUpiOverlay(data.orderNo, t.sub, t.del, t.total, data.paymentToken);
+          } else {
+            alert('Error: ' + (data.error || 'Could not initiate payment. Please try again.'));
+          }
+        } catch (err) {
+          alert('Connection error. Please check your internet and try again.');
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = '💳 Proceed to Payment';
+      }
     });
 
     /* ===== CONFIRM OVERLAY ===== */
@@ -2275,29 +3100,344 @@
     /* ===== BEFOREUNLOAD ===== */
     window.addEventListener('beforeunload', e => { if (trackActive) { const m = 'Location sharing active — leaving will stop sharing.'; e.returnValue = m; return m; } });
 
-    /* ===== 3D BACKGROUND PARALLAX ===== */
+    /* ===== 3D ANIMATED CANVAS BACKGROUND ===== */
     (function () {
-      const blobs = document.querySelectorAll('.bg-blob');
-      if (!blobs.length) return;
-      const speeds = [0.03, 0.02, 0.025, 0.015, 0.035, 0.02];
-      let mx = 0, my = 0, cx = 0, cy = 0, scrollY = 0;
-      // cursor tracking
-      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-      // animation loop
-      function tick() {
-        cx += (mx - cx) * 0.04; cy += (my - cy) * 0.04;
-        const vw = window.innerWidth, vh = window.innerHeight;
-        const nx = (cx / vw - 0.5) * 2, ny = (cy / vh - 0.5) * 2;
-        scrollY = window.scrollY;
-        blobs.forEach((b, i) => {
-          const sp = speeds[i % speeds.length];
-          const ox = nx * 30 * (i % 2 ? 1 : -1) * sp * 10;
-          const oy = ny * 20 * (i % 2 ? -1 : 1) * sp * 10 - scrollY * sp;
-          b.style.transform = `translate3d(${ox}px,${oy}px,0)`;
-        });
-        requestAnimationFrame(tick);
+      'use strict';
+      const canvas = document.getElementById('bgCanvas');
+      const fallback = document.getElementById('bgFallback');
+      const ctx = canvas && canvas.getContext('2d');
+      /* Reduced-motion check */
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      /* Fallback if no canvas or reduced motion */
+      if (!ctx || prefersReduced) {
+        if (canvas) canvas.style.display = 'none';
+        if (fallback) fallback.style.display = 'block';
+        return;
       }
-      requestAnimationFrame(tick);
+
+      /* ---------- CONFIG ---------- */
+      const isMobile = window.innerWidth < 768;
+      const ORB_COUNT = isMobile ? 8 : 14;
+      const PARTICLE_COUNT = isMobile ? 15 : 35;
+      const WAVE_COUNT = 3;
+      const FPS_CAP = isMobile ? 30 : 60;
+      const FRAME_MS = 1000 / FPS_CAP;
+
+      /* Brand palette with alpha */
+      const PALETTE = [
+        { r: 230, g: 126, b: 34 },   /* mango orange */
+        { r: 241, g: 196, b: 15 },   /* citrus yellow */
+        { r: 231, g: 76, b: 139 },   /* berry pink */
+        { r: 26, g: 188, b: 156 },   /* mint green */
+        { r: 243, g: 156, b: 18 },   /* warm amber */
+        { r: 46, g: 204, b: 113 },   /* fresh green */
+      ];
+
+      let W, H, dpr;
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      /* ---------- MOUSE / SCROLL STATE ---------- */
+      let mx = W / 2, my = H / 2, smx = W / 2, smy = H / 2, scrollY = 0;
+      document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
+
+      /* ---------- ORB CLASS ---------- */
+      function Orb(i) {
+        var c = PALETTE[i % PALETTE.length];
+        this.color = c;
+        this.depth = 0.3 + Math.random() * 0.7;            /* 0.3–1.0, affects size + parallax speed */
+        this.baseR = (40 + Math.random() * 100) * this.depth;
+        this.r = this.baseR;
+        this.x = Math.random() * W;
+        this.y = Math.random() * H;
+        this.ox = this.x;  /* orbit center */
+        this.oy = this.y;
+        this.phase = Math.random() * Math.PI * 2;
+        this.speedX = 0.0003 + Math.random() * 0.0004;     /* orbit speed */
+        this.speedY = 0.0002 + Math.random() * 0.0003;
+        this.orbitRX = 25 + Math.random() * 40;             /* orbit radius */
+        this.orbitRY = 15 + Math.random() * 30;
+        this.alpha = (0.06 + Math.random() * 0.08) * this.depth;
+        this.pulseSpeed = 0.001 + Math.random() * 0.001;
+        this.pulseAmp = 0.06 + Math.random() * 0.08;
+      }
+      Orb.prototype.update = function (t, dt) {
+        this.phase += dt;
+        /* Orbital motion */
+        this.x = this.ox + Math.sin(this.phase * this.speedX * 60) * this.orbitRX;
+        this.y = this.oy + Math.cos(this.phase * this.speedY * 60) * this.orbitRY;
+        /* Cursor repulsion (subtle) */
+        var dx = this.x - smx, dy = this.y - smy;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        var force = Math.max(0, 180 - dist) * 0.04 * this.depth;
+        this.x += (dx / dist) * force;
+        this.y += (dy / dist) * force;
+        /* Scroll parallax */
+        this.y -= scrollY * 0.04 * this.depth;
+        /* Pulse size */
+        this.r = this.baseR * (1 + Math.sin(this.phase * this.pulseSpeed * 60) * this.pulseAmp);
+      };
+      Orb.prototype.draw = function () {
+        var grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r);
+        grad.addColorStop(0, 'rgba(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + (this.alpha * 1.5) + ')');
+        grad.addColorStop(0.5, 'rgba(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + (this.alpha * 0.5) + ')');
+        grad.addColorStop(1, 'rgba(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fill();
+      };
+
+      /* ---------- PARTICLE CLASS ---------- */
+      function Particle() {
+        this.reset();
+        this.y = Math.random() * H; /* initial scatter */
+      }
+      Particle.prototype.reset = function () {
+        var c = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+        this.color = c;
+        this.x = Math.random() * W;
+        this.y = H + 10;
+        this.r = 1 + Math.random() * 2.5;
+        this.vy = -(0.15 + Math.random() * 0.3);
+        this.vx = (Math.random() - 0.5) * 0.2;
+        this.alpha = 0.15 + Math.random() * 0.25;
+        this.life = 0;
+        this.maxLife = 400 + Math.random() * 600;
+      };
+      Particle.prototype.update = function (dt) {
+        this.life += dt;
+        this.x += this.vx * dt * 0.06;
+        this.y += this.vy * dt * 0.06;
+        this.y -= scrollY * 0.008;
+        /* Fade in/out */
+        var progress = this.life / this.maxLife;
+        if (progress < 0.1) this.currentAlpha = this.alpha * (progress / 0.1);
+        else if (progress > 0.8) this.currentAlpha = this.alpha * ((1 - progress) / 0.2);
+        else this.currentAlpha = this.alpha;
+        if (this.life >= this.maxLife || this.y < -20) this.reset();
+      };
+      Particle.prototype.draw = function () {
+        ctx.fillStyle = 'rgba(' + this.color.r + ',' + this.color.g + ',' + this.color.b + ',' + (this.currentAlpha || 0) + ')';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fill();
+      };
+
+      /* ---------- WAVE CONFIG ---------- */
+      var waves = [];
+      for (var wi = 0; wi < WAVE_COUNT; wi++) {
+        var wc = PALETTE[wi % PALETTE.length];
+        waves.push({
+          color: wc,
+          amplitude: 18 + wi * 8,
+          frequency: 0.003 + wi * 0.001,
+          speed: 0.0004 + wi * 0.00015,
+          yOffset: H - 60 - wi * 35,
+          alpha: 0.04 + wi * 0.015,
+          phase: wi * 1.2
+        });
+      }
+
+      /* ---------- INIT OBJECTS ---------- */
+      var orbs = [], particles = [];
+      for (var oi = 0; oi < ORB_COUNT; oi++) orbs.push(new Orb(oi));
+      for (var pi = 0; pi < PARTICLE_COUNT; pi++) particles.push(new Particle());
+
+      /* ---------- RENDER LOOP ---------- */
+      var lastTime = 0, accumulator = 0;
+      var prevScrollY = 0;
+
+      function frame(timestamp) {
+        requestAnimationFrame(frame);
+        if (!lastTime) { lastTime = timestamp; return; }
+        var delta = timestamp - lastTime;
+        lastTime = timestamp;
+        /* FPS throttle */
+        accumulator += delta;
+        if (accumulator < FRAME_MS) return;
+        accumulator -= FRAME_MS;
+        var dt = Math.min(delta, 50); /* cap large jumps */
+
+        /* Smooth mouse interpolation */
+        smx += (mx - smx) * 0.05;
+        smy += (my - smy) * 0.05;
+        scrollY = window.scrollY;
+
+        /* Update wave yOffsets on resize */
+        for (var wii = 0; wii < waves.length; wii++) {
+          waves[wii].yOffset = H - 60 - wii * 35;
+        }
+
+        /* Clear */
+        ctx.clearRect(0, 0, W, H);
+
+        /* Draw orbs (back to front by depth) */
+        orbs.sort(function (a, b) { return a.depth - b.depth; });
+        for (var oi2 = 0; oi2 < orbs.length; oi2++) {
+          orbs[oi2].update(timestamp, dt);
+          orbs[oi2].draw();
+        }
+
+        /* Draw waves */
+        for (var wi2 = 0; wi2 < waves.length; wi2++) {
+          var w = waves[wi2];
+          w.phase += dt * w.speed;
+          ctx.fillStyle = 'rgba(' + w.color.r + ',' + w.color.g + ',' + w.color.b + ',' + w.alpha + ')';
+          ctx.beginPath();
+          ctx.moveTo(0, H);
+          for (var wx = 0; wx <= W; wx += 4) {
+            var wy = w.yOffset + Math.sin(wx * w.frequency + w.phase) * w.amplitude
+              + Math.sin(wx * w.frequency * 0.5 + w.phase * 1.3) * w.amplitude * 0.4;
+            wy -= scrollY * 0.02;
+            ctx.lineTo(wx, wy);
+          }
+          ctx.lineTo(W, H);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        /* Draw particles */
+        for (var pi2 = 0; pi2 < particles.length; pi2++) {
+          particles[pi2].update(dt);
+          particles[pi2].draw();
+        }
+
+        prevScrollY = scrollY;
+      }
+      requestAnimationFrame(frame);
+    })();
+
+    /* ===== ABOUT SECTION 3D CANVAS ===== */
+    (function () {
+      'use strict';
+      const canvas = document.getElementById('aboutCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let W, H, orbs = [], particles = [], running = false;
+
+      function resize() {
+        const section = document.getElementById('about');
+        W = canvas.width = section.offsetWidth;
+        H = canvas.height = section.offsetHeight;
+      }
+
+      const colors = [
+        { r: 230, g: 126, b: 34 },   // mango orange
+        { r: 231, g: 76, b: 139 },    // watermelon pink
+        { r: 26, g: 188, b: 156 },    // mint green
+        { r: 241, g: 196, b: 15 },    // lemon yellow
+        { r: 155, g: 89, b: 182 },    // berry purple
+        { r: 52, g: 152, b: 219 }     // blueberry
+      ];
+
+      function createOrb() {
+        const c = colors[Math.floor(Math.random() * colors.length)];
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: 30 + Math.random() * 60,
+          vx: (Math.random() - .5) * .3,
+          vy: (Math.random() - .5) * .3,
+          c: c,
+          alpha: .04 + Math.random() * .06,
+          pulse: Math.random() * Math.PI * 2,
+          pulseSpeed: .005 + Math.random() * .01
+        };
+      }
+
+      function createParticle() {
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: .5 + Math.random() * 1.5,
+          vx: (Math.random() - .5) * .2,
+          vy: -.1 - Math.random() * .3,
+          alpha: .15 + Math.random() * .25,
+          life: 0,
+          maxLife: 300 + Math.random() * 200
+        };
+      }
+
+      function init() {
+        resize();
+        orbs = [];
+        particles = [];
+        for (let i = 0; i < 8; i++) orbs.push(createOrb());
+        for (let i = 0; i < 30; i++) particles.push(createParticle());
+      }
+
+      function animate() {
+        if (!running) return;
+        ctx.clearRect(0, 0, W, H);
+
+        /* Draw orbs */
+        for (const o of orbs) {
+          o.x += o.vx;
+          o.y += o.vy;
+          o.pulse += o.pulseSpeed;
+          const pr = o.r + Math.sin(o.pulse) * 8;
+
+          if (o.x < -o.r) o.x = W + o.r;
+          if (o.x > W + o.r) o.x = -o.r;
+          if (o.y < -o.r) o.y = H + o.r;
+          if (o.y > H + o.r) o.y = -o.r;
+
+          const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, pr);
+          g.addColorStop(0, `rgba(${o.c.r},${o.c.g},${o.c.b},${o.alpha * 1.5})`);
+          g.addColorStop(.5, `rgba(${o.c.r},${o.c.g},${o.c.b},${o.alpha * .6})`);
+          g.addColorStop(1, `rgba(${o.c.r},${o.c.g},${o.c.b},0)`);
+          ctx.beginPath();
+          ctx.arc(o.x, o.y, pr, 0, Math.PI * 2);
+          ctx.fillStyle = g;
+          ctx.fill();
+        }
+
+        /* Draw particles */
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life++;
+          const fade = p.life > p.maxLife * .7 ? (p.maxLife - p.life) / (p.maxLife * .3) : 1;
+
+          if (p.life >= p.maxLife || p.y < -10) {
+            Object.assign(p, createParticle());
+            p.y = H + 5;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${p.alpha * fade})`;
+          ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      /* Only animate when section is visible */
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting && !running) { running = true; animate(); }
+          else if (!e.isIntersecting) { running = false; }
+        });
+      }, { threshold: 0.05 });
+
+      init();
+      obs.observe(document.getElementById('about'));
+      window.addEventListener('resize', () => { resize(); });
     })();
   </script>
 </body>

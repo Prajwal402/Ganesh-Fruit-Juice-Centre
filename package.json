@@ -1,0 +1,16 @@
+{
+  "name": "ganesh-juice-centre",
+  "version": "1.0.0",
+  "description": "Ganesh Fresh Juice Centre - Order Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "sql.js": "^1.12.0",
+    "uuid": "^11.1.0"
+  }
+}

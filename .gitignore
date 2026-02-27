@@ -1,0 +1,4 @@
+node_modules/
+orders.db
+.vscode/
+.env
