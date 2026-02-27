@@ -46,8 +46,10 @@ async function initDB() {
   if (fs.existsSync(DB_PATH)) {
     const buffer = fs.readFileSync(DB_PATH);
     db = new SQL.Database(buffer);
+    console.log(`📦 Loaded existing database from ${DB_PATH} (${buffer.length} bytes)`);
   } else {
     db = new SQL.Database();
+    console.log(`🆕 Created fresh in-memory database (will be saved to ${DB_PATH})`);
   }
 
   db.run(`
@@ -84,9 +86,14 @@ async function initDB() {
 }
 
 function saveDB() {
-  const data = db.export();
-  const buffer = Buffer.from(data);
-  fs.writeFileSync(DB_PATH, buffer);
+  try {
+    const data = db.export();
+    const buffer = Buffer.from(data);
+    fs.writeFileSync(DB_PATH, buffer);
+    console.log(`💾 Database saved to ${DB_PATH} (${buffer.length} bytes)`);
+  } catch (err) {
+    console.error('❌ Failed to save database:', err.message);
+  }
 }
 
 /* ===== PENDING PAYMENTS STORE (in-memory, expires after 30 min) ===== */
@@ -249,8 +256,7 @@ app.post('/api/orders', (req, res) => {
     ]);
 
     saveDB();
-
-    console.log(`✅ COD Order ${orderData.order_id} stored successfully`);
+    console.log(`✅ COD Order ${orderData.order_id} stored in DB. Details:`, JSON.stringify(orderData));
     res.status(201).json({
       success: true,
       message: 'COD order stored successfully',
@@ -411,11 +417,7 @@ app.post('/api/payment/verify', (req, res) => {
     ]);
 
     saveDB();
-
-    /* Cleanup pending entry */
-    pendingPayments.delete(paymentToken);
-
-    console.log(`✅ Payment verified & order ${orderData.order_id} created (TXN: ${txnId})`);
+    console.log(`✅ UPI Order ${orderData.order_id} verified & stored in DB. Details:`, JSON.stringify(orderData));
     res.status(201).json({
       success: true,
       message: 'Payment verified — order confirmed!',
