@@ -26,15 +26,11 @@
             "dest": "server.js"
         },
         {
-            "src": "/admin",
-            "dest": "server.js"
+            "src": "/admin$",
+            "dest": "/admin.html"
         },
         {
-            "src": "/(.*\\.(?:jpg|jpeg|png|webp|gif|svg|css|js|ico|woff2?))",
-            "dest": "/$1"
-        },
-        {
-            "src": "/(.*)",
+            "src": "/(orders\\.db|server\\.js|package\\.json|package-lock\\.json|\\.env)",
             "dest": "server.js"
         }
     ]
