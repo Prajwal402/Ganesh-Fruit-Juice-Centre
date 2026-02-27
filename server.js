@@ -15,7 +15,10 @@ const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
-const DB_PATH = path.join(__dirname, 'orders.db');
+const IS_VERCEL = process.env.VERCEL === '1';
+const DB_PATH = IS_VERCEL
+  ? path.join('/tmp', 'orders.db')
+  : path.join(__dirname, 'orders.db');
 
 /* ===== ADMIN CREDENTIALS (override via env vars) ===== */
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
@@ -117,6 +120,16 @@ function validateSession(token) {
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+/* Ensure DB is initialized before handling any request (needed for Vercel serverless) */
+let dbReady = null;
+app.use(async (req, res, next) => {
+  if (!db) {
+    if (!dbReady) dbReady = initDB();
+    await dbReady;
+  }
+  next();
+});
 
 /* Auth middleware for admin routes */
 function requireAuth(req, res, next) {
@@ -534,9 +547,14 @@ app.get('/api/admin/export/csv', requireAuth, (req, res) => {
 });
 
 /* ===== START SERVER ===== */
-initDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`
+if (IS_VERCEL) {
+  /* Vercel serverless — export the Express app, DB inits lazily via middleware */
+  module.exports = app;
+} else {
+  /* Local development — init DB and start listening */
+  initDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`
 ╔══════════════════════════════════════════════════╗
 ║  🍹 Ganesh Fresh Juice Centre — Server Running  ║
 ╠══════════════════════════════════════════════════╣
@@ -544,9 +562,10 @@ initDB().then(() => {
 ║  Admin    : http://localhost:${PORT}/admin          ║
 ║  Admin ID : ${ADMIN_USER.padEnd(36)}║
 ╚══════════════════════════════════════════════════╝
-    `);
+      `);
+    });
+  }).catch(err => {
+    console.error('❌ Failed to start server:', err);
+    process.exit(1);
   });
-}).catch(err => {
-  console.error('❌ Failed to start server:', err);
-  process.exit(1);
-});
+}

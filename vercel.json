@@ -1,0 +1,41 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "server.js"
+        },
+        {
+            "src": "/admin/login",
+            "methods": [
+                "POST"
+            ],
+            "dest": "server.js"
+        },
+        {
+            "src": "/admin/logout",
+            "methods": [
+                "POST"
+            ],
+            "dest": "server.js"
+        },
+        {
+            "src": "/admin",
+            "dest": "server.js"
+        },
+        {
+            "src": "/(.*\\.(?:jpg|jpeg|png|webp|gif|svg|css|js|ico|woff2?))",
+            "dest": "/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "server.js"
+        }
+    ]
+}
