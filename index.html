@@ -2697,6 +2697,7 @@
     document.getElementById('cartCheckout').addEventListener('click', () => {
       closeCart();
       document.getElementById('delivery').scrollIntoView({ behavior: 'smooth' });
+      detectDist(true);
     });
 
     /* ===== 3D CARD TILT ===== */
