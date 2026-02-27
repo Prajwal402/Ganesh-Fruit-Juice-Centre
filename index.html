@@ -1354,6 +1354,9 @@
       border-radius: var(--r);
       max-width: 440px;
       width: 92%;
+      max-height: 94vh;
+      display: flex;
+      flex-direction: column;
       box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
       animation: popIn .4s var(--ez);
       overflow: hidden
@@ -1435,7 +1438,9 @@
     }
 
     .upi-body {
-      padding: 20px 24px
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1
     }
 
     .upi-section-title {
@@ -1527,10 +1532,10 @@
 
     .upi-qr-section {
       text-align: center;
-      padding: 16px;
+      padding: 10px;
       background: #FAFAFA;
       border-radius: var(--rs);
-      margin-bottom: 14px
+      margin-bottom: 12px
     }
 
     .upi-qr-section img {
@@ -2573,9 +2578,9 @@
 
         <div
           style="background: #f8f9fa; padding: 12px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #5B2D8E;">
-          <p style="font-size: 0.82rem; margin: 0; font-weight: 600; color: #555;">💡 How to finish your order:</p>
-          <p style="font-size: 0.78rem; margin: 4px 0 0; color: #777;">Pay in your app, then <b>come back here</b> and
-            enter the <b>12-digit Transaction ID</b> below to confirm.</p>
+          <p style="font-size: 0.82rem; margin: 0; font-weight: 600; color: #555;">💡 Manual Pay Fallback:</p>
+          <p style="font-size: 0.78rem; margin: 4px 0 0; color: #777;">If the app buttons above don't work, just <b>Copy
+              the UPI ID</b> or <b>Scan the QR Code</b>, pay in any app, and enter <b>Transaction ID</b> below.</p>
         </div>
 
         <div class="upi-status pending" id="upiPayStatus">⏳ Waiting for payment...</div>
@@ -2830,10 +2835,8 @@
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
       const amtStr = Number(amount).toFixed(2);
-      // tr: Transaction Reference (Order ID)
-      // mc: Merchant Category Code (5411 = Grocery stores)
-      // mode: 02 (Secure Deep Link - sometimes bypasses app restrictions)
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}&mc=5411&mode=02`;
+      // tr: Transaction Reference (Order ID) - highly recommended for PhonePe/GPay
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}`;
       return prefix + params;
     }
 
