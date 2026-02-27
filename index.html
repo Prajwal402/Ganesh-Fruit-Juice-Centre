@@ -2539,17 +2539,14 @@
         </div>
       </div>
       <div class="upi-body">
-        <button class="upi-any-btn" id="upiPayAnyBtn" type="button">📱 Open UPI App to Pay</button>
+        <a class="upi-any-btn" id="upiPayAnyBtn">📱 Open UPI App to Pay</a>
 
         <div class="upi-section-title">📲 Or choose your app</div>
         <div class="upi-apps-grid">
-          <button class="upi-app-btn" type="button" data-app="tez://"><span class="app-icon">💳</span> Google
-            Pay</button>
-          <button class="upi-app-btn" type="button" data-app="phonepe://"><span class="app-icon">📲</span>
-            PhonePe</button>
-          <button class="upi-app-btn" type="button" data-app="paytmmp://"><span class="app-icon">💰</span>
-            Paytm</button>
-          <button class="upi-app-btn" type="button" data-app="upi://"><span class="app-icon">🏦</span> BHIM UPI</button>
+          <a class="upi-app-btn" data-app="tez://"><span class="app-icon">💳</span> Google Pay</a>
+          <a class="upi-app-btn" data-app="phonepe://"><span class="app-icon">📲</span> PhonePe</a>
+          <a class="upi-app-btn" data-app="paytmmp://"><span class="app-icon">💰</span> Paytm</a>
+          <a class="upi-app-btn" data-app="upi://"><span class="app-icon">🏦</span> BHIM UPI</a>
         </div>
 
         <div class="upi-divider">or scan QR code</div>
@@ -2815,8 +2812,8 @@
 
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
-      // Use the exact recipient name 'JNANESHA C M' for better compatibility
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amount}&cu=INR&tn=${encodeURIComponent('Order ' + orderNo)}&mc=0000`;
+      // Recipient name 'JNANESHA C M' for account holder verification
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amount}&cu=INR&tn=${encodeURIComponent('Order ' + orderNo)}`;
       return prefix + params;
     }
 
@@ -2828,6 +2825,15 @@
       document.getElementById('upiSubDisp').textContent = '₹' + sub;
       document.getElementById('upiDelDisp').textContent = '₹' + del;
       document.getElementById('upiIdOverlay').textContent = UPI_ID;
+
+      /* Update direct payment links */
+      const anyBtn = document.getElementById('upiPayAnyBtn');
+      if (anyBtn) anyBtn.href = buildUpiUrl(total, orderNo, 'upi://');
+
+      document.querySelectorAll('.upi-app-btn').forEach(a => {
+        a.href = buildUpiUrl(total, orderNo, a.dataset.app);
+      });
+
       const st = document.getElementById('upiPayStatus');
       st.className = 'upi-status pending';
       st.textContent = '⏳ Complete payment, then enter transaction ID below';
