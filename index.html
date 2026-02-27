@@ -2390,8 +2390,10 @@
         </div>
         <div class="fg">
           <label>Phone Number (10 digits)</label>
-          <input type="tel" name="phone" placeholder="Enter 10-digit phone number" required pattern="[0-9]{10}"
-            maxlength="10" minlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+          <input type="tel" name="phone" placeholder="Enter 10-digit phone number" required inputmode="numeric"
+            pattern="[0-9]{10}" maxlength="10" minlength="10"
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '');">
         </div>
         <div class="fg">
           <label>Delivery Address</label>
