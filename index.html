@@ -2812,8 +2812,9 @@
 
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
-      // Recipient name 'JNANESHA C M' for account holder verification
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amount}&cu=INR&tn=${encodeURIComponent('Order ' + orderNo)}`;
+      const amtStr = Number(amount).toFixed(2);
+      // Minimized URI: pa, pn, am, cu are the standard core fields
+      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR`;
       return prefix + params;
     }
 
@@ -2833,6 +2834,14 @@
       document.querySelectorAll('.upi-app-btn').forEach(a => {
         a.href = buildUpiUrl(total, orderNo, a.dataset.app);
       });
+
+      /* Add launch feedback listeners */
+      const launchFeed = () => {
+        st.className = 'upi-status initiated';
+        st.textContent = '✅ Payment app launched — complete payment, then enter ID below';
+      };
+      if (anyBtn) anyBtn.onclick = launchFeed;
+      document.querySelectorAll('.upi-app-btn').forEach(btn => btn.onclick = launchFeed);
 
       const st = document.getElementById('upiPayStatus');
       st.className = 'upi-status pending';
