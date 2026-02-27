@@ -6,7 +6,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const initSqlJs = require('sql.js');
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
@@ -22,13 +21,26 @@ const DB_PATH = IS_VERCEL
 
 /* ===== ADMIN CREDENTIALS (override via env vars) ===== */
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-const ADMIN_PASS_HASH = bcrypt.hashSync(process.env.ADMIN_PASS || 'ganesh@2025', 10);
+const ADMIN_PASS = process.env.ADMIN_PASS || 'ganesh@2025';
 
 /* ===== DATABASE SETUP ===== */
 let db;
 
+async function loadSqlJs() {
+  if (IS_VERCEL) {
+    /* Vercel serverless: use pure-JS ASM version (no WASM binary needed) */
+    const initSqlJs = require('sql.js/dist/sql-asm.js');
+    return await initSqlJs();
+  }
+  /* Local: use WASM version (faster) */
+  const initSqlJs = require('sql.js');
+  return await initSqlJs({
+    locateFile: file => path.join(__dirname, 'node_modules', 'sql.js', 'dist', file)
+  });
+}
+
 async function initDB() {
-  const SQL = await initSqlJs();
+  const SQL = await loadSqlJs();
 
   // Load existing DB file or create new
   if (fs.existsSync(DB_PATH)) {
@@ -65,13 +77,7 @@ async function initDB() {
     );
   `);
 
-  /* Migrate: add payment columns if missing */
-  try {
-    db.run(`ALTER TABLE orders ADD COLUMN payment_status TEXT DEFAULT 'Paid'`);
-  } catch (e) { /* column already exists */ }
-  try {
-    db.run(`ALTER TABLE orders ADD COLUMN transaction_id TEXT DEFAULT ''`);
-  } catch (e) { /* column already exists */ }
+  /* Table columns are now defined in CREATE TABLE IF NOT EXISTS above */
 
   saveDB();
   console.log('✅ Database initialized');
@@ -124,11 +130,17 @@ app.use(cookieParser());
 /* Ensure DB is initialized before handling any request (needed for Vercel serverless) */
 let dbReady = null;
 app.use(async (req, res, next) => {
-  if (!db) {
-    if (!dbReady) dbReady = initDB();
-    await dbReady;
+  try {
+    if (!db) {
+      if (!dbReady) dbReady = initDB();
+      await dbReady;
+    }
+    next();
+  } catch (err) {
+    console.error('❌ DB initialization failed:', err.message);
+    dbReady = null; /* allow retry on next request */
+    res.status(500).json({ error: 'Server initialization failed. Please try again.' });
   }
-  next();
 });
 
 /* Auth middleware for admin routes */
@@ -147,6 +159,11 @@ function requireAuth(req, res, next) {
 /* Block direct access to sensitive files */
 app.get(['/orders.db', '/server.js', '/package.json', '/package-lock.json', '/.env'], (req, res) => {
   res.status(403).json({ error: 'Access denied' });
+});
+
+/* Health check — tests if serverless function + DB are working */
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', db: !!db, vercel: IS_VERCEL, time: new Date().toISOString() });
 });
 
 /* ===== STATIC FILES (serve the existing frontend) ===== */
@@ -439,7 +456,7 @@ app.post('/admin/login', (req, res) => {
   if (!username || !password) {
     return res.status(400).json({ error: 'Username and password required' });
   }
-  if (username !== ADMIN_USER || !bcrypt.compareSync(password, ADMIN_PASS_HASH)) {
+  if (username !== ADMIN_USER || !bcrypt.compareSync(password, bcrypt.hashSync(ADMIN_PASS, 10))) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
   const token = createSession(username);

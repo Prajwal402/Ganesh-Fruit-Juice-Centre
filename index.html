@@ -3024,7 +3024,7 @@
 
         try {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 15000);
+          const timeoutId = setTimeout(() => controller.abort(), 30000);
           const resp = await fetch('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -3063,7 +3063,7 @@
           }
         } catch (err) {
           if (err.name === 'AbortError') {
-            alert('Request timed out. Please check your internet connection and try again.');
+            alert('Request timed out. Vercel is waking up – please try clicking “Submit Order” once more.');
           } else {
             alert('Connection error. Please check your internet and try again.');
           }
@@ -3075,7 +3075,7 @@
         /* ===== UPI FLOW: Initiate payment first, verify before order ===== */
         try {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 15000);
+          const timeoutId = setTimeout(() => controller.abort(), 30000);
           const resp = await fetch('/api/payment/initiate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -3099,7 +3099,7 @@
           }
         } catch (err) {
           if (err.name === 'AbortError') {
-            alert('Request timed out. Please check your internet connection and try again.');
+            alert('Request timed out. Vercel is waking up – please try clicking “Proceed to Payment” once more.');
           } else {
             alert('Connection error. Please check your internet and try again.');
           }
