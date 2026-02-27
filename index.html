@@ -2771,8 +2771,12 @@
         const pos = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }));
         const lat = pos.coords.latitude, lon = pos.coords.longitude;
         const km = Math.round(haversine(SHOP_LAT, SHOP_LON, lat, lon) * 10) / 10;
-        if (autoUpdate) { document.getElementById('distanceInput').value = km; dSrc.textContent = '📍 detected (' + km + ' km)'; updateTotals(); }
-        else { dSrc.textContent = '📍 (' + km + ' km)'; }
+
+        // Always update the input value and text so they match the detection
+        document.getElementById('distanceInput').value = km;
+        dSrc.textContent = autoUpdate ? '📍 detected (' + km + ' km)' : '📍 (' + km + ' km)';
+        updateTotals();
+
         return { lat, lon, km };
       } catch (e) {
         console.warn('geo err', e); dSrc.textContent = '(manual)';
