@@ -530,6 +530,7 @@
                         <th data-col="subtotal">Subtotal <span class="sort-icon">▲▼</span></th>
                         <th data-col="delivery_charges">Delivery <span class="sort-icon">▲▼</span></th>
                         <th data-col="total_amount">Total <span class="sort-icon">▲▼</span></th>
+                        <th>Map Link</th>
                         <th data-col="payment_method">Payment</th>
                         <th data-col="order_source">Source</th>
                     </tr>
@@ -622,7 +623,7 @@
 
             const tbody = document.getElementById('ordersBody');
             if (!filtered.length) {
-                tbody.innerHTML = '<tr><td colspan="14"><div class="no-orders"><span>📭</span><p>No orders found</p></div></td></tr>';
+                tbody.innerHTML = '<tr><td colspan="15"><div class="no-orders"><span>📭</span><p>No orders found</p></div></td></tr>';
                 return;
             }
 
@@ -632,10 +633,7 @@
           <td>${formatDate(o.order_date)}</td>
           <td>${esc(o.customer_name)}</td>
           <td>${esc(o.customer_phone)}</td>
-          <td title="${esc(o.delivery_address)}">
-            ${esc(o.delivery_address)}
-            ${o.map_link ? `<a href="${esc(o.map_link)}" target="_blank" style="text-decoration:none; margin-left:5px;" title="View on Google Maps">📍</a>` : ''}
-          </td>
+          <td title="${esc(o.delivery_address)}">${esc(o.delivery_address)}</td>
           <td>${o.distance_km || 0}</td>
           <td title="${esc(o.items_list)}">${esc(o.items_list)}</td>
           <td>${esc(o.quantities)}</td>
@@ -643,6 +641,9 @@
           <td class="amount">₹${o.subtotal || 0}</td>
           <td class="amount">₹${o.delivery_charges || 0}</td>
           <td class="amount">₹${o.total_amount || 0}</td>
+          <td>
+            ${o.map_link ? `<a href="${esc(o.map_link)}" target="_blank" class="badge-wa" style="text-decoration:none; background:var(--accent); border:none;">📍 View</a>` : '—'}
+          </td>
           <td>${esc(o.payment_method)}</td>
           <td><span class="badge-wa">${esc(o.order_source)}</span></td>
         </tr>
