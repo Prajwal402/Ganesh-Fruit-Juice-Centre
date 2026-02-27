@@ -456,7 +456,7 @@ app.post('/admin/login', (req, res) => {
   if (!username || !password) {
     return res.status(400).json({ error: 'Username and password required' });
   }
-  if (username !== ADMIN_USER || !bcrypt.compareSync(password, bcrypt.hashSync(ADMIN_PASS, 10))) {
+  if (username !== ADMIN_USER || password !== ADMIN_PASS) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
   const token = createSession(username);
