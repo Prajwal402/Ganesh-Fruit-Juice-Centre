@@ -81,6 +81,10 @@ app.use(express.static(__dirname, {
 /* ===== ORDER API (COD orders only — UPI orders go through /api/payment/verify) ===== */
 app.post('/api/orders', async (req, res) => {
   try {
+    if (!req.body) {
+      console.error('❌ COD Error: req.body is undefined');
+      return res.status(400).json({ error: 'Payload missing', details: 'The server did not receive any order data.' });
+    }
     const body = req.body;
 
     /* Only COD orders are allowed through this endpoint */
@@ -159,6 +163,10 @@ app.post('/api/orders', async (req, res) => {
 /* ===== PAYMENT INITIATION ===== */
 app.post('/api/payment/initiate', (req, res) => {
   try {
+    if (!req.body) {
+      console.error('❌ UPI Init Error: req.body is undefined');
+      return res.status(400).json({ error: 'Payload missing', details: 'The server did not receive any order data.' });
+    }
     const body = req.body;
 
     /* Validate cart */
