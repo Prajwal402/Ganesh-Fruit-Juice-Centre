@@ -26,6 +26,29 @@ mongoose.connect(process.env.MONGODB_URI)
 const pendingPayments = new Map();
 const PAYMENT_EXPIRY_MS = 30 * 60 * 1000;
 
+/* ===== MIDDLEWARE ===== */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+/* ===== SESSION MANAGEMENT (In-memory) ===== */
+const sessions = new Map();
+function createSession(username) {
+  const token = crypto.randomBytes(32).toString('hex');
+  sessions.set(token, { username, createdAt: Date.now() });
+  return token;
+}
+function validateSession(token) {
+  if (!token || !sessions.has(token)) return false;
+  const session = sessions.get(token);
+  // Session expires after 24 hours
+  if (Date.now() - session.createdAt > 24 * 60 * 60 * 1000) {
+    sessions.delete(token);
+    return false;
+  }
+  return true;
+}
+
 /* Auth middleware for admin routes */
 function requireAuth(req, res, next) {
   const token = req.cookies?.admin_token ||

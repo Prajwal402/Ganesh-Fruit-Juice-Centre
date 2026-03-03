@@ -2738,18 +2738,44 @@
       const sub = getCartSubtotal();
       let dist = Number(document.getElementById('distanceInput').value) || 0;
       if (dist < 0) dist = 0;
+
+      /* Capping distance logic for sanity (Juice shop rarely delivers >50km) */
+      let displayDist = dist;
+      if (dist > 50) {
+        console.warn('Excessive distance detected:', dist);
+        // We still calculate but maybe show a warning
+      }
+
       let del = 0;
-      if (sub > 0) { if (dist > FREE_R) { del = Math.max(0, Math.ceil(dist - FREE_R)) * EXTRA_KM; } }
+      if (sub > 0) {
+        if (dist > FREE_R) {
+          // Cap the delivery charge at 50km worth of distance for safety
+          const chargeableKm = Math.min(50, Math.ceil(dist - FREE_R));
+          del = chargeableKm * EXTRA_KM;
+        }
+      }
+
       const total = sub + del;
       document.getElementById('subtotal').textContent = '₹' + sub;
       document.getElementById('deliveryFee').textContent = '₹' + del;
       const gt = document.getElementById('grandTotal');
       gt.textContent = '₹' + total;
       gt.style.animation = 'none'; void gt.offsetWidth; gt.style.animation = 'pricePop .3s ease';
+
       const w = document.getElementById('orderWarnings'), btn = document.getElementById('submitOrder');
       w.textContent = '';
-      if (sub < MIN_ORDER) { w.textContent = 'Minimum order ₹' + MIN_ORDER + '. Add more items.'; btn.disabled = true; btn.style.opacity = .5; }
-      else { btn.disabled = false; btn.style.opacity = 1; }
+      if (sub < MIN_ORDER) {
+        w.textContent = 'Minimum order ₹' + MIN_ORDER + '. Add more items.';
+        btn.disabled = true;
+        btn.style.opacity = .5;
+      } else if (dist > 50) {
+        w.textContent = '⚠️ Distance seems very high (' + dist + 'km). Please verify your distance.';
+        btn.disabled = false;
+        btn.style.opacity = 1;
+      } else {
+        btn.disabled = false;
+        btn.style.opacity = 1;
+      }
       return { sub, del, total };
     }
     document.getElementById('distanceInput').addEventListener('input', updateTotals);
