@@ -50,15 +50,11 @@
             "dest": "server.js"
         },
         {
-            "src": "/admin$",
+            "src": "/admin",
             "dest": "/admin.html"
         },
         {
-            "src": "/(orders\\.db|server\\.js|package\\.json|package-lock\\.json|\\.env)",
-            "dest": "server.js"
-        },
-        {
-            "src": "/(.*\\.(jpg|jpeg|webp|png|css|js|ico))",
+            "src": "/(.*\\.(jpg|jpeg|webp|png|css|js|ico|txt))",
             "dest": "/$1"
         },
         {

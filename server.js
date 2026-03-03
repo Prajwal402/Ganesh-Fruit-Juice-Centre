@@ -18,9 +18,28 @@ const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASS = process.env.ADMIN_PASS || 'ganesh@2025';
 
 /* ===== MONGODB SETUP ===== */
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ Connected to MongoDB Atlas'))
-  .catch(err => console.error('❌ MongoDB Connection Error:', err));
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI is missing from environment variables!');
+}
+
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected) return;
+  try {
+    const db = await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    isConnected = db.connections[0].readyState === 1;
+    console.log('✅ Connected to MongoDB Atlas');
+  } catch (err) {
+    console.error('❌ MongoDB Connection Error:', err.message);
+    throw err;
+  }
+};
+
+// Start connection but don't block server start
+connectDB().catch(() => { });
 
 /* ===== PENDING PAYMENTS STORE (in-memory, expires after 30 min) ===== */
 const pendingPayments = new Map();
@@ -81,8 +100,12 @@ app.use(express.static(__dirname, {
 /* ===== ORDER API (COD orders only — UPI orders go through /api/payment/verify) ===== */
 app.post('/api/orders', async (req, res) => {
   try {
+    await connectDB();
     if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ error: 'Database not connected', details: 'Check your MONGODB_URI and Network Access settings in MongoDB Atlas.' });
+      return res.status(503).json({
+        error: 'Database not connected',
+        details: 'The site is having trouble connecting to the cloud database. Please ensure MONGODB_URI is correct and your IP is whitelisted in MongoDB Atlas Network Access.'
+      });
     }
     if (!req.body) {
       console.error('❌ COD Error: req.body is undefined');
@@ -164,10 +187,14 @@ app.post('/api/orders', async (req, res) => {
 });
 
 /* ===== PAYMENT INITIATION ===== */
-app.post('/api/payment/initiate', (req, res) => {
+app.post('/api/payment/initiate', async (req, res) => {
   try {
+    await connectDB();
     if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ error: 'Database not connected', details: 'Check your MONGODB_URI and Network Access settings in MongoDB Atlas.' });
+      return res.status(503).json({
+        error: 'Database not connected',
+        details: 'The site is having trouble connecting to the cloud database.'
+      });
     }
     if (!req.body) {
       console.error('❌ UPI Init Error: req.body is undefined');
@@ -223,8 +250,12 @@ app.post('/api/payment/initiate', (req, res) => {
 /* ===== PAYMENT VERIFICATION ===== */
 app.post('/api/payment/verify', async (req, res) => {
   try {
+    await connectDB();
     if (mongoose.connection.readyState !== 1) {
-      return res.status(503).json({ error: 'Database not connected', details: 'Check your MONGODB_URI and Network Access settings in MongoDB Atlas.' });
+      return res.status(503).json({
+        error: 'Database not connected',
+        details: 'Check your MONGODB_URI/Network settings.'
+      });
     }
     const { paymentToken, transactionId } = req.body;
 
