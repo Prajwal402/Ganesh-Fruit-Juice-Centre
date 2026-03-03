@@ -3013,7 +3013,11 @@
         } else {
           /* Payment verification failed */
           st.className = 'upi-status failed';
-          st.textContent = '❌ ' + (data.error || 'Verification failed');
+          const errMsg = data.error || 'Verification failed';
+          const errDetail = data.details ? '\x0A\x0ADetails: ' + data.details : '';
+          st.textContent = '❌ ' + errMsg;
+          if (errDetail) alert('Payment Error: ' + errMsg + errDetail);
+
           doneBtn.disabled = false;
           doneBtn.innerHTML = '🔄 Retry Verification';
           if (data.error?.includes('transaction')) {
@@ -3136,7 +3140,9 @@
             renderCart();
             updateTotals();
           } else {
-            alert('Error: ' + (data.error || 'Could not place order. Please try again.'));
+            const errMsg = data.error || 'Could not place order. Please try again.';
+            const errDetail = data.details ? '\x0A\x0ADetails: ' + data.details : '';
+            alert('Error: ' + errMsg + errDetail);
           }
         } catch (err) {
           if (err.name === 'AbortError') {
@@ -3172,7 +3178,9 @@
           if (resp.ok && data.success) {
             openUpiOverlay(data.orderNo, t.sub, t.del, t.total, data.paymentToken);
           } else {
-            alert('Error: ' + (data.error || 'Could not initiate payment. Please try again.'));
+            const errMsg = data.error || 'Could not initiate payment. Please try again.';
+            const errDetail = data.details ? '\x0A\x0ADetails: ' + data.details : '';
+            alert('Error: ' + errMsg + errDetail);
           }
         } catch (err) {
           if (err.name === 'AbortError') {
