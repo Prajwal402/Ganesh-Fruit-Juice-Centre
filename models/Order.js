@@ -17,6 +17,7 @@ const orderSchema = new mongoose.Schema({
     upi_id: { type: String, default: '' },
     payment_status: { type: String, default: 'Paid' },
     transaction_id: { type: String, default: '' },
+    order_status: { type: String, default: 'New' },
     customer_lat: { type: Number, default: null },
     customer_lon: { type: Number, default: null },
     map_link: { type: String, default: '' },

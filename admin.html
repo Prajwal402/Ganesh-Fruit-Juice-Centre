@@ -381,6 +381,56 @@
             white-space: nowrap
         }
 
+        .status-select {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font: 600 .75rem var(--fh);
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all .2s;
+            outline: none;
+        }
+
+        .status-New {
+            background: #FFF3E0;
+            color: #E67E22;
+            border-color: #FFE0B2;
+        }
+
+        .status-Processing {
+            background: #FFFDE7;
+            color: #FBC02D;
+            border-color: #FFF9C4;
+        }
+
+        .status-Delivering {
+            background: #E3F2FD;
+            color: #1976D2;
+            border-color: #BBDEFB;
+        }
+
+        .status-Delivered {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border-color: #C8E6C9;
+        }
+
+        .status-Cancelled {
+            background: #FFEBEE;
+            color: #C62828;
+            border-color: #FFCDD2;
+        }
+
+        .status-select:hover {
+            filter: brightness(0.95);
+            transform: translateY(-1px);
+        }
+
+        .status-select:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .badge-wa {
             display: inline-block;
             background: linear-gradient(135deg, #25D366, #128C7E);
@@ -525,6 +575,7 @@
                         <th data-col="delivery_charges">Delivery <span class="sort-icon">▲▼</span></th>
                         <th data-col="total_amount">Total <span class="sort-icon">▲▼</span></th>
                         <th>Map Link</th>
+                        <th data-col="order_status">Status <span class="sort-icon">▲▼</span></th>
                         <th data-col="payment_method">Payment</th>
                         <th data-col="transaction_id">Txn ID / UTR</th>
                         <th data-col="order_source">Source</th>
@@ -603,6 +654,39 @@
             document.getElementById('statAvg').textContent = '₹' + avg.toLocaleString('en-IN');
         }
 
+        /* ===== UPDATE STATUS ===== */
+        async function updateStatus(orderId, newStatus) {
+            const select = document.querySelector(`select[data-id="${orderId}"]`);
+            const oldStatus = select.classList.value;
+            select.disabled = true;
+
+            try {
+                const res = await fetch(`/api/admin/orders/${orderId}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.error || 'Failed to update status');
+                }
+
+                // Update local state and re-render/refresh classes
+                const order = allOrders.find(o => o.order_id === orderId);
+                if (order) order.order_status = newStatus;
+
+                select.className = `status-select status-${newStatus}`;
+                console.log(`Status updated for ${orderId} to ${newStatus}`);
+            } catch (err) {
+                alert('Error updating status: ' + err.message);
+                // Revert if possible or just reload
+                loadOrders();
+            } finally {
+                select.disabled = false;
+            }
+        }
+
         /* ===== RENDER TABLE ===== */
         function renderTable() {
             let filtered = getFilteredOrders();
@@ -618,7 +702,7 @@
 
             const tbody = document.getElementById('ordersBody');
             if (!filtered.length) {
-                tbody.innerHTML = '<tr><td colspan="15"><div class="no-orders"><span>📭</span><p>No orders found</p></div></td></tr>';
+                tbody.innerHTML = '<tr><td colspan="16"><div class="no-orders"><span>📭</span><p>No orders found</p></div></td></tr>';
                 return;
             }
 
@@ -638,6 +722,17 @@
           <td class="amount">₹${o.total_amount || 0}</td>
           <td>
             ${o.map_link ? `<a href="${esc(o.map_link)}" target="_blank" class="badge-wa" style="text-decoration:none; background:var(--accent); border:none;">📍 View</a>` : '—'}
+          </td>
+          <td>
+            <select class="status-select status-${esc(o.order_status || 'New')}" 
+                    onchange="updateStatus('${o.order_id}', this.value)" 
+                    data-id="${o.order_id}">
+                <option value="New" ${o.order_status === 'New' ? 'selected' : ''}>New</option>
+                <option value="Processing" ${o.order_status === 'Processing' ? 'selected' : ''}>Processing</option>
+                <option value="Delivering" ${o.order_status === 'Delivering' ? 'selected' : ''}>Delivering</option>
+                <option value="Delivered" ${o.order_status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                <option value="Cancelled" ${o.order_status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+            </select>
           </td>
           <td>${esc(o.payment_method)}</td>
           <td>

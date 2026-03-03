@@ -177,7 +177,8 @@ app.post('/api/orders', async (req, res) => {
       customer_lat: body.location?.lat ?? null,
       customer_lon: body.location?.lon ?? null,
       map_link: String(body.mapLink || '').trim(),
-      order_source: 'WhatsApp'
+      order_source: 'WhatsApp',
+      order_status: 'New'
     };
 
     await Order.create(orderData);
@@ -345,7 +346,8 @@ app.post('/api/payment/verify', async (req, res) => {
       customer_lat: pending.location?.lat ?? null,
       customer_lon: pending.location?.lon ?? null,
       map_link: pending.mapLink,
-      order_source: 'WhatsApp'
+      order_source: 'WhatsApp',
+      order_status: 'New'
     };
 
     await Order.create(orderData);
@@ -404,6 +406,35 @@ app.post('/admin/login', (req, res) => {
   res.json({ success: true, token });
 });
 
+/* Update order status (admin only) */
+app.patch('/api/admin/orders/:id/status', requireAuth, async (req, res) => {
+  try {
+    await connectDB();
+    const { status } = req.body;
+    const validStatuses = ['New', 'Processing', 'Delivering', 'Delivered', 'Cancelled'];
+
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ error: 'Invalid order status' });
+    }
+
+    const order = await Order.findOneAndUpdate(
+      { order_id: req.params.id },
+      { order_status: status },
+      { new: true }
+    );
+
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    console.log(`✅ Order ${order.order_id} status updated to: ${status}`);
+    res.json({ success: true, order_id: order.order_id, status: order.order_status });
+  } catch (err) {
+    console.error('❌ Update status error:', err.message);
+    res.status(500).json({ error: 'Failed to update order status' });
+  }
+});
+
 /* Admin logout */
 app.post('/admin/logout', (req, res) => {
   const token = req.cookies?.admin_token;
@@ -433,7 +464,7 @@ app.get('/api/admin/export/csv', requireAuth, async (req, res) => {
       'Delivery Address', 'Distance (km)', 'Items', 'Quantities',
       'Item Prices', 'Subtotal (₹)', 'Delivery Charges (₹)',
       'Total Amount (₹)', 'Payment Method', 'UPI ID', 'Payment Status',
-      'Transaction ID', 'Latitude', 'Longitude', 'Map Link', 'Order Source'
+      'Transaction ID', 'Latitude', 'Longitude', 'Map Link', 'Order Source', 'Order Status'
     ];
 
     function escapeCSV(val) {
@@ -466,7 +497,8 @@ app.get('/api/admin/export/csv', requireAuth, async (req, res) => {
         order.customer_lat,
         order.customer_lon,
         order.map_link,
-        order.order_source
+        order.order_source,
+        order.order_status
       ].map(escapeCSV).join(',');
     });
 
