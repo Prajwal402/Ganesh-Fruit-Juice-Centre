@@ -1,8 +1,4 @@
-/**
- * Ganesh Fresh Juice Centre — Backend Server
- * Stores WhatsApp orders in SQLite (sql.js), provides admin panel with CSV export.
- */
-
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -10,145 +6,25 @@ const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
+const mongoose = require('mongoose');
+const Order = require('./models/Order');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
-const IS_VERCEL = process.env.VERCEL === '1';
-const DB_PATH = IS_VERCEL
-  ? path.join('/tmp', 'orders.db')
-  : path.join(__dirname, 'orders.db');
 
 /* ===== ADMIN CREDENTIALS (override via env vars) ===== */
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASS = process.env.ADMIN_PASS || 'ganesh@2025';
 
-/* ===== DATABASE SETUP ===== */
-let db;
-
-async function loadSqlJs() {
-  if (IS_VERCEL) {
-    /* Vercel serverless: use pure-JS ASM version (no WASM binary needed) */
-    const initSqlJs = require('sql.js/dist/sql-asm.js');
-    return await initSqlJs();
-  }
-  /* Local: use WASM version (faster) */
-  const initSqlJs = require('sql.js');
-  return await initSqlJs({
-    locateFile: file => path.join(__dirname, 'node_modules', 'sql.js', 'dist', file)
-  });
-}
-
-async function initDB() {
-  const SQL = await loadSqlJs();
-
-  // Load existing DB file or create new
-  if (fs.existsSync(DB_PATH)) {
-    const buffer = fs.readFileSync(DB_PATH);
-    db = new SQL.Database(buffer);
-    console.log(`📦 Loaded existing database from ${DB_PATH} (${buffer.length} bytes)`);
-  } else {
-    db = new SQL.Database();
-    console.log(`🆕 Created fresh in-memory database (will be saved to ${DB_PATH})`);
-  }
-
-  db.run(`
-    CREATE TABLE IF NOT EXISTS orders (
-      id                INTEGER PRIMARY KEY AUTOINCREMENT,
-      order_id          TEXT UNIQUE NOT NULL,
-      order_date        TEXT NOT NULL,
-      customer_name     TEXT DEFAULT '',
-      customer_phone    TEXT DEFAULT '',
-      delivery_address  TEXT DEFAULT '',
-      distance_km       REAL DEFAULT 0,
-      items_list        TEXT DEFAULT '',
-      quantities        TEXT DEFAULT '',
-      item_prices       TEXT DEFAULT '',
-      subtotal          REAL DEFAULT 0,
-      delivery_charges  REAL DEFAULT 0,
-      total_amount      REAL DEFAULT 0,
-      payment_method    TEXT DEFAULT '',
-      upi_id            TEXT DEFAULT '',
-      payment_status    TEXT DEFAULT 'Paid',
-      transaction_id    TEXT DEFAULT '',
-      customer_lat      REAL DEFAULT NULL,
-      customer_lon      REAL DEFAULT NULL,
-      map_link          TEXT DEFAULT '',
-      order_source      TEXT DEFAULT 'WhatsApp',
-      created_at        TEXT DEFAULT (datetime('now'))
-    );
-  `);
-
-  /* Table columns are now defined in CREATE TABLE IF NOT EXISTS above */
-
-  saveDB();
-  console.log('✅ Database initialized');
-}
-
-function saveDB() {
-  try {
-    const data = db.export();
-    const buffer = Buffer.from(data);
-    fs.writeFileSync(DB_PATH, buffer);
-    console.log(`💾 Database saved to ${DB_PATH} (${buffer.length} bytes)`);
-  } catch (err) {
-    console.error('❌ Failed to save database:', err.message);
-  }
-}
+/* ===== MONGODB SETUP ===== */
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ Connected to MongoDB Atlas'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
 /* ===== PENDING PAYMENTS STORE (in-memory, expires after 30 min) ===== */
 const pendingPayments = new Map();
 const PAYMENT_EXPIRY_MS = 30 * 60 * 1000;
-
-/* Clean up expired pending payments every 5 minutes */
-setInterval(() => {
-  const now = Date.now();
-  for (const [token, data] of pendingPayments) {
-    if (now - data.createdAt > PAYMENT_EXPIRY_MS) pendingPayments.delete(token);
-  }
-}, 5 * 60 * 1000);
-
-/* ===== SESSION STORE (in-memory) ===== */
-const sessions = new Map();
-
-function createSession(username) {
-  const token = uuidv4();
-  sessions.set(token, { username, createdAt: Date.now() });
-  return token;
-}
-
-function validateSession(token) {
-  if (!token) return false;
-  const session = sessions.get(token);
-  if (!session) return false;
-  // Sessions expire after 24 hours
-  if (Date.now() - session.createdAt > 24 * 60 * 60 * 1000) {
-    sessions.delete(token);
-    return false;
-  }
-  return true;
-}
-
-/* ===== MIDDLEWARE ===== */
-app.use(express.json({ limit: '1mb' }));
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-/* Ensure DB is initialized before handling any request (needed for Vercel serverless) */
-let dbReady = null;
-app.use(async (req, res, next) => {
-  try {
-    if (!db) {
-      if (!dbReady) dbReady = initDB();
-      await dbReady;
-    }
-    next();
-  } catch (err) {
-    console.error('❌ DB initialization failed:', err.message);
-    dbReady = null; /* allow retry on next request */
-    res.status(500).json({ error: 'Server initialization failed. Please try again.' });
-  }
-});
 
 /* Auth middleware for admin routes */
 function requireAuth(req, res, next) {
@@ -170,7 +46,7 @@ app.get(['/orders.db', '/server.js', '/package.json', '/package-lock.json', '/.e
 
 /* Health check — tests if serverless function + DB are working */
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', db: !!db, vercel: IS_VERCEL, time: new Date().toISOString() });
+  res.json({ status: 'ok', mongodb: mongoose.connection.readyState === 1, time: new Date().toISOString() });
 });
 
 /* ===== STATIC FILES (serve the existing frontend) ===== */
@@ -180,7 +56,7 @@ app.use(express.static(__dirname, {
 }));
 
 /* ===== ORDER API (COD orders only — UPI orders go through /api/payment/verify) ===== */
-app.post('/api/orders', (req, res) => {
+app.post('/api/orders', async (req, res) => {
   try {
     const body = req.body;
 
@@ -197,8 +73,8 @@ app.post('/api/orders', (req, res) => {
     }
 
     /* Check for duplicates */
-    const existing = db.exec('SELECT order_id FROM orders WHERE order_id = ?', [body.orderNo]);
-    if (existing.length > 0 && existing[0].values.length > 0) {
+    const existing = await Order.findOne({ order_id: body.orderNo });
+    if (existing) {
       return res.status(409).json({ error: 'Order already exists', orderId: body.orderNo });
     }
 
@@ -239,24 +115,9 @@ app.post('/api/orders', (req, res) => {
       order_source: 'WhatsApp'
     };
 
-    db.run(`
-      INSERT INTO orders (
-        order_id, order_date, customer_name, customer_phone,
-        delivery_address, distance_km, items_list, quantities,
-        item_prices, subtotal, delivery_charges, total_amount,
-        payment_method, upi_id, payment_status, transaction_id,
-        customer_lat, customer_lon, map_link, order_source
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [
-      orderData.order_id, orderData.order_date, orderData.customer_name, orderData.customer_phone,
-      orderData.delivery_address, orderData.distance_km, orderData.items_list, orderData.quantities,
-      orderData.item_prices, orderData.subtotal, orderData.delivery_charges, orderData.total_amount,
-      orderData.payment_method, orderData.upi_id, orderData.payment_status, orderData.transaction_id,
-      orderData.customer_lat, orderData.customer_lon, orderData.map_link, orderData.order_source
-    ]);
+    await Order.create(orderData);
 
-    saveDB();
-    console.log(`✅ COD Order ${orderData.order_id} stored in DB. Details:`, JSON.stringify(orderData));
+    console.log(`✅ COD Order ${orderData.order_id} stored in MongoDB.`);
     res.status(201).json({
       success: true,
       message: 'COD order stored successfully',
@@ -265,8 +126,8 @@ app.post('/api/orders', (req, res) => {
 
   } catch (err) {
     console.error('❌ COD order error:', err.message);
-    if (err.message?.includes('UNIQUE constraint')) {
-      return res.status(409).json({ error: 'Duplicate order', message: err.message });
+    if (err.code === 11000) {
+      return res.status(409).json({ error: 'Duplicate order', message: 'Order already exists' });
     }
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -323,7 +184,7 @@ app.post('/api/payment/initiate', (req, res) => {
 });
 
 /* ===== PAYMENT VERIFICATION ===== */
-app.post('/api/payment/verify', (req, res) => {
+app.post('/api/payment/verify', async (req, res) => {
   try {
     const { paymentToken, transactionId } = req.body;
 
@@ -355,8 +216,8 @@ app.post('/api/payment/verify', (req, res) => {
     }
 
     /* Check for duplicate transaction ID */
-    const dupCheck = db.exec('SELECT order_id FROM orders WHERE transaction_id = ?', [txnId]);
-    if (dupCheck.length > 0 && dupCheck[0].values.length > 0) {
+    const dupCheck = await Order.findOne({ transaction_id: txnId });
+    if (dupCheck) {
       return res.status(409).json({ error: 'This transaction ID has already been used for another order.' });
     }
 
@@ -400,24 +261,9 @@ app.post('/api/payment/verify', (req, res) => {
       order_source: 'WhatsApp'
     };
 
-    db.run(`
-      INSERT INTO orders (
-        order_id, order_date, customer_name, customer_phone,
-        delivery_address, distance_km, items_list, quantities,
-        item_prices, subtotal, delivery_charges, total_amount,
-        payment_method, upi_id, payment_status, transaction_id,
-        customer_lat, customer_lon, map_link, order_source
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [
-      orderData.order_id, orderData.order_date, orderData.customer_name, orderData.customer_phone,
-      orderData.delivery_address, orderData.distance_km, orderData.items_list, orderData.quantities,
-      orderData.item_prices, orderData.subtotal, orderData.delivery_charges, orderData.total_amount,
-      orderData.payment_method, orderData.upi_id, orderData.payment_status, orderData.transaction_id,
-      orderData.customer_lat, orderData.customer_lon, orderData.map_link, orderData.order_source
-    ]);
+    await Order.create(orderData);
 
-    saveDB();
-    console.log(`✅ UPI Order ${orderData.order_id} verified & stored in DB. Details:`, JSON.stringify(orderData));
+    console.log(`✅ UPI Order ${orderData.order_id} verified & stored in MongoDB.`);
     res.status(201).json({
       success: true,
       message: 'Payment verified — order confirmed!',
@@ -438,7 +284,7 @@ app.post('/api/payment/verify', (req, res) => {
 
   } catch (err) {
     console.error('❌ Payment verification error:', err.message);
-    if (err.message?.includes('UNIQUE constraint')) {
+    if (err.code === 11000) {
       return res.status(409).json({ error: 'Duplicate order detected.' });
     }
     res.status(500).json({ error: 'Internal server error' });
@@ -480,20 +326,9 @@ app.post('/admin/logout', (req, res) => {
 });
 
 /* Get all orders (admin only) */
-app.get('/api/admin/orders', requireAuth, (req, res) => {
+app.get('/api/admin/orders', requireAuth, async (req, res) => {
   try {
-    const result = db.exec('SELECT * FROM orders ORDER BY id DESC');
-    if (!result.length) {
-      return res.json({ success: true, count: 0, orders: [] });
-    }
-
-    const columns = result[0].columns;
-    const orders = result[0].values.map(row => {
-      const obj = {};
-      columns.forEach((col, i) => obj[col] = row[i]);
-      return obj;
-    });
-
+    const orders = await Order.find().sort({ created_at: -1 });
     res.json({ success: true, count: orders.length, orders });
   } catch (err) {
     console.error('❌ Fetch orders error:', err.message);
@@ -502,9 +337,9 @@ app.get('/api/admin/orders', requireAuth, (req, res) => {
 });
 
 /* Export orders as CSV (admin only) */
-app.get('/api/admin/export/csv', requireAuth, (req, res) => {
+app.get('/api/admin/export/csv', requireAuth, async (req, res) => {
   try {
-    const result = db.exec('SELECT * FROM orders ORDER BY id DESC');
+    const orders = await Order.find().sort({ created_at: -1 });
 
     const headers = [
       'Order ID', 'Date & Time', 'Customer Name', 'Phone Number',
@@ -523,34 +358,30 @@ app.get('/api/admin/export/csv', requireAuth, (req, res) => {
       return str;
     }
 
-    let rows = [];
-    if (result.length) {
-      rows = result[0].values.map(row => {
-        // Extract relevant columns (skip id and created_at)
-        return [
-          row[1],  // order_id
-          row[2],  // order_date
-          row[3],  // customer_name
-          row[4],  // customer_phone
-          row[5],  // delivery_address
-          row[6],  // distance_km
-          row[7],  // items_list
-          row[8],  // quantities
-          row[9],  // item_prices
-          row[10], // subtotal
-          row[11], // delivery_charges
-          row[12], // total_amount
-          row[13], // payment_method
-          row[14], // upi_id
-          row[15], // payment_status
-          row[16], // transaction_id
-          row[17], // customer_lat
-          row[18], // customer_lon
-          row[19], // map_link
-          row[20], // order_source
-        ].map(escapeCSV).join(',');
-      });
-    }
+    const rows = orders.map(order => {
+      return [
+        order.order_id,
+        order.order_date,
+        order.customer_name,
+        order.customer_phone,
+        order.delivery_address,
+        order.distance_km,
+        order.items_list,
+        order.quantities,
+        order.item_prices,
+        order.subtotal,
+        order.delivery_charges,
+        order.total_amount,
+        order.payment_method,
+        order.upi_id,
+        order.payment_status,
+        order.transaction_id,
+        order.customer_lat,
+        order.customer_lon,
+        order.map_link,
+        order.order_source
+      ].map(escapeCSV).join(',');
+    });
 
     // BOM for Excel UTF-8 compatibility
     const bom = '\uFEFF';
@@ -568,14 +399,11 @@ app.get('/api/admin/export/csv', requireAuth, (req, res) => {
 });
 
 /* ===== START SERVER ===== */
-if (IS_VERCEL) {
-  /* Vercel serverless — export the Express app, DB inits lazily via middleware */
+if (process.env.VERCEL === '1') {
   module.exports = app;
 } else {
-  /* Local development — init DB and start listening */
-  initDB().then(() => {
-    app.listen(PORT, () => {
-      console.log(`
+  app.listen(PORT, () => {
+    console.log(`
 ╔══════════════════════════════════════════════════╗
 ║  🍹 Ganesh Fresh Juice Centre — Server Running  ║
 ╠══════════════════════════════════════════════════╣
@@ -583,10 +411,6 @@ if (IS_VERCEL) {
 ║  Admin    : http://localhost:${PORT}/admin          ║
 ║  Admin ID : ${ADMIN_USER.padEnd(36)}║
 ╚══════════════════════════════════════════════════╝
-      `);
-    });
-  }).catch(err => {
-    console.error('❌ Failed to start server:', err);
-    process.exit(1);
+    `);
   });
 }
