@@ -1343,341 +1343,6 @@
       border: 1px solid rgba(0, 0, 0, .05)
     }
 
-    /* UPI PAYMENT OVERLAY */
-    .upi-overlay {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 310;
-      background: rgba(26, 26, 46, .55);
-      backdrop-filter: blur(10px);
-      visibility: hidden;
-      opacity: 0;
-      transition: all .3s ease
-    }
-
-    .upi-overlay.vis {
-      visibility: visible;
-      opacity: 1
-    }
-
-    .upi-card {
-      background: #fff;
-      padding: 0;
-      border-radius: var(--r);
-      max-width: 440px;
-      width: 92%;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
-      animation: popIn .4s var(--ez);
-      overflow: hidden
-    }
-
-    .upi-header {
-      background: linear-gradient(135deg, #5B2D8E, #3F1D6B);
-      color: #fff;
-      padding: 22px 24px;
-      text-align: center;
-      position: relative;
-      overflow: hidden
-    }
-
-    .upi-header::after {
-      content: '';
-      position: absolute;
-      top: -30px;
-      right: -30px;
-      width: 100px;
-      height: 100px;
-      background: rgba(255, 255, 255, .06);
-      border-radius: 50%
-    }
-
-    .upi-header h3 {
-      font: 700 1.15rem var(--fh);
-      margin-bottom: 4px
-    }
-
-    .upi-header .upi-order-id {
-      font: 600 .82rem var(--fh);
-      opacity: .8
-    }
-
-    .upi-amount-box {
-      text-align: center;
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid #f0f0f0
-    }
-
-    .upi-amount-label {
-      font: 600 .82rem var(--fh);
-      color: var(--txt-lt);
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      margin-bottom: 4px
-    }
-
-    .upi-amount-value {
-      font: 900 2.4rem var(--fh);
-      color: var(--pri-dk);
-      animation: amtPulse 2s ease-in-out 1
-    }
-
-    @keyframes amtPulse {
-      0% {
-        transform: scale(.8);
-        opacity: 0
-      }
-
-      50% {
-        transform: scale(1.05)
-      }
-
-      100% {
-        transform: scale(1);
-        opacity: 1
-      }
-    }
-
-    .upi-amount-breakdown {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      margin-top: 6px;
-      font: 500 .82rem var(--fb);
-      color: var(--txt-lt)
-    }
-
-    .upi-body {
-      padding: 20px 24px
-    }
-
-    .upi-section-title {
-      font: 700 .88rem var(--fh);
-      color: var(--txt);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .upi-apps-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 18px
-    }
-
-    .upi-app-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 16px;
-      border-radius: var(--rs);
-      border: 2px solid #e8e8e8;
-      background: #fff;
-      font: 600 .88rem var(--fh);
-      color: var(--txt);
-      cursor: pointer;
-      transition: all .25s ease;
-      text-decoration: none
-    }
-
-    .upi-app-btn:hover {
-      border-color: var(--pri);
-      background: var(--pri-lt);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, .08)
-    }
-
-    .upi-app-btn:active {
-      transform: scale(.97)
-    }
-
-    .upi-app-btn .app-icon {
-      font-size: 1.4rem
-    }
-
-    .upi-any-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 15px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, #5B2D8E, #3F1D6B);
-      color: #fff;
-      font: 700 .95rem var(--fh);
-      cursor: pointer;
-      box-shadow: 0 6px 24px rgba(91, 45, 142, .3);
-      transition: all .3s ease;
-      margin-bottom: 16px
-    }
-
-    .upi-any-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(91, 45, 142, .4)
-    }
-
-    .upi-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 16px 0;
-      color: var(--txt-lt);
-      font: 500 .82rem var(--fb)
-    }
-
-    .upi-divider::before,
-    .upi-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #e8e8e8
-    }
-
-    .upi-qr-section {
-      text-align: center;
-      padding: 16px;
-      background: #FAFAFA;
-      border-radius: var(--rs);
-      margin-bottom: 14px
-    }
-
-    .upi-qr-section img {
-      max-width: 150px;
-      border-radius: var(--rs);
-      border: 2px solid #e8e8e8;
-      padding: 6px;
-      background: #fff;
-      margin: 8px 0
-    }
-
-    .upi-qr-section .qr-label {
-      font: 600 .8rem var(--fh);
-      color: var(--txt-lt);
-      margin-top: 4px
-    }
-
-    .upi-id-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: #F5F0FF;
-      padding: 10px 16px;
-      border-radius: var(--rs);
-      margin-bottom: 14px
-    }
-
-    .upi-id-row .uid {
-      font: 600 .88rem var(--fh);
-      color: #5B2D8E
-    }
-
-    .upi-id-row button {
-      padding: 5px 12px;
-      font-size: .78rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #5B2D8E, #3F1D6B);
-      min-width: auto
-    }
-
-    .upi-footer {
-      padding: 14px 24px;
-      border-top: 1px solid #f0f0f0;
-      display: flex;
-      gap: 8px;
-      justify-content: center
-    }
-
-    .upi-footer button {
-      flex: 1;
-      padding: 12px;
-      border-radius: 999px;
-      font-size: .9rem
-    }
-
-    .upi-status {
-      text-align: center;
-      padding: 8px;
-      font: 600 .82rem var(--fh);
-      border-radius: var(--rs);
-      margin-top: 8px
-    }
-
-    .upi-status.pending {
-      background: #FFF3E0;
-      color: #E67E22
-    }
-
-    .upi-status.initiated {
-      background: #E8F5E9;
-      color: #27AE60
-    }
-
-    .upi-status.verifying {
-      background: #E3F2FD;
-      color: #1976D2
-    }
-
-    .upi-status.success {
-      background: #E8F5E9;
-      color: #2E7D32
-    }
-
-    .upi-status.failed {
-      background: #FFEBEE;
-      color: #C62828
-    }
-
-    .upi-txn-group {
-      margin: 14px 0 8px;
-    }
-
-    .upi-txn-group label {
-      display: block;
-      font: 600 .82rem var(--fh);
-      color: var(--txt);
-      margin-bottom: 5px;
-      text-align: left
-    }
-
-    .upi-txn-input {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: var(--rs);
-      border: 2px solid #e8e8e8;
-      font: 500 .95rem var(--fb);
-      transition: all .3s ease;
-      background: #fff;
-      text-align: center;
-      letter-spacing: .5px;
-      box-sizing: border-box
-    }
-
-    .upi-txn-input:focus {
-      outline: none;
-      border-color: #5B2D8E;
-      box-shadow: 0 0 0 4px rgba(91, 45, 142, .1)
-    }
-
-    .upi-txn-input.error {
-      border-color: #e74c3c;
-      box-shadow: 0 0 0 4px rgba(231, 76, 60, .1)
-    }
-
-    .upi-txn-error {
-      font: 600 .78rem var(--fb);
-      color: #e74c3c;
-      margin-top: 4px;
-      text-align: left;
-      min-height: 16px
-    }
 
     .upi-spinner {
       display: inline-block;
@@ -2543,63 +2208,7 @@
     </div>
   </div>
 
-  <!-- UPI PAYMENT OVERLAY -->
-  <div class="upi-overlay" id="upiOverlay">
-    <div class="upi-card">
-      <div class="upi-header">
-        <h3>📱 Complete UPI Payment</h3>
-        <div class="upi-order-id" id="upiOrderIdDisp">Order: GFJ-0000</div>
-      </div>
-      <div class="upi-amount-box">
-        <div class="upi-amount-label">Amount to Pay</div>
-        <div class="upi-amount-value" id="upiAmountDisp">₹0</div>
-        <div class="upi-amount-breakdown">
-          <span>Subtotal: <strong id="upiSubDisp">₹0</strong></span>
-          <span>Delivery: <strong id="upiDelDisp">₹0</strong></span>
-        </div>
-      </div>
-      <div class="upi-body">
-        <a class="upi-any-btn" id="upiPayAnyBtn">📱 Open UPI App to Pay</a>
-
-        <div class="upi-section-title">📲 Or choose your app</div>
-        <div class="upi-apps-grid">
-          <a class="upi-app-btn" data-app="tez://"><span class="app-icon">💳</span> Google Pay</a>
-          <a class="upi-app-btn" data-app="phonepe://"><span class="app-icon">📲</span> PhonePe</a>
-          <a class="upi-app-btn" data-app="paytmmp://"><span class="app-icon">💰</span> Paytm</a>
-          <a class="upi-app-btn" data-app="upi://"><span class="app-icon">🏦</span> BHIM UPI</a>
-        </div>
-
-        <div class="upi-divider">or scan QR code</div>
-
-        <div class="upi-qr-section">
-          <img src="qrcode.jpg" alt="UPI QR Code" onerror="this.parentElement.style.display='none'">
-          <div class="qr-label">Scan with any UPI app</div>
-        </div>
-
-        <div class="upi-id-row">
-          <span class="uid" id="upiIdOverlay">jnaneshappu85-2@okicici</span>
-          <button type="button" id="upiCopyOverlay">📋 Copy</button>
-        </div>
-
-        <div class="upi-status pending" id="upiPayStatus">⏳ Waiting for payment...</div>
-
-        <div class="upi-txn-group">
-          <label for="upiTxnInput">📝 UPI Transaction ID / UTR (12 digits)</label>
-          <input type="text" class="upi-txn-input" id="upiTxnInput" placeholder="Enter your UPI transaction ID"
-            autocomplete="off">
-          <div class="upi-txn-error" id="upiTxnError"></div>
-        </div>
-      </div>
-      <div class="upi-footer">
-        <button type="button" id="upiBackCartBtn" style="background:linear-gradient(135deg,var(--pri),var(--pri-dk))">🔙
-          Back to Edit Cart</button>
-        <button type="button" id="upiDoneBtn" style="background:linear-gradient(135deg,#27AE60,#2ECC71)">✅ Verify
-          Payment</button>
-        <button type="button" id="upiCancelBtn" style="background:linear-gradient(135deg,#95a5a6,#7f8c8d)">✖
-          Cancel</button>
-      </div>
-    </div>
-  </div>
+  <!-- TRACKING PANEL -->
 
   <!-- TRACKING PANEL -->
   <div id="trackingPanel" class="tpanel" style="display:none">
@@ -2758,10 +2367,17 @@
     });
 
     /* ===== PARALLAX ===== */
+    let scrollTicking = false;
     window.addEventListener('scroll', () => {
-      const h = document.querySelector('.hero');
-      if (h) h.style.backgroundPositionY = (window.scrollY * .35) + 'px';
-    });
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          const h = document.querySelector('.hero');
+          if (h) h.style.backgroundPositionY = (window.scrollY * .35) + 'px';
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
 
     /* ===== TOTALS ===== */
     function updateTotals() {
@@ -2808,7 +2424,11 @@
       }
       return { sub, del, total };
     }
-    document.getElementById('distanceInput').addEventListener('input', updateTotals);
+    let distTimeout;
+    document.getElementById('distanceInput').addEventListener('input', () => {
+      clearTimeout(distTimeout);
+      distTimeout = setTimeout(updateTotals, 100);
+    });
 
     /* ===== DISTANCE / GEO ===== */
     function haversine(la1, lo1, la2, lo2) {
@@ -2862,193 +2482,12 @@
     document.getElementById('btnStop').addEventListener('click', stopTrack);
     document.getElementById('btnDlvd').addEventListener('click', () => { alert('Delivered!'); stopTrack(); });
 
-    /* ===== UPI OVERLAY & PAYMENT (PAYMENT-FIRST FLOW) ===== */
-    let currentUpiOrder = null;
-    let currentPaymentToken = null;
-
-    function buildUpiUrl(amount, orderNo, scheme) {
-      const prefix = scheme || 'upi://';
-      const amtStr = Number(amount).toFixed(2);
-      // Enhanced URI: pa (ID), pn (Name), am (Amt), cu (Curr), tr (Ref), tn (Note)
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}&tn=${encodeURIComponent('Order ' + orderNo + ' at Ganesh Juice')}`;
-      return prefix + params;
-    }
-
+    /* ===== UPI REDIRECT ===== */
     function openUpiOverlay(orderNo, sub, del, total, paymentToken) {
-      currentUpiOrder = { orderNo, total, sub, del };
-      currentPaymentToken = paymentToken;
-      document.getElementById('upiOrderIdDisp').textContent = 'Order: ' + orderNo;
-      document.getElementById('upiAmountDisp').textContent = '₹' + total;
-      document.getElementById('upiSubDisp').textContent = '₹' + sub;
-      document.getElementById('upiDelDisp').textContent = '₹' + del;
-      document.getElementById('upiIdOverlay').textContent = UPI_ID;
-
-      /* Update direct payment links */
-      const anyBtn = document.getElementById('upiPayAnyBtn');
-      if (anyBtn) anyBtn.href = buildUpiUrl(total, orderNo, 'upi://');
-
-      document.querySelectorAll('.upi-app-btn').forEach(a => {
-        a.href = buildUpiUrl(total, orderNo, a.dataset.app);
-      });
-
-      /* Add launch feedback listeners */
-      const launchFeed = () => {
-        st.className = 'upi-status initiated';
-        st.textContent = '✅ Payment app launched — complete payment, then enter ID below';
-      };
-      if (anyBtn) anyBtn.onclick = launchFeed;
-      document.querySelectorAll('.upi-app-btn').forEach(btn => btn.onclick = launchFeed);
-
-      const st = document.getElementById('upiPayStatus');
-      st.className = 'upi-status pending';
-      st.textContent = '⏳ Complete payment, then enter transaction ID below';
-      /* Reset transaction input */
-      document.getElementById('upiTxnInput').value = '';
-      document.getElementById('upiTxnInput').classList.remove('error');
-      document.getElementById('upiTxnError').textContent = '';
-      document.getElementById('upiDoneBtn').disabled = false;
-      document.getElementById('upiDoneBtn').innerHTML = '✅ Verify Payment';
-      document.getElementById('upiOverlay').classList.add('vis');
+      window.location.href = `payment.html?token=${paymentToken}&order=${orderNo}&total=${total}&sub=${sub}&del=${del}`;
     }
 
-    function closeUpiOverlay() {
-      document.getElementById('upiOverlay').classList.remove('vis');
-      currentUpiOrder = null;
-      currentPaymentToken = null;
-    }
-
-    /* Copy UPI ID */
-    document.getElementById('upiCopyOverlay')?.addEventListener('click', () => {
-      navigator.clipboard?.writeText(UPI_ID).then(() => {
-        const b = document.getElementById('upiCopyOverlay');
-        b.textContent = '✓ Copied';
-        setTimeout(() => b.textContent = '📋 Copy', 1500);
-      }).catch(() => alert('Copy failed'));
-    });
-
-    /* ===== VERIFY PAYMENT (Done button) ===== */
-    document.getElementById('upiDoneBtn').addEventListener('click', async () => {
-      if (!currentUpiOrder || !currentPaymentToken) return;
-
-      const txnInput = document.getElementById('upiTxnInput');
-      const txnError = document.getElementById('upiTxnError');
-      const txnId = txnInput.value.trim();
-      const st = document.getElementById('upiPayStatus');
-      const doneBtn = document.getElementById('upiDoneBtn');
-
-      /* Validate transaction ID */
-      txnError.textContent = '';
-      txnInput.classList.remove('error');
-      if (!txnId || txnId.length < 3) {
-        txnInput.classList.add('error');
-        txnError.textContent = 'Please enter a valid UPI transaction reference ID';
-        txnInput.focus();
-        return;
-      }
-
-      /* Show verifying state */
-      doneBtn.disabled = true;
-      doneBtn.innerHTML = '<span class="upi-spinner"></span> Verifying...';
-      st.className = 'upi-status verifying';
-      st.textContent = '🔄 Verifying payment with server...';
-
-      try {
-        const resp = await fetch('/api/payment/verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            paymentToken: currentPaymentToken,
-            transactionId: txnId
-          })
-        });
-        const data = await resp.json();
-
-        if (resp.ok && data.success) {
-          /* === PAYMENT VERIFIED — Now create order confirmation === */
-          st.className = 'upi-status success';
-          st.textContent = '✅ Payment verified — order confirmed!';
-          doneBtn.innerHTML = '✅ Verified!';
-
-          const orderNo = data.orderId;
-          const orderData = data.orderData;
-
-          /* Show confirm overlay */
-          document.getElementById('confirmOrderNo').textContent = orderNo;
-          document.getElementById('confirmTxnId').textContent = 'Transaction: ' + data.transactionId;
-          document.getElementById('confirmSummary').textContent = `Total: ₹${orderData.total} · Paid via UPI`;
-
-          /* Send WhatsApp message NOW (only after payment verified) */
-          const items = orderData.items || [];
-          const lines = [
-            '🍹 *ORDER CONFIRMED (PAID)*',
-            '--------------------------',
-            `📦 *Order:* ${orderNo}`,
-            `✅ *Payment:* UPI Verified`,
-            `🔢 *Transaction ID:* ${data.transactionId}`,
-            '--------------------------',
-            `👤 *Customer:* ${orderData.name}`,
-            `📞 *Phone:* ${orderData.phone}`,
-            `📍 *Address:* ${orderData.address}`,
-            '--------------------------',
-            '🛒 *Items:*',
-            ...items,
-            '--------------------------',
-            `💵 *Subtotal:* ₹${orderData.subtotal}`,
-            `🚚 *Delivery:* ₹${orderData.delivery}`,
-            `💰 *TOTAL PAID:* ₹${orderData.total}`,
-            '--------------------------',
-            `🔗 *Shop:* ${SHOP_MAP}`
-          ];
-          if (orderData.mapLink) lines.push(`📍 *Location:* ${orderData.mapLink}`);
-
-          setTimeout(() => {
-            closeUpiOverlay();
-            document.getElementById('confirmOverlay').classList.add('vis');
-            window.open(waUrl(SHOP_PHONE, lines.join('\n')), '_blank');
-            startTrack(orderNo);
-            /* Clear cart after successful order */
-            cart = [];
-            renderCart();
-            updateTotals();
-          }, 1500);
-
-        } else {
-          /* Payment verification failed */
-          st.className = 'upi-status failed';
-          const errMsg = data.error || 'Verification failed';
-          const errDetail = data.details ? '\x0A\x0ADetails: ' + data.details : '';
-          st.textContent = '❌ ' + errMsg;
-          if (errDetail) alert('Payment Error: ' + errMsg + errDetail);
-
-          doneBtn.disabled = false;
-          doneBtn.innerHTML = '🔄 Retry Verification';
-          if (data.error?.includes('transaction')) {
-            txnInput.classList.add('error');
-            txnError.textContent = data.error;
-          }
-        }
-      } catch (err) {
-        st.className = 'upi-status failed';
-        st.textContent = '❌ Connection error — please try again';
-        doneBtn.disabled = false;
-        doneBtn.innerHTML = '🔄 Retry Verification';
-      }
-    });
-
-    /* Cancel payment — cart is preserved, no order created */
-    document.getElementById('upiCancelBtn').addEventListener('click', () => {
-      if (currentPaymentToken) {
-        /* Payment was initiated but not verified — no order created */
-        currentPaymentToken = null;
-      }
-      closeUpiOverlay();
-    });
-
-    /* Back to Edit Cart — closes overlay and opens cart drawer */
-    document.getElementById('upiBackCartBtn').addEventListener('click', () => {
-      closeUpiOverlay();
-      openCart();
-    });
+    function closeUpiOverlay() { }
 
     /* ===== PAYMENT METHOD SWITCHING ===== */
     document.querySelectorAll('input[name="payment"]').forEach(r => {
@@ -3369,8 +2808,23 @@
       /* ---------- RENDER LOOP ---------- */
       var lastTime = 0, accumulator = 0;
       var prevScrollY = 0;
+      var isVisible = true;
+
+      /* Visibility Observer to save resources */
+      const obs = new IntersectionObserver(entries => {
+        isVisible = entries[0].isIntersecting;
+      }, { threshold: 0.1 });
+      obs.observe(canvas);
+
+      document.addEventListener('visibilitychange', () => {
+        isVisible = document.visibilityState === 'visible';
+      });
 
       function frame(timestamp) {
+        if (!isVisible) {
+          requestAnimationFrame(frame);
+          return;
+        }
         requestAnimationFrame(frame);
         if (!lastTime) { lastTime = timestamp; return; }
         var delta = timestamp - lastTime;
@@ -3488,8 +2942,8 @@
         resize();
         orbs = [];
         particles = [];
-        for (let i = 0; i < 8; i++) orbs.push(createOrb());
-        for (let i = 0; i < 30; i++) particles.push(createParticle());
+        for (let i = 0; i < (window.innerWidth < 768 ? 4 : 8); i++) orbs.push(createOrb());
+        for (let i = 0; i < (window.innerWidth < 768 ? 15 : 30); i++) particles.push(createParticle());
       }
 
       function animate() {
