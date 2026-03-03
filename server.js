@@ -435,6 +435,30 @@ app.patch('/api/admin/orders/:id/status', requireAuth, async (req, res) => {
   }
 });
 
+/* Clear order data (admin only) */
+app.delete('/api/admin/orders/clear', requireAuth, async (req, res) => {
+  try {
+    await connectDB();
+    const { mode } = req.body; // 'all' or 'weekly'
+
+    let query = {};
+    if (mode === 'weekly') {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      query = { created_at: { $lt: sevenDaysAgo } };
+    } else if (mode !== 'all') {
+      return res.status(400).json({ error: 'Invalid clear mode' });
+    }
+
+    const result = await Order.deleteMany(query);
+    console.log(`🗑️ Data cleared: ${result.deletedCount} orders removed (${mode})`);
+    res.json({ success: true, count: result.deletedCount });
+  } catch (err) {
+    console.error('❌ Data clear error:', err.message);
+    res.status(500).json({ error: 'Failed to clear data' });
+  }
+});
+
 /* Admin logout */
 app.post('/admin/logout', (req, res) => {
   const token = req.cookies?.admin_token;
