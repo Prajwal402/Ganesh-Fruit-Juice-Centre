@@ -148,11 +148,11 @@ app.post('/api/orders', async (req, res) => {
     });
 
   } catch (err) {
-    console.error('❌ COD order error:', err.message);
+    console.error('❌ COD order error:', err);
     if (err.code === 11000) {
-      return res.status(409).json({ error: 'Duplicate order', message: 'Order already exists' });
+      return res.status(409).json({ error: 'Duplicate order', message: 'Order ID or Transaction already exists' });
     }
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 });
 

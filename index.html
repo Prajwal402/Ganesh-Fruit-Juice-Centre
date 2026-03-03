@@ -2447,8 +2447,13 @@
             Pay on delivery</div>
         </div>
 
-        <div style="text-align:center;margin-top:8px">
+        <div style="text-align:center;margin-top:12px">
           <button type="submit" id="submitOrder" style="padding:15px 36px;font-size:1.02rem">Place Order</button>
+        </div>
+        <div style="text-align:center;margin-top:15px">
+          <button type="button" id="backToCartBtn"
+            style="background:none;border:none;color:var(--txt-lt);text-decoration:underline;cursor:pointer;font-size:.9rem;padding:5px">←
+            Edit Cart / Go Back</button>
         </div>
         <div id="orderWarnings" style="color:#e74c3c;font:700 .88rem var(--fh);margin-top:5px;text-align:center"></div>
       </form>
@@ -2695,6 +2700,14 @@
       closeCart();
       document.getElementById('delivery').scrollIntoView({ behavior: 'smooth' });
       detectDist(true);
+    });
+
+    /* ===== BACK TO CART WITH WARNING ===== */
+    document.getElementById('backToCartBtn').addEventListener('click', () => {
+      if (confirm('Are you sure you want to go back to the menu to edit your cart?\n\n(Wait! If you already started payment, please complete it first.)')) {
+        openCart();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
 
     /* ===== 3D CARD TILT ===== */
