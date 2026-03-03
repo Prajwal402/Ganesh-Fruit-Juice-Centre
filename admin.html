@@ -532,6 +532,7 @@
                         <th data-col="total_amount">Total <span class="sort-icon">▲▼</span></th>
                         <th>Map Link</th>
                         <th data-col="payment_method">Payment</th>
+                        <th data-col="transaction_id">Txn ID / UTR</th>
                         <th data-col="order_source">Source</th>
                     </tr>
                 </thead>
@@ -645,6 +646,14 @@
             ${o.map_link ? `<a href="${esc(o.map_link)}" target="_blank" class="badge-wa" style="text-decoration:none; background:var(--accent); border:none;">📍 View</a>` : '—'}
           </td>
           <td>${esc(o.payment_method)}</td>
+          <td>
+            ${o.transaction_id ? `
+              <div style="display:flex;align-items:center;gap:6px">
+                <code style="font-size:0.75rem;background:#f0f0f0;padding:2px 4px;border-radius:4px">${esc(o.transaction_id)}</code>
+                <button onclick="copyTxt('${o.transaction_id}')" class="badge-wa" style="padding:2px 6px;font-size:0.65rem;background:var(--pri);border:none;cursor:pointer">📋</button>
+              </div>
+            ` : '—'}
+          </td>
           <td><span class="badge-wa">${esc(o.order_source)}</span></td>
         </tr>
       `).join('');
@@ -702,6 +711,13 @@
             } catch (e) {
                 return d;
             }
+        }
+
+        /* ===== COPY HELPER ===== */
+        function copyTxt(txt) {
+            navigator.clipboard?.writeText(txt).then(() => {
+                alert('Copied: ' + txt);
+            }).catch(() => alert('Copy failed'));
         }
 
         /* ===== SORT ===== */

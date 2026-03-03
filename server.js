@@ -510,8 +510,8 @@ app.get('/api/admin/export/csv', requireAuth, (req, res) => {
       'Order ID', 'Date & Time', 'Customer Name', 'Phone Number',
       'Delivery Address', 'Distance (km)', 'Items', 'Quantities',
       'Item Prices', 'Subtotal (₹)', 'Delivery Charges (₹)',
-      'Total Amount (₹)', 'Payment Method', 'UPI ID',
-      'Latitude', 'Longitude', 'Map Link', 'Order Source'
+      'Total Amount (₹)', 'Payment Method', 'UPI ID', 'Payment Status',
+      'Transaction ID', 'Latitude', 'Longitude', 'Map Link', 'Order Source'
     ];
 
     function escapeCSV(val) {
@@ -542,10 +542,12 @@ app.get('/api/admin/export/csv', requireAuth, (req, res) => {
           row[12], // total_amount
           row[13], // payment_method
           row[14], // upi_id
-          row[15], // customer_lat
-          row[16], // customer_lon
-          row[17], // map_link
-          row[18], // order_source
+          row[15], // payment_status
+          row[16], // transaction_id
+          row[17], // customer_lat
+          row[18], // customer_lon
+          row[19], // map_link
+          row[20], // order_source
         ].map(escapeCSV).join(',');
       });
     }
