@@ -2573,14 +2573,27 @@
 
         <div class="upi-divider">or scan QR code</div>
 
-        <div class="upi-qr-section">
-          <img src="qrcode.jpg" alt="UPI QR Code" onerror="this.parentElement.style.display='none'">
+        <div class="upi-qr-section" id="upiQrSection">
+          <div id="upiQrContainer">
+            <div class="upi-spinner" style="margin:20px auto"></div>
+          </div>
           <div class="qr-label">Scan with any UPI app</div>
         </div>
 
         <div class="upi-id-row">
           <span class="uid" id="upiIdOverlay">jnaneshappu85-2@okicici</span>
           <button type="button" id="upiCopyOverlay">📋 Copy</button>
+        </div>
+
+        <!-- How to Pay Guide -->
+        <div
+          style="background:#f9f9f9; padding:12px; border-radius:12px; margin-bottom:16px; border:1px dashed #ddd; text-align:left">
+          <p style="font:700 0.8rem var(--fh); margin-bottom:6px; color:#5B2D8E">💡 Quick Steps:</p>
+          <ul style="font:500 0.75rem var(--fb); color:var(--txt-lt); padding-left:18px">
+            <li style="margin-bottom:4px">Scan QR or tap a button to open your payment app.</li>
+            <li style="margin-bottom:4px">Complete the payment of <b>₹<span class="upi-total-text">--</span></b>.</li>
+            <li>Go to <b>Transactions / History</b> in your app to find the 12-digit <b>UTR / Transaction ID</b>.</li>
+          </ul>
         </div>
 
         <div class="upi-status pending" id="upiPayStatus">⏳ Waiting for payment...</div>
@@ -2871,9 +2884,15 @@
     function buildUpiUrl(amount, orderNo, scheme) {
       const prefix = scheme || 'upi://';
       const amtStr = Number(amount).toFixed(2);
-      // Enhanced URI: pa (ID), pn (Name), am (Amt), cu (Curr), tr (Ref), tn (Note)
-      const params = `pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent('JNANESHA C M')}&am=${amtStr}&cu=INR&tr=${encodeURIComponent(orderNo)}&tn=${encodeURIComponent('Order ' + orderNo + ' at Ganesh Juice')}`;
-      return prefix + params;
+      // Enhanced parameters for better app compatibility
+      const pa = encodeURIComponent(UPI_ID);
+      const pn = encodeURIComponent('JNANESHA C M');
+      const am = amtStr;
+      const tr = encodeURIComponent(orderNo);
+      const tn = encodeURIComponent('Order ' + orderNo + ' at Ganesh Juice');
+
+      // Standard UPI deep link format
+      return `${prefix}pay?pa=${pa}&pn=${pn}&am=${am}&cu=INR&tr=${tr}&tn=${tn}&mode=02&purpose=00&orgid=159761`;
     }
 
     function openUpiOverlay(orderNo, sub, del, total, paymentToken) {
@@ -2881,6 +2900,7 @@
       currentPaymentToken = paymentToken;
       document.getElementById('upiOrderIdDisp').textContent = 'Order: ' + orderNo;
       document.getElementById('upiAmountDisp').textContent = '₹' + total;
+      document.querySelectorAll('.upi-total-text').forEach(el => el.textContent = total);
       document.getElementById('upiSubDisp').textContent = '₹' + sub;
       document.getElementById('upiDelDisp').textContent = '₹' + del;
       document.getElementById('upiIdOverlay').textContent = UPI_ID;
@@ -2892,6 +2912,12 @@
       document.querySelectorAll('.upi-app-btn').forEach(a => {
         a.href = buildUpiUrl(total, orderNo, a.dataset.app);
       });
+
+      /* Generate Dynamic QR Code */
+      const upiLink = buildUpiUrl(total, orderNo, 'upi://');
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
+      const qrCont = document.getElementById('upiQrContainer');
+      qrCont.innerHTML = `<img src="${qrUrl}" alt="Scan to Pay" style="width:180px; height:180px; display:block; margin:0 auto">`;
 
       /* Add launch feedback listeners */
       const launchFeed = () => {
