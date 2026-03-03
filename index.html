@@ -2591,6 +2591,8 @@
         </div>
       </div>
       <div class="upi-footer">
+        <button type="button" id="upiBackCartBtn" style="background:linear-gradient(135deg,var(--pri),var(--pri-dk))">🔙
+          Back to Edit Cart</button>
         <button type="button" id="upiDoneBtn" style="background:linear-gradient(135deg,#27AE60,#2ECC71)">✅ Verify
           Payment</button>
         <button type="button" id="upiCancelBtn" style="background:linear-gradient(135deg,#95a5a6,#7f8c8d)">✖
@@ -3040,6 +3042,12 @@
         currentPaymentToken = null;
       }
       closeUpiOverlay();
+    });
+
+    /* Back to Edit Cart — closes overlay and opens cart drawer */
+    document.getElementById('upiBackCartBtn').addEventListener('click', () => {
+      closeUpiOverlay();
+      openCart();
     });
 
     /* ===== PAYMENT METHOD SWITCHING ===== */
