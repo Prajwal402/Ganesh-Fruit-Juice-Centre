@@ -24,13 +24,23 @@ if (!process.env.MONGODB_URI) {
 
 let isConnected = false;
 const connectDB = async () => {
-  if (isConnected) return;
-  try {
-    const db = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
+  if (mongoose.connection.readyState === 1) return;
+
+  // If already connecting (2), wait for it to finish
+  if (mongoose.connection.readyState === 2) {
+    console.log('⏳ MongoDB connection in progress, waiting...');
+    await new Promise((resolve) => {
+      mongoose.connection.once('connected', resolve);
+      mongoose.connection.once('error', resolve);
     });
-    isConnected = db.connections[0].readyState === 1;
+    return;
+  }
+
+  try {
+    console.log('📡 Connecting to MongoDB Atlas...');
+    await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000, // Increase timeout to 10s
+    });
     console.log('✅ Connected to MongoDB Atlas');
   } catch (err) {
     console.error('❌ MongoDB Connection Error:', err.message);
@@ -102,9 +112,11 @@ app.post('/api/orders', async (req, res) => {
   try {
     await connectDB();
     if (mongoose.connection.readyState !== 1) {
+      const states = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+      const state = states[mongoose.connection.readyState] || mongoose.connection.readyState;
       return res.status(503).json({
         error: 'Database not connected',
-        details: 'The site is having trouble connecting to the cloud database. Please ensure MONGODB_URI is correct and your IP is whitelisted in MongoDB Atlas Network Access.'
+        details: `Connection State: ${state} (${mongoose.connection.readyState}). This usually means you need to add IP '0.0.0.0/0' to MongoDB Atlas Network Access.`
       });
     }
     if (!req.body) {
@@ -191,9 +203,11 @@ app.post('/api/payment/initiate', async (req, res) => {
   try {
     await connectDB();
     if (mongoose.connection.readyState !== 1) {
+      const states = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+      const state = states[mongoose.connection.readyState] || mongoose.connection.readyState;
       return res.status(503).json({
         error: 'Database not connected',
-        details: 'The site is having trouble connecting to the cloud database.'
+        details: `Connection State: ${state} (${mongoose.connection.readyState}).`
       });
     }
     if (!req.body) {
@@ -252,9 +266,11 @@ app.post('/api/payment/verify', async (req, res) => {
   try {
     await connectDB();
     if (mongoose.connection.readyState !== 1) {
+      const states = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+      const state = states[mongoose.connection.readyState] || mongoose.connection.readyState;
       return res.status(503).json({
         error: 'Database not connected',
-        details: 'Check your MONGODB_URI/Network settings.'
+        details: `Connection State: ${state} (${mongoose.connection.readyState}). Check your MongoDB Atlas Network Access.`
       });
     }
     const { paymentToken, transactionId } = req.body;
