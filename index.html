@@ -3107,40 +3107,50 @@
     document.getElementById('distanceInput').addEventListener('input', updateTotals);
 
     /* ===== ADVANCED LOCATION PICKER JS ===== */
-    const locModal = document.getElementById('locationModal');
-    const locSearch = document.getElementById('locSearchInput');
-    const locRes = document.getElementById('locSearchResults');
-    const locChoiceOverlay = document.getElementById('locChoiceOverlay');
     let searchTimeout = null;
 
+    function getLocEls() {
+      return {
+        modal: document.getElementById('locationModal'),
+        search: document.getElementById('locSearchInput'),
+        res: document.getElementById('locSearchResults'),
+        choice: document.getElementById('locChoiceOverlay')
+      };
+    }
+
     function openLocationPicker() {
-      locModal.classList.add('vis');
-      locChoiceOverlay.classList.add('vis'); // Show the choice overlay first
+      const els = getLocEls();
+      if (!els.modal) return console.error('Loc modal not found');
+
+      els.modal.classList.add('vis');
+      if (els.choice) els.choice.classList.add('vis');
+
       if (!locMap) {
+        if (typeof L === 'undefined') {
+          alert('Map library is still loading. Please wait a moment and try again.');
+          return;
+        }
         // Init Leaflet map
         locMap = L.map('locPickerMap', { zoomControl: false }).setView([SHOP_LAT, SHOP_LON], 16);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; OpenStreetMap'
         }).addTo(locMap);
-
-        // Handle map move to show hint or update status
-        locMap.on('move', () => {
-          // You could add logic here to show "Loading address..." while moving
-        });
       }
     }
 
     function closeLocationPicker() {
-      locModal.classList.remove('vis');
-      locChoiceOverlay.classList.remove('vis');
+      const els = getLocEls();
+      if (els.modal) els.modal.classList.remove('vis');
+      if (els.choice) els.choice.classList.remove('vis');
     }
 
     function handleLocChoice(choice) {
-      locChoiceOverlay.classList.remove('vis'); // Hide choice overlay
+      const els = getLocEls();
+      if (els.choice) els.choice.classList.remove('vis');
       if (choice === 'current') {
-        detectUserLocationInMap(true); // Attempt to detect and center map on current location
+        detectUserLocationInMap(true);
       } else if (choice === 'manual') {
-        locMap.setView([SHOP_LAT, SHOP_LON], 16); // Default to shop location for manual selection
+        if (locMap) locMap.setView([SHOP_LAT, SHOP_LON], 16);
       }
     }
 
@@ -3151,42 +3161,47 @@
       }
       try {
         const p = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 8000 }));
-        locMap.flyTo([p.coords.latitude, p.coords.longitude], 18);
+        if (locMap) locMap.flyTo([p.coords.latitude, p.coords.longitude], 18);
       } catch (e) {
+        console.warn('Map geo err', e);
         if (showAlert) alert('Could not detect location. Please search manually.');
-        locMap.setView([SHOP_LAT, SHOP_LON], 16);
+        if (locMap) locMap.setView([SHOP_LAT, SHOP_LON], 16);
       }
     }
 
     // Search logic
-    locSearch.addEventListener('input', (e) => {
+    document.getElementById('locSearchInput')?.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
       const q = e.target.value.trim();
-      if (q.length < 3) { locRes.style.display = 'none'; return; }
+      const resEl = document.getElementById('locSearchResults');
+      if (!resEl) return;
+      if (q.length < 3) { resEl.style.display = 'none'; return; }
 
       searchTimeout = setTimeout(async () => {
         try {
           const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&countrycodes=in&limit=5`);
           const data = await r.json();
           if (data.length) {
-            locRes.innerHTML = data.map(item => `
+            resEl.innerHTML = data.map(item => `
               <div class="loc-res-item" onclick="selectLocResult(${item.lat}, ${item.lon}, '${item.display_name.replace(/'/g, "\\'")}')">
                 <span>📍</span>
                 <div>${item.display_name}</div>
               </div>
             `).join('');
-            locRes.style.display = 'block';
+            resEl.style.display = 'block';
           } else {
-            locRes.style.display = 'none';
+            resEl.style.display = 'none';
           }
         } catch (e) { console.error('Search error', e); }
       }, 500);
     });
 
     function selectLocResult(lat, lon, name) {
-      locMap.flyTo([lat, lon], 17);
-      locRes.style.display = 'none';
-      locSearch.value = name;
+      if (locMap) locMap.flyTo([lat, lon], 17);
+      const resEl = document.getElementById('locSearchResults');
+      if (resEl) resEl.style.display = 'none';
+      const searchInput = document.getElementById('locSearchInput');
+      if (searchInput) searchInput.value = name;
     }
 
     async function confirmSelectedLocation() {
@@ -3234,22 +3249,32 @@
       return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
     async function detectDist(autoUpdate = true) {
-      if (!navigator.geolocation) { alert('Geolocation not supported.'); return null; }
-      dSrc.textContent = 'detecting…';
+      if (!navigator.geolocation) {
+        if (autoUpdate) alert('Geolocation not supported.');
+        return null;
+      }
+      const dsEl = document.getElementById('distanceSource');
+      if (dsEl) dsEl.textContent = 'detecting…';
+
       try {
-        const pos = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }));
+        const pos = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }));
         const lat = pos.coords.latitude, lon = pos.coords.longitude;
         const km = Math.round(haversine(SHOP_LAT, SHOP_LON, lat, lon) * 10) / 10;
 
-        // Always update the input value and text so they match the detection
-        document.getElementById('distanceInput').value = km;
-        dSrc.textContent = autoUpdate ? '📍 detected (' + km + ' km)' : '📍 (' + km + ' km)';
+        const distInput = document.getElementById('distanceInput');
+        if (distInput) distInput.value = km;
+        if (dsEl) dsEl.textContent = autoUpdate ? '📍 detected (' + km + ' km)' : '📍 (' + km + ' km)';
         updateTotals();
 
         return { lat, lon, km };
       } catch (e) {
-        console.warn('geo err', e); dSrc.textContent = '(manual)';
-        if (autoUpdate) alert('Cannot detect location. Enter distance manually.');
+        console.warn('detectDist err', e);
+        if (dsEl) dsEl.textContent = '(manual)';
+        if (autoUpdate) alert('Cannot detect location automatically. Please enter distance manually or use "Select on Map".');
         return null;
       }
     }
