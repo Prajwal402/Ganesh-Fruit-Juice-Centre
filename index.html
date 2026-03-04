@@ -1210,6 +1210,78 @@
       }
     }
 
+    /* CHOICE PROMPT OVERLAY */
+    .loc-choice-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .loc-choice-overlay.vis {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .loc-choice-card {
+      background: #fff;
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px 48px;
+      transform: translateY(100%);
+      transition: transform 0.5s var(--ez);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .loc-choice-overlay.vis .loc-choice-card {
+      transform: translateY(0);
+    }
+
+    .loc-choice-title {
+      font: 700 1.25rem var(--fh);
+      margin-bottom: 8px;
+    }
+
+    .loc-choice-sub {
+      font-size: 0.9rem;
+      color: var(--txt-lt);
+      margin-bottom: 24px;
+    }
+
+    .loc-btn-blue {
+      width: 100%;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font: 700 1rem var(--fh);
+      cursor: pointer;
+      margin-bottom: 12px;
+      display: block;
+      text-align: center;
+    }
+
+    .loc-btn-outline {
+      width: 100%;
+      background: #fff;
+      color: #007bff;
+      border: 1.5px solid #007bff;
+      padding: 16px;
+      border-radius: 12px;
+      font: 700 1rem var(--fh);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
     /* Floating Fruit Shapes */
     .about-shape {
       position: absolute;
@@ -3038,10 +3110,12 @@
     const locModal = document.getElementById('locationModal');
     const locSearch = document.getElementById('locSearchInput');
     const locRes = document.getElementById('locSearchResults');
+    const locChoiceOverlay = document.getElementById('locChoiceOverlay');
     let searchTimeout = null;
 
     function openLocationPicker() {
       locModal.classList.add('vis');
+      locChoiceOverlay.classList.add('vis'); // Show the choice overlay first
       if (!locMap) {
         // Init Leaflet map
         locMap = L.map('locPickerMap', { zoomControl: false }).setView([SHOP_LAT, SHOP_LON], 16);
@@ -3054,13 +3128,20 @@
           // You could add logic here to show "Loading address..." while moving
         });
       }
-
-      // Try to center on user if possible, otherwise shop
-      detectUserLocationInMap(false);
     }
 
     function closeLocationPicker() {
       locModal.classList.remove('vis');
+      locChoiceOverlay.classList.remove('vis');
+    }
+
+    function handleLocChoice(choice) {
+      locChoiceOverlay.classList.remove('vis'); // Hide choice overlay
+      if (choice === 'current') {
+        detectUserLocationInMap(true); // Attempt to detect and center map on current location
+      } else if (choice === 'manual') {
+        locMap.setView([SHOP_LAT, SHOP_LON], 16); // Default to shop location for manual selection
+      }
     }
 
     async function detectUserLocationInMap(showAlert = true) {
@@ -3923,6 +4004,19 @@
 
       <div class="loc-floating-gps" onclick="detectUserLocationInMap()">
         <span style="font-size:1.4rem">🎯</span>
+      </div>
+
+      <!-- CHOICE OVERLAY -->
+      <div class="loc-choice-overlay" id="locChoiceOverlay">
+        <div class="loc-choice-card">
+          <div class="loc-choice-title">Where do you want us to deliver the order?</div>
+          <div class="loc-choice-sub">This will help with the right map location</div>
+
+          <button class="loc-btn-blue" onclick="handleLocChoice('manual')">Away from my location</button>
+          <button class="loc-btn-outline" onclick="handleLocChoice('current')">
+            <span style="font-size:1.2rem">🎯</span> Use current location
+          </button>
+        </div>
       </div>
     </div>
 
