@@ -2964,12 +2964,12 @@
       const st = document.getElementById('upiPayStatus');
       const doneBtn = document.getElementById('upiDoneBtn');
 
-      /* Validate transaction ID */
+      /* Validate transaction ID (Strict 12-digit numeric) */
       txnError.textContent = '';
       txnInput.classList.remove('error');
-      if (!txnId || txnId.length < 3) {
+      if (!/^\d{12}$/.test(txnId)) {
         txnInput.classList.add('error');
-        txnError.textContent = 'Please enter a valid UPI transaction reference ID';
+        txnError.textContent = 'Please enter exactly 12 numeric digits for the UPI Transaction ID / UTR.';
         txnInput.focus();
         return;
       }

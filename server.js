@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const Order = require('./models/Order');
+const Payment = require('./models/Payment');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -234,8 +235,9 @@ app.post('/api/payment/initiate', async (req, res) => {
     const paymentToken = uuidv4();
     const orderNo = 'GFJ-' + Date.now().toString(36).toUpperCase().slice(-6);
 
-    /* Store pending payment (NOT in DB) */
-    pendingPayments.set(paymentToken, {
+    /* Store pending payment in MongoDB (expires in 30 min) */
+    await Payment.create({
+      paymentToken,
       orderNo,
       name: String(body.name).trim(),
       phone: String(body.phone).trim(),
@@ -249,7 +251,6 @@ app.post('/api/payment/initiate', async (req, res) => {
       upiId: String(body.upiId || '').trim(),
       location: body.location || null,
       mapLink: String(body.mapLink || '').trim(),
-      createdAt: Date.now(),
       verified: false
     });
 
@@ -280,14 +281,17 @@ app.post('/api/payment/verify', async (req, res) => {
     if (!paymentToken || typeof paymentToken !== 'string') {
       return res.status(400).json({ error: 'Missing payment token' });
     }
-    if (!transactionId || typeof transactionId !== 'string' || transactionId.trim().length < 3) {
-      return res.status(400).json({ error: 'Please enter a valid UPI transaction reference ID (min 3 characters)' });
+
+    /* STRICT UTR VALIDATION: Must be exactly 12 numeric digits */
+    const txnId = String(transactionId || '').trim();
+    if (!/^\d{12}$/.test(txnId)) {
+      return res.status(400).json({
+        error: 'Invalid Reference ID. Please enter exact 12-digit numeric Transaction ID / UTR found in your app history.'
+      });
     }
 
-    const txnId = transactionId.trim();
-
-    /* Check pending payment exists */
-    const pending = pendingPayments.get(paymentToken);
+    /* Check pending payment exists in MongoDB */
+    const pending = await Payment.findOne({ paymentToken });
     if (!pending) {
       return res.status(404).json({ error: 'Payment session not found or expired. Please try again.' });
     }
@@ -297,13 +301,7 @@ app.post('/api/payment/verify', async (req, res) => {
       return res.status(409).json({ error: 'This payment has already been verified.' });
     }
 
-    /* Check expiry */
-    if (Date.now() - pending.createdAt > PAYMENT_EXPIRY_MS) {
-      pendingPayments.delete(paymentToken);
-      return res.status(410).json({ error: 'Payment session expired. Please initiate a new order.' });
-    }
-
-    /* Check for duplicate transaction ID */
+    /* Check for duplicate transaction ID (UTR) in existing orders */
     const dupCheck = await Order.findOne({ transaction_id: txnId });
     if (dupCheck) {
       return res.status(409).json({ error: 'This transaction ID has already been used for another order.' });
@@ -341,7 +339,7 @@ app.post('/api/payment/verify', async (req, res) => {
       total_amount: pending.total,
       payment_method: 'UPI',
       upi_id: pending.upiId,
-      payment_status: 'Paid',
+      payment_status: 'Pending Verification',
       transaction_id: txnId,
       customer_lat: pending.location?.lat ?? null,
       customer_lon: pending.location?.lon ?? null,
@@ -351,6 +349,7 @@ app.post('/api/payment/verify', async (req, res) => {
     };
 
     await Order.create(orderData);
+    await Payment.deleteOne({ paymentToken }); // Clean up
 
     console.log(`✅ UPI Order ${orderData.order_id} verified & stored in MongoDB.`);
     res.status(201).json({

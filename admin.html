@@ -421,6 +421,27 @@
             border-color: #FFCDD2;
         }
 
+        .status-Pending {
+            background: #F3E5F5;
+            color: #7B1FA2;
+            border-color: #E1BEE7;
+            animation: pulse-purple 2s infinite;
+        }
+
+        @keyframes pulse-purple {
+            0% {
+                box-shadow: 0 0 0 0 rgba(123, 31, 162, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(123, 31, 162, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(123, 31, 162, 0);
+            }
+        }
+
         .status-select:hover {
             filter: brightness(0.95);
             transform: translateY(-1px);
@@ -891,8 +912,8 @@
           <td>
             ${o.map_link ? `<a href="${esc(o.map_link)}" target="_blank" class="badge-wa" style="text-decoration:none; background:var(--accent); border:none;">📍 View</a>` : '—'}
           </td>
-          <td>
-            <select class="status-select status-${esc(o.order_status || 'New')}" 
+          <td class="${o.payment_status === 'Pending Verification' ? 'status-Pending' : ''}">
+            <select class="status-select status-${esc((o.order_status || 'New').replace(' ', ''))}" 
                     onchange="updateStatus('${o.order_id}', this.value)" 
                     data-id="${o.order_id}">
                 <option value="New" ${o.order_status === 'New' ? 'selected' : ''}>New</option>
@@ -901,8 +922,9 @@
                 <option value="Delivered" ${o.order_status === 'Delivered' ? 'selected' : ''}>Delivered</option>
                 <option value="Cancelled" ${o.order_status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
             </select>
+            ${o.payment_status === 'Pending Verification' ? '<div style="font-size:0.65rem;font-weight:700;color:#7B1FA2;margin-top:4px">⚠️ VERIFY PAYMENT</div>' : ''}
           </td>
-          <td>${esc(o.payment_method)}</td>
+          <td style="${o.payment_status === 'Pending Verification' ? 'background:#F3E5F5;font-weight:bold;color:#7B1FA2' : ''}">${esc(o.payment_method)} ${o.payment_status === 'Pending Verification' ? '⏳' : ''}</td>
           <td>
             ${o.transaction_id ? `
               <div style="display:flex;align-items:center;gap:6px">
