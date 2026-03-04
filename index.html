@@ -12,6 +12,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+  <!-- Leaflet Map Library -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <style>
     :root {
       --pri: #E67E22;
@@ -1000,7 +1003,210 @@
       }
 
       100% {
-        transform: translate(20px, -15px) scale(1.15)
+        transform: translate(15px, 15px) scale(1.1)
+      }
+    }
+
+    /* ADVANCED LOCATION PICKER STYLES */
+    .loc-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: #fff;
+      display: none;
+      flex-direction: column;
+      animation: slideInUp 0.4s var(--ez);
+    }
+
+    .loc-modal.vis {
+      display: flex;
+    }
+
+    .loc-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #eee;
+      background: #fff;
+      z-index: 10;
+    }
+
+    .loc-back {
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--txt);
+      padding: 4px;
+    }
+
+    .loc-title {
+      font: 700 1.1rem var(--fh);
+      flex: 1;
+    }
+
+    .loc-search-container {
+      padding: 12px 16px;
+      position: relative;
+      background: #fff;
+      z-index: 10;
+    }
+
+    .loc-search-box {
+      background: #f8f8f8;
+      border-radius: 999px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #eee;
+    }
+
+    .loc-search-box input {
+      border: none;
+      background: none;
+      padding: 0;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    .loc-search-box input:focus {
+      box-shadow: none;
+      transform: none;
+    }
+
+    .loc-results {
+      position: absolute;
+      top: 100%;
+      left: 16px;
+      right: 16px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      margin-top: 5px;
+      max-height: 250px;
+      overflow-y: auto;
+      z-index: 20;
+      border: 1px solid #eee;
+      display: none;
+    }
+
+    .loc-res-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f5f5f5;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .loc-res-item:hover {
+      background: #fcfcfc;
+    }
+
+    .loc-res-item span {
+      margin-top: 2px;
+      color: var(--pri);
+    }
+
+    .loc-map-container {
+      flex: 1;
+      position: relative;
+    }
+
+    #locPickerMap {
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+    }
+
+    .loc-pin-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      pointer-events: none;
+      z-index: 10;
+      margin-top: -15px;
+    }
+
+    .loc-pin-hint {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 10;
+      margin-top: -65px;
+    }
+
+    .loc-footer {
+      padding: 20px;
+      background: #fff;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
+      z-index: 10;
+      margin-top: -24px;
+    }
+
+    .loc-confirm-title {
+      font: 700 1rem var(--fh);
+      margin-bottom: 4px;
+    }
+
+    .loc-confirm-sub {
+      font-size: 0.82rem;
+      color: var(--txt-lt);
+      margin-bottom: 16px;
+    }
+
+    .loc-btn-primary {
+      width: 100%;
+      background: #007bff;
+      color: #fff;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      font: 700 1rem var(--fh);
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .loc-floating-gps {
+      position: absolute;
+      bottom: 44px;
+      right: 20px;
+      background: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      cursor: pointer;
+      color: #007bff;
+      border: 1px solid #eee;
+    }
+
+    @keyframes slideInUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
       }
     }
 
@@ -2414,8 +2620,10 @@
           </div>
           <div style="display:flex;gap:6px;align-items:center;padding-bottom:2px">
             <span class="small muted" id="distanceSource">(manual)</span>
-            <button type="button" id="detectBtn" style="padding:9px 14px;font-size:.83rem">📍
-              Detect</button>
+            <button type="button" id="detectBtn" style="padding:9px 14px;font-size:.83rem">📍 Detect</button>
+            <button type="button" id="btnOpenMapPicker"
+              style="padding:9px 14px;font-size:.83rem;background:var(--sec);box-shadow:0 4px 15px rgba(26,188,156,.25)">🗺️
+              Select on Map</button>
           </div>
         </div>
         <!-- Google Maps embed -->
@@ -2638,6 +2846,7 @@
     const genON = () => 'GFJ-' + Date.now().toString(36).toUpperCase().slice(-6);
     document.getElementById('waChat').href = waUrl(SHOP_PHONE, 'Hi! I want to place an order.');
     const dSrc = document.getElementById('distanceSource');
+    let locMap = null, locMarker = null;
 
     /* ===== CART STATE ===== */
     let cart = [];
@@ -2824,6 +3033,117 @@
       return { sub, del, total };
     }
     document.getElementById('distanceInput').addEventListener('input', updateTotals);
+
+    /* ===== ADVANCED LOCATION PICKER JS ===== */
+    const locModal = document.getElementById('locationModal');
+    const locSearch = document.getElementById('locSearchInput');
+    const locRes = document.getElementById('locSearchResults');
+    let searchTimeout = null;
+
+    function openLocationPicker() {
+      locModal.classList.add('vis');
+      if (!locMap) {
+        // Init Leaflet map
+        locMap = L.map('locPickerMap', { zoomControl: false }).setView([SHOP_LAT, SHOP_LON], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap'
+        }).addTo(locMap);
+
+        // Handle map move to show hint or update status
+        locMap.on('move', () => {
+          // You could add logic here to show "Loading address..." while moving
+        });
+      }
+
+      // Try to center on user if possible, otherwise shop
+      detectUserLocationInMap(false);
+    }
+
+    function closeLocationPicker() {
+      locModal.classList.remove('vis');
+    }
+
+    async function detectUserLocationInMap(showAlert = true) {
+      if (!navigator.geolocation) {
+        if (showAlert) alert('Geolocation not supported');
+        return;
+      }
+      try {
+        const p = await new Promise((r, j) => navigator.geolocation.getCurrentPosition(r, j, { enableHighAccuracy: true, timeout: 8000 }));
+        locMap.flyTo([p.coords.latitude, p.coords.longitude], 18);
+      } catch (e) {
+        if (showAlert) alert('Could not detect location. Please search manually.');
+        locMap.setView([SHOP_LAT, SHOP_LON], 16);
+      }
+    }
+
+    // Search logic
+    locSearch.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      const q = e.target.value.trim();
+      if (q.length < 3) { locRes.style.display = 'none'; return; }
+
+      searchTimeout = setTimeout(async () => {
+        try {
+          const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&countrycodes=in&limit=5`);
+          const data = await r.json();
+          if (data.length) {
+            locRes.innerHTML = data.map(item => `
+              <div class="loc-res-item" onclick="selectLocResult(${item.lat}, ${item.lon}, '${item.display_name.replace(/'/g, "\\'")}')">
+                <span>📍</span>
+                <div>${item.display_name}</div>
+              </div>
+            `).join('');
+            locRes.style.display = 'block';
+          } else {
+            locRes.style.display = 'none';
+          }
+        } catch (e) { console.error('Search error', e); }
+      }, 500);
+    });
+
+    function selectLocResult(lat, lon, name) {
+      locMap.flyTo([lat, lon], 17);
+      locRes.style.display = 'none';
+      locSearch.value = name;
+    }
+
+    async function confirmSelectedLocation() {
+      const center = locMap.getCenter();
+      const lat = center.lat, lon = center.lng;
+      const km = Math.round(haversine(SHOP_LAT, SHOP_LON, lat, lon) * 10) / 10;
+
+      const confirmBtn = document.querySelector('.loc-btn-primary');
+      const originalText = confirmBtn.textContent;
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = '⌛ Updating Address...';
+
+      try {
+        // Reverse geocoding to get a nice address
+        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+        const data = await r.json();
+        const addr = data.display_name || `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+
+        // Update form fields
+        document.querySelector('textarea[name="address"]').value = addr;
+        document.getElementById('distanceInput').value = km;
+        dSrc.textContent = `📍 Map (${km} km)`;
+
+        updateTotals();
+        closeLocationPicker();
+
+        // Scroll to delivery section to show updates
+        document.getElementById('delivery').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        console.error('Confirm error', e);
+        alert('Error updating address. Please try again.');
+      } finally {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = originalText;
+      }
+    }
+
+    document.getElementById('btnOpenMapPicker').addEventListener('click', openLocationPicker);
 
     /* ===== DISTANCE / GEO ===== */
     function haversine(la1, lo1, la2, lo2) {
@@ -3580,6 +3900,43 @@
       window.addEventListener('resize', () => { resize(); });
     })();
   </script>
+
+  <!-- LOCATION PICKER MODAL -->
+  <div class="loc-modal" id="locationModal">
+    <div class="loc-header">
+      <button class="loc-back" onclick="closeLocationPicker()">←</button>
+      <div class="loc-title">Select delivery address</div>
+    </div>
+
+    <div class="loc-search-container">
+      <div class="loc-search-box">
+        <span>🔍</span>
+        <input type="text" id="locSearchInput" placeholder="Search by area, street name, pin code">
+      </div>
+      <div class="loc-results" id="locSearchResults"></div>
+    </div>
+
+    <div class="loc-map-container">
+      <div id="locPickerMap"></div>
+      <div class="loc-pin-center">📍</div>
+      <div class="loc-pin-hint">Place pin on the exact location</div>
+
+      <div class="loc-floating-gps" onclick="detectUserLocationInMap()">
+        <span style="font-size:1.4rem">🎯</span>
+      </div>
+    </div>
+
+    <div class="loc-footer">
+      <div class="loc-confirm-title">Where do you want us to deliver the order?</div>
+      <div class="loc-confirm-sub">This will help with the right map location</div>
+
+      <button class="loc-btn-primary" onclick="confirmSelectedLocation()">Confirm Location</button>
+      <button class="loc-btn-primary" style="background:#fff; color:#007bff; border:1px solid #007bff"
+        onclick="detectUserLocationInMap()">
+        🎯 Use current location
+      </button>
+    </div>
+  </div>
 </body>
 
 </html>
