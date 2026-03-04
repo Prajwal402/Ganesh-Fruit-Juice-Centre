@@ -1151,21 +1151,13 @@
     .loc-footer {
       padding: 20px;
       background: #fff;
-      border-radius: 24px 24px 0 0;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
+      border-top: 1px solid #eee;
       z-index: 10;
-      margin-top: -24px;
+      display: none;
     }
 
-    .loc-confirm-title {
-      font: 700 1rem var(--fh);
-      margin-bottom: 4px;
-    }
-
-    .loc-confirm-sub {
-      font-size: 0.82rem;
-      color: var(--txt-lt);
-      margin-bottom: 16px;
+    .loc-footer.vis {
+      display: block;
     }
 
     .loc-btn-primary {
@@ -3124,6 +3116,8 @@
 
       els.modal.classList.add('vis');
       if (els.choice) els.choice.classList.add('vis');
+      const footer = document.getElementById('locPickerFooter');
+      if (footer) footer.classList.remove('vis');
 
       if (!locMap) {
         if (typeof L === 'undefined') {
@@ -3142,11 +3136,16 @@
       const els = getLocEls();
       if (els.modal) els.modal.classList.remove('vis');
       if (els.choice) els.choice.classList.remove('vis');
+      const footer = document.getElementById('locPickerFooter');
+      if (footer) footer.classList.remove('vis');
     }
 
     function handleLocChoice(choice) {
       const els = getLocEls();
       if (els.choice) els.choice.classList.remove('vis');
+      const footer = document.getElementById('locPickerFooter');
+      if (footer) footer.classList.add('vis');
+
       if (choice === 'current') {
         detectUserLocationInMap(true);
       } else if (choice === 'manual') {
@@ -4045,15 +4044,8 @@
       </div>
     </div>
 
-    <div class="loc-footer">
-      <div class="loc-confirm-title">Where do you want us to deliver the order?</div>
-      <div class="loc-confirm-sub">This will help with the right map location</div>
-
+    <div class="loc-footer" id="locPickerFooter">
       <button class="loc-btn-primary" onclick="confirmSelectedLocation()">Confirm Location</button>
-      <button class="loc-btn-primary" style="background:#fff; color:#007bff; border:1px solid #007bff"
-        onclick="detectUserLocationInMap()">
-        🎯 Use current location
-      </button>
     </div>
   </div>
 </body>
