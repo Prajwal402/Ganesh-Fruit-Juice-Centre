@@ -1,7 +1,7 @@
 {
   "name": "ganesh-juice-centre",
   "version": "1.0.0",
-  "description": "Ganesh Fresh Juice Centre - Order Backend",
+  "description": "Shri Ganesh Fresh Fruit Juice - Order Backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

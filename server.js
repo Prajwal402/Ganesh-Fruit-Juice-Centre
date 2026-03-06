@@ -547,7 +547,7 @@ if (process.env.VERCEL === '1') {
   app.listen(PORT, () => {
     console.log(`
 ╔══════════════════════════════════════════════════╗
-║  🍹 Ganesh Fresh Juice Centre — Server Running  ║
+║  🍹 Shri Ganesh Fresh Fruit Juice — Server Running  ║
 ╠══════════════════════════════════════════════════╣
 ║  Frontend : http://localhost:${PORT}               ║
 ║  Admin    : http://localhost:${PORT}/admin          ║
