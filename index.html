@@ -3314,7 +3314,7 @@
       const pn = encodeURIComponent('JNANESHA C M');
       const am = amtStr;
       const tr = encodeURIComponent(orderNo);
-      const tn = encodeURIComponent('Order ' + orderNo + ' at Ganesh Juice');
+      const tn = encodeURIComponent('Order ' + orderNo + ' at Shri Ganesh Fresh Fruit Juice');
 
       // Standard UPI deep link format
       return `${prefix}pay?pa=${pa}&pn=${pn}&am=${am}&cu=INR&tr=${tr}&tn=${tn}&mode=02&purpose=00&orgid=159761`;
@@ -3450,7 +3450,7 @@
             `🚚 *Delivery:* ₹${orderData.delivery}`,
             `💰 *TOTAL PAID:* ₹${orderData.total}`,
             '--------------------------',
-            `🔗 *Shop:* ${SHOP_MAP}`
+            `🔗 *Shop:* Shri Ganesh Fresh Fruit Juice`, `📍 *Map:* ${SHOP_MAP}`
           ];
           if (orderData.mapLink) lines.push(`📍 *Location:* ${orderData.mapLink}`);
 
@@ -3592,7 +3592,7 @@
             document.getElementById('confirmOverlay').classList.add('vis');
 
             /* Send WhatsApp */
-            const lines = ['🍹 New Order (COD)', `Order: ${oNo}`, `Name: ${name}`, `Phone: ${phone}`, `Address: ${address}`, `Distance: ${dist} km`, 'Items:', ...items, `Subtotal: ₹${t.sub}`, `Delivery: ₹${t.del}`, `Total: ₹${t.total}`, `Payment: 💵 Cash on Delivery`, `Shop: ${SHOP_MAP}`];
+            const lines = ['🍹 New Order (COD)', `Order: ${oNo}`, `Name: ${name}`, `Phone: ${phone}`, `Address: ${address}`, `Distance: ${dist} km`, 'Items:', ...items, `Subtotal: ₹${t.sub}`, `Delivery: ₹${t.del}`, `Total: ₹${t.total}`, `Payment: 💵 Cash on Delivery`, `Shop: Shri Ganesh Fresh Fruit Juice`, `Map: ${SHOP_MAP}`];
             if (loc) lines.push(`Location: https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`);
             window.open(waUrl(SHOP_PHONE, lines.join('\n')), '_blank');
 
