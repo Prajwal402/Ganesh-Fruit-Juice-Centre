@@ -2420,7 +2420,7 @@
       <div class="card" data-name="Pulpy Lichi Juice" data-price="45" data-img="puply grape.jpg"><img src="litchi .jpeg"
           alt="Pulpy Lichi Juice">
         <div class="cinfo">
-          <h3>Pulpy Lichi Juice</h3><span class="cprice">₹45</span>
+          <h3>Pulpy Litchi Juice</h3><span class="cprice">₹45</span>
         </div>
         <div class="card-actions"><button class="card-add" type="button">🛒 Add to Cart</button></div>
       </div>
@@ -3707,15 +3707,17 @@
           /* Send WhatsApp message NOW (only after payment verified) */
           const items = orderData.items || [];
           const lines = [
-            '🍹 *ORDER CONFIRMED (PAID)*',
+            'Shri Ganesh Fresh Fruit Juice',
             '--------------------------',
-            `📦 *Order:* ${orderNo}`,
+            '✅ *New Online Order*',
+            `🆔 *Order:* ${orderNo}`,
             `✅ *Payment:* UPI Verified`,
             `🔢 *Transaction ID:* ${data.transactionId}`,
             '--------------------------',
             `👤 *Customer:* ${orderData.name}`,
             `📞 *Phone:* ${orderData.phone}`,
-            `📍 *Address:* ${orderData.address}`,
+            `🏠 *Address:* ${orderData.address}`,
+            `📍 *Distance:* ${orderData.distance} km`,
             '--------------------------',
             '🛒 *Items:*',
             ...items,
@@ -3866,7 +3868,7 @@
             document.getElementById('confirmOverlay').classList.add('vis');
 
             /* Send WhatsApp */
-            const lines = ['🍹 New Order (COD)', `Order: ${oNo}`, `Name: ${name}`, `Phone: ${phone}`, `Address: ${address}`, `Distance: ${dist} km`, 'Items:', ...items, `Subtotal: ₹${t.sub}`, `Delivery: ₹${t.del}`, `Total: ₹${t.total}`, `Payment: 💵 Cash on Delivery`, `Shop: Shri Ganesh Fresh Fruit Juice`, `Map: ${SHOP_MAP}`];
+            const lines = ['Shri ganesh fruit juice', '--------------------------', '🍹 New Order (COD)', `Order: ${oNo}`, `Name: ${name}`, `Phone: ${phone}`, `Address: ${address}`, `Distance: ${dist} km`, 'Items:', ...items, `Subtotal: ₹${t.sub}`, `Delivery: ₹${t.del}`, `Total: ₹${t.total}`, `Payment: 💵 Cash on Delivery`, `Shop: Shri Ganesh Fresh Fruit Juice`, `Map: ${SHOP_MAP}`];
             if (loc) lines.push(`Location: https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`);
             window.open(waUrl(SHOP_PHONE, lines.join('\n')), '_blank');
 
