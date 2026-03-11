@@ -7,7 +7,7 @@
     },
     "rewrites": [
         {
-            "source": "/api/(.*)",
+            "source": "/api/:path*",
             "destination": "/server.js"
         },
         {
@@ -23,11 +23,7 @@
             "destination": "/admin.html"
         },
         {
-            "source": "/(.*\\.(jpg|jpeg|webp|png|css|js|ico|txt))",
-            "destination": "/$1"
-        },
-        {
-            "source": "/(.*)",
+            "source": "/:path*",
             "destination": "/index.html"
         }
     ]
