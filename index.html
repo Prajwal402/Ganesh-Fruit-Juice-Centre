@@ -2266,10 +2266,157 @@
         radial-gradient(ellipse at 85% 70%, rgba(26, 188, 156, .08) 0%, transparent 45%),
         var(--bg)
     }
+    /* ===== INTRO SCREEN ===== */
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: linear-gradient(135deg, #FF9100, #FFD600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s var(--ez), visibility 0.8s var(--ez);
+      overflow: hidden;
+      font-family: var(--fh);
+    }
+
+    #intro-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-content {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      padding: 50px 40px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      animation: introPop 0.8s var(--ez) both;
+    }
+
+    @keyframes introPop {
+      from { transform: scale(0.9) translateY(30px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .intro-shop-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+      opacity: 0.9;
+    }
+
+    .intro-heading {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .intro-subheading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      opacity: 0.9;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .intro-desc {
+      font-size: 1.05rem;
+      color: #fff;
+      line-height: 1.6;
+      margin-bottom: 35px;
+      opacity: 0.85;
+    }
+
+    .intro-btn {
+      background: #fff;
+      color: #E67E22;
+      padding: 16px 40px;
+      border-radius: 999px;
+      border: none;
+      font: 800 1.1rem var(--fh);
+      cursor: pointer;
+      transition: all 0.3s var(--ez);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .intro-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      background: #fdfdfd;
+      color: #D35400;
+    }
+
+    /* Floating Fruits */
+    .intro-fruit {
+      position: absolute;
+      font-size: 4rem;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+      animation: introFruitFloat 10s infinite ease-in-out;
+    }
+
+    @keyframes introFruitFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(15deg); }
+    }
+
+    .f1 { top: 10%; left: 10%; animation-delay: 0s; }
+    .f2 { top: 70%; left: 15%; animation-delay: -2s; font-size: 3rem; }
+    .f3 { top: 20%; right: 12%; animation-delay: -4s; }
+    .f4 { top: 75%; right: 18%; animation-delay: -6s; font-size: 5rem; }
+    .f5 { top: 40%; left: 75%; animation-delay: -8s; font-size: 2.5rem; }
+
+    body.intro-active {
+      overflow: hidden !important;
+    }
   </style>
 </head>
 
 <body>
+  <!-- INTRO SCREEN -->
+  <div id="intro-overlay">
+    <div class="intro-fruit f1">🥭</div>
+    <div class="intro-fruit f2">🍊</div>
+    <div class="intro-fruit f3">🍉</div>
+    <div class="intro-fruit f4">🍍</div>
+    <div class="intro-fruit f5">🍓</div>
+    
+    <div class="intro-content">
+      <div class="intro-shop-name">Ganesh Fruit Juice Centre</div>
+      <h1 class="intro-heading">Opening Soon</h1>
+      <div class="intro-subheading">
+        <span>Fresh Juices</span> • 
+        <span>Sandwiches</span> • 
+        <span>Healthy Drinks</span>
+      </div>
+      <p class="intro-desc">
+        We are preparing something fresh and exciting for you. 
+        Get ready for natural juices, delicious sandwiches, and refreshing drinks.
+      </p>
+      <button class="intro-btn" id="enterBtn">Enter Website</button>
+    </div>
+  </div>
   <!-- 3D ANIMATED BACKGROUND -->
   <canvas id="bgCanvas"></canvas>
   <div class="bg-fallback" id="bgFallback" style="display:none"></div>
@@ -4376,6 +4523,35 @@
       <button class="loc-btn-primary" onclick="confirmSelectedLocation()">Confirm Location</button>
     </div>
   </div>
+  <script>
+    // Intro Screen Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const introOverlay = document.getElementById('intro-overlay');
+      const enterBtn = document.getElementById('enterBtn');
+      const body = document.body;
+
+      // Check if user has visited before in this session
+      if (sessionStorage.getItem('introSeen')) {
+        if (introOverlay) introOverlay.style.display = 'none';
+        body.classList.remove('intro-active');
+      } else {
+        body.classList.add('intro-active');
+      }
+
+      if (enterBtn) {
+        enterBtn.addEventListener('click', () => {
+          introOverlay.classList.add('fade-out');
+          body.classList.remove('intro-active');
+          sessionStorage.setItem('introSeen', 'true');
+          
+          // Remove from DOM after fade out
+          setTimeout(() => {
+            introOverlay.remove();
+          }, 1000);
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
