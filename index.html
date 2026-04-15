@@ -140,6 +140,190 @@
       background: linear-gradient(180deg, rgba(26, 26, 46, .55), rgba(26, 26, 46, .35)), url("j1.jpg") center/cover no-repeat
     }
 
+    /* GLOBAL MENU SEARCH */
+    .nav-search {
+      margin-left: auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    #menuSearch {
+      padding: 10px 18px;
+      padding-left: 40px;
+      border-radius: 999px;
+      border: 2px solid #eee;
+      font: 500 0.88rem var(--fb);
+      width: 220px;
+      transition: all 0.4s var(--ez);
+      background: rgba(255, 255, 255, 0.9) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 14px center;
+      background-size: 16px;
+    }
+
+    #menuSearch:focus {
+      width: 320px;
+      border-color: var(--pri);
+      box-shadow: 0 0 0 5px rgba(230, 126, 34, 0.15);
+      background-color: #fff;
+      outline: none;
+    }
+
+    /* MEAL DESCRIPTION MODAL */
+    .desc-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.4s var(--ez);
+    }
+
+    .desc-overlay.vis {
+      display: flex;
+      opacity: 1;
+    }
+
+    .desc-modal {
+      background: #fff;
+      width: 92%;
+      max-width: 480px;
+      border-radius: 28px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      position: relative;
+      transform: scale(0.9) translateY(30px);
+      transition: all 0.5s var(--ez);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .desc-overlay.vis .desc-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .desc-header {
+      background: linear-gradient(135deg, var(--pri), var(--pri-dk));
+      color: #fff;
+      padding: 30px 24px;
+      text-align: center;
+    }
+
+    .desc-header h3 {
+      font: 800 1.6rem var(--fh);
+      margin: 0;
+    }
+
+    .desc-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #fff;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .desc-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    .desc-body {
+      padding: 24px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .desc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding: 16px;
+      background: var(--bg);
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      transition: all 0.3s;
+    }
+
+    .desc-item:hover {
+      transform: translateX(8px);
+      border-color: var(--pri-lt);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .desc-item-icon {
+      font-size: 1.5rem;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    }
+
+    .desc-item-text b {
+      display: block;
+      color: var(--txt);
+      font: 700 1rem var(--fh);
+      margin-bottom: 2px;
+    }
+
+    .desc-item-text span {
+      font-size: 0.88rem;
+      color: var(--txt-lt);
+      line-height: 1.4;
+      display: block;
+    }
+
+    .desc-footer {
+      padding: 20px 24px;
+      border-top: 1px solid #f0f0f0;
+      text-align: center;
+    }
+
+    .btn-details {
+      background: rgba(26, 188, 156, 0.1);
+      color: var(--sec-dk);
+      border: 1.5px solid var(--sec);
+      padding: 9px 16px;
+      border-radius: 999px;
+      font: 700 0.82rem var(--fh);
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-details:hover {
+      background: var(--sec);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(26, 188, 156, 0.3);
+    }
+
+    /* SEARCH FEEDBACK */
+    #noResultsMsg {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--txt-lt);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .hero .content {
       z-index: 2;
       padding: 20px;
@@ -2361,8 +2545,15 @@
   </header>
 
   <nav id="mainNav">
-    <a href="#home">Home</a><a href="#menu">Menu</a><a href="#about">About</a>
-    <a href="#gallery">Gallery</a><a href="#delivery">Order</a><a href="#contact">Contact</a>
+    <div style="display: flex; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; gap: 10px; flex-wrap: wrap;">
+      <div style="display: flex; gap: 4px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none;">
+        <a href="#home">Home</a><a href="#menu">Menu</a><a href="#about">About</a>
+        <a href="#gallery">Gallery</a><a href="#delivery">Order</a><a href="#contact">Contact</a>
+      </div>
+      <div class="nav-search">
+        <input type="text" id="menuSearch" placeholder="Search juce, meal...">
+      </div>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -2761,14 +2952,20 @@
         <div class="cinfo">
           <h3>Healthy Meal</h3><span class="cprice">₹95</span>
         </div>
-        <div class="card-actions"><button class="card-add" type="button">🛒 Add to Cart</button></div>
+        <div class="card-actions" style="padding: 0 12px 12px;">
+          <button class="card-add" type="button" style="width: 100%; margin: 0 0 8px 0;">🛒 Add to Cart</button>
+          <button class="btn-details" type="button" onclick="showMealDetails('healthy')">✨ View Details</button>
+        </div>
       </div>
       <div class="card" data-name="Protein Meal" data-price="100" data-img="protein meal.jpg"><img
           src="protein meal.jpg" alt="Protein Meal">
         <div class="cinfo">
           <h3>Protein Meal</h3><span class="cprice">₹100</span>
         </div>
-        <div class="card-actions"><button class="card-add" type="button">🛒 Add to Cart</button></div>
+        <div class="card-actions" style="padding: 0 12px 12px;">
+          <button class="card-add" type="button" style="width: 100%; margin: 0 0 8px 0;">🛒 Add to Cart</button>
+          <button class="btn-details" type="button" onclick="showMealDetails('protein')">✨ View Details</button>
+        </div>
       </div>
     </div>
 
