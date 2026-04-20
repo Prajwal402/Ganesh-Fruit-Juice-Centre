@@ -2551,7 +2551,7 @@
         <a href="#gallery">Gallery</a><a href="#delivery">Order</a><a href="#contact">Contact</a>
       </div>
       <div class="nav-search">
-        <input type="text" id="menuSearch" placeholder="Search juce, meal...">
+        <input type="text" id="menuSearch" placeholder="Search juice, meal...">
       </div>
     </div>
   </nav>
@@ -2947,8 +2947,8 @@
 
     <div class="mcat" id="cat-meals">🍱 Meals</div>
     <div class="mgrid">
-      <div class="card" data-name="Healthy Meal" data-price="95" data-img="healthy meal.jpg"><img src="healthy meal.jpg"
-          alt="Healthy Meal">
+      <div class="card" data-name="Healthy Meal" data-price="95" data-img="healthy meal.jpg" data-keywords="carrot, cucumber, sweet potato, guava, banana, rajma">
+        <img src="healthy meal.jpg" alt="Healthy Meal">
         <div class="cinfo">
           <h3>Healthy Meal</h3><span class="cprice">₹95</span>
         </div>
@@ -2957,8 +2957,8 @@
           <button class="btn-details" type="button" onclick="showMealDetails('healthy')">✨ View Details</button>
         </div>
       </div>
-      <div class="card" data-name="Protein Meal" data-price="100" data-img="protein meal.jpg"><img
-          src="protein meal.jpg" alt="Protein Meal">
+      <div class="card" data-name="Protein Meal" data-price="100" data-img="protein meal.jpg" data-keywords="dates, anjeer, dry fruits, apple, mung bean, kadale kalu, peanuts">
+        <img src="protein meal.jpg" alt="Protein Meal">
         <div class="cinfo">
           <h3>Protein Meal</h3><span class="cprice">₹100</span>
         </div>
@@ -3444,6 +3444,22 @@
           Payment</button>
         <button type="button" id="upiCancelBtn" style="background:linear-gradient(135deg,#95a5a6,#7f8c8d)">✖
           Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEAL DESCRIPTION MODAL -->
+  <div class="desc-overlay" id="mealDescOverlay">
+    <div class="desc-modal">
+      <button class="desc-close" onclick="closeMealDetails()">✕</button>
+      <div class="desc-header">
+        <h3 id="mealDescTitle">Meal Details</h3>
+      </div>
+      <div class="desc-body" id="mealDescBody">
+        <!-- Content injected by JS -->
+      </div>
+      <div class="desc-footer">
+        <button class="btn" onclick="closeMealDetails()">Got it!</button>
       </div>
     </div>
   </div>
@@ -4611,6 +4627,112 @@
         }
       });
     });
+
+    /* ===== MEAL DETAILS MODAL LOGIC ===== */
+    const mealData = {
+      healthy: {
+        title: "🥗 Healthy Meal Benefits",
+        items: [
+          { name: "Carrot", desc: "Rich in Vitamin K1 and B6 — great for eyes & immunity.", icon: "🥕" },
+          { name: "Cucumber", desc: "Vitamins K, C, and A — keeps you hydrated & skin fresh.", icon: "🥒" },
+          { name: "Sweet Potato", desc: "High in Vitamin A, C, and B — great energy source.", icon: "🍠" },
+          { name: "Guava", desc: "Packed with Vitamin C — supercharges your immunity.", icon: "🍐" },
+          { name: "Banana", desc: "Vitamin B6 powerhouse — good for heart & mood.", icon: "🍌" },
+          { name: "Rajma", desc: "Rich in Vitamin B9, B6, K, and C — high protein & fiber.", icon: "🍲" }
+        ]
+      },
+      protein: {
+        title: "💪 Protein Meal Benefits",
+        items: [
+          { name: "Dates", desc: "Vitamins B6, A, and K — natural energy & fiber.", icon: "🌴" },
+          { name: "Anjeer (Figs)", desc: "Vitamins A, C, K, and B — great for digestion.", icon: "🍪" },
+          { name: "Dry Fruits", desc: "Vitamins A, C, E, K, and B — essential healthy fats.", icon: "🥜" },
+          { name: "Apple", desc: "Vitamins A, E, K, and C — keeps the doctor away!", icon: "🍎" },
+          { name: "Mung Bean", desc: "Vitamins C, A, and E — clean plant-based protein.", icon: "🌱" },
+          { name: "Kadale Kalu", desc: "Packed with Vitamin B — iron & protein rich.", icon: "🥣" },
+          { name: "Peanuts", desc: "Vitamins B, E, B3, B1, B9, and Biotin — brain & heart fuel.", icon: "🥜" }
+        ]
+      }
+    };
+
+    window.showMealDetails = function(type) {
+      const data = mealData[type];
+      if (!data) return;
+      document.getElementById('mealDescTitle').textContent = data.title;
+      const body = document.getElementById('mealDescBody');
+      body.innerHTML = data.items.map(item => `
+        <div class="desc-item">
+          <div class="desc-item-icon">${item.icon}</div>
+          <div class="desc-item-text">
+            <b>${item.name}</b>
+            <span>${item.desc}</span>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('mealDescOverlay').classList.add('vis');
+    };
+
+    window.closeMealDetails = function() {
+      document.getElementById('mealDescOverlay').classList.remove('vis');
+    };
+
+    // Close on backdrop click
+    document.getElementById('mealDescOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'mealDescOverlay') closeMealDetails();
+    });
+
+    /* ===== GLOBAL SEARCH LOGIC ===== */
+    const menuSearch = document.getElementById('menuSearch');
+    if (menuSearch) {
+      const allCards = document.querySelectorAll('.card');
+      let noResults = document.getElementById('noResultsMsg');
+
+      if (!noResults) {
+        noResults = document.createElement('div');
+        noResults.id = 'noResultsMsg';
+        noResults.style.display = 'none';
+        noResults.innerHTML = '<h3>🤷 No items found</h3><p>Try searching for something else!</p>';
+        const menuHeader = document.querySelector('.stitle');
+        if (menuHeader) menuHeader.parentElement.appendChild(noResults);
+      }
+
+      menuSearch.addEventListener('input', () => {
+        const query = menuSearch.value.toLowerCase().trim();
+        const tokens = query.split(/\s+/).filter(t => t.length > 0);
+        let hasResults = false;
+
+        allCards.forEach(card => {
+          if (!card.dataset.name) return;
+          const name = card.dataset.name.toLowerCase();
+          const keywords = (card.dataset.keywords || '').toLowerCase();
+          const content = name + ' ' + keywords;
+          
+          // Match all tokens in any order, or show all if query is empty
+          const isMatch = tokens.length === 0 || tokens.every(token => content.includes(token));
+
+          if (isMatch) {
+            card.style.display = 'block';
+            card.classList.add('vis');
+            hasResults = true;
+          } else {
+            card.style.display = 'none';
+            card.classList.remove('vis');
+          }
+        });
+
+        // Toggle category headers based on card visibility
+        document.querySelectorAll('.mcat').forEach(cat => {
+          const grid = cat.nextElementSibling;
+          if (grid && grid.classList.contains('mgrid')) {
+            const hasVisibleItems = Array.from(grid.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+            cat.style.display = hasVisibleItems ? 'inline-block' : 'none';
+            grid.style.display = hasVisibleItems ? 'grid' : 'none';
+          }
+        });
+
+        if (noResults) noResults.style.display = (hasResults || query === '') ? 'none' : 'block';
+      });
+    }
   </script>
 
   <!-- LOCATION PICKER MODAL -->

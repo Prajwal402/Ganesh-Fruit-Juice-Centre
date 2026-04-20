@@ -952,17 +952,21 @@
         function getFilteredOrders() {
             let list = [...allOrders];
             const search = document.getElementById('filterSearch').value.trim().toLowerCase();
+            const tokens = search.split(/\s+/).filter(t => t.length > 0);
             const dateFrom = document.getElementById('filterDateFrom').value;
             const dateTo = document.getElementById('filterDateTo').value;
 
-            if (search) {
-                list = list.filter(o =>
-                    (o.order_id || '').toLowerCase().includes(search) ||
-                    (o.customer_name || '').toLowerCase().includes(search) ||
-                    (o.customer_phone || '').toLowerCase().includes(search) ||
-                    (o.items_list || '').toLowerCase().includes(search) ||
-                    (o.delivery_address || '').toLowerCase().includes(search)
-                );
+            if (tokens.length > 0) {
+                list = list.filter(o => {
+                    const content = [
+                        o.order_id,
+                        o.customer_name,
+                        o.customer_phone,
+                        o.items_list,
+                        o.delivery_address
+                    ].join(' ').toLowerCase();
+                    return tokens.every(token => content.includes(token));
+                });
             }
             if (dateFrom) {
                 list = list.filter(o => (o.order_date || '').slice(0, 10) >= dateFrom);
