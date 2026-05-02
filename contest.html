@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucky Customer Contest - Ganesh Fruit Juice Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pri: #FF9800; /* Bright Orange */
+      --pri-dk: #F57C00;
+      --sec: #4CAF50; /* Fresh Green */
+      --sec-dk: #388E3C;
+      --acc: #FFEB3B; /* Vibrant Yellow */
+      --bg: #FFFDF7;
+      --txt: #2C3E50;
+      --r: 20px;
+      --sh: 0 10px 30px rgba(0, 0, 0, 0.1);
+      --fh: 'Poppins', sans-serif;
+      --fb: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--fb);
+      background: var(--bg);
+      color: var(--txt);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .poster {
+      background: #fff;
+      max-width: 800px;
+      width: 100%;
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      overflow: hidden;
+      position: relative;
+      border: 4px solid var(--pri);
+    }
+
+    /* HEADER SECTION */
+    .header {
+      background: linear-gradient(135deg, var(--pri), var(--acc));
+      text-align: center;
+      padding: 40px 20px 30px;
+      position: relative;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '🥭🍊🍹';
+      position: absolute;
+      top: 10px;
+      right: -20px;
+      font-size: 80px;
+      opacity: 0.15;
+      transform: rotate(15deg);
+    }
+
+    .header-free {
+      font: 900 2rem var(--fh);
+      background: var(--sec);
+      color: #fff;
+      display: inline-block;
+      padding: 5px 25px;
+      border-radius: 50px;
+      transform: rotate(-3deg);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+
+    .header-title {
+      font: 900 3rem/1.1 var(--fh);
+      text-transform: uppercase;
+      text-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
+    }
+
+    .header-prize {
+      font: 800 2.2rem var(--fh);
+      color: #D32F2F; /* Bold Red for prize */
+      background: #fff;
+      display: inline-block;
+      padding: 10px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      margin-top: 10px;
+    }
+
+    /* MAIN CONTENT */
+    .content {
+      padding: 30px;
+    }
+
+    .section-title {
+      text-align: center;
+      font: 800 1.8rem var(--fh);
+      color: var(--sec-dk);
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--pri);
+      margin: 8px auto 0;
+      border-radius: 2px;
+    }
+
+    /* OPTIONS GRID */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .option-card {
+      background: #f9fdf9;
+      border: 2px dashed var(--sec);
+      border-radius: 15px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .option-title {
+      font: 800 1.3rem var(--fh);
+      color: #fff;
+      background: var(--sec);
+      padding: 8px 15px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 15px;
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    }
+
+    .option-list {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .option-list li {
+      margin-bottom: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .option-list li::before {
+      content: '✅';
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* DETAILS SECTION */
+    .details-box {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+      border-left: 5px solid var(--pri);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .detail-item {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .detail-item h4 {
+      font: 700 1.1rem var(--fh);
+      color: var(--pri-dk);
+      margin-bottom: 5px;
+    }
+
+    .detail-item p {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    /* FOOTER / BRANDING */
+    .footer {
+      background: var(--txt);
+      color: #fff;
+      padding: 30px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .branding h2 {
+      font: 800 1.8rem var(--fh);
+      color: var(--acc);
+      margin-bottom: 5px;
+    }
+
+    .branding p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 5px;
+    }
+
+    .cta-text {
+      font: 800 1.2rem var(--fh);
+      color: #fff;
+      margin-top: 15px;
+      background: var(--pri);
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 50px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .qr-container {
+      text-align: center;
+      background: #fff;
+      padding: 10px;
+      border-radius: 12px;
+      color: var(--txt);
+    }
+
+    .qr-container img {
+      width: 100px;
+      height: 100px;
+      display: block;
+      margin: 0 auto 5px;
+      border-radius: 8px;
+    }
+
+    .qr-container p {
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 650px) {
+      .header-title { font-size: 2.2rem; }
+      .header-prize { font-size: 1.6rem; }
+      .options-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer { flex-direction: column; text-align: center; }
+      .qr-container { margin: 0 auto; }
+    }
+    
+    /* PRINT STYLES */
+    @media print {
+      body { padding: 0; background: #fff; }
+      .poster { box-shadow: none; border: none; max-width: 100%; }
+      .cta-text { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster">
+    
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-free">FREE! FREE! FREE!</div>
+      <h1 class="header-title">Lucky Customer Contest</h1>
+      <div class="header-prize">WIN ₹2000 SHOPPING VOUCHER</div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <h2 class="section-title">How to Participate</h2>
+      
+      <div class="options-grid">
+        <!-- OPTION 1 -->
+        <div class="option-card">
+          <div class="option-title">Option 1: Visit Shop</div>
+          <ul class="option-list">
+            <li>Visit Ganesh Fruit Juice Centre</li>
+            <li>Purchase any juice</li>
+            <li>Take a beautiful photo of your juice</li>
+            <li>Post a 5-star Google Review</li>
+            <li>Upload the photo on Instagram</li>
+            <li>Tag our official page <b>@your_instagram_handle</b></li>
+            <li><strong>Highest likes wins!</strong></li>
+          </ul>
+        </div>
+
+        <!-- OPTION 2 -->
+        <div class="option-card">
+          <div class="option-title">Option 2: Order Online</div>
+          <ul class="option-list">
+            <li>Order your favorite juice from our website</li>
+            <li>Take a beautiful photo when it arrives</li>
+            <li>Post a 5-star Google Review</li>
+            <li>Upload the photo on Instagram</li>
+            <li>Tag our official page <b>@your_instagram_handle</b></li>
+            <li><strong>Highest likes wins!</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DETAILS -->
+      <div class="details-box">
+        <div class="detail-item">
+          <h4>🎁 Reward Details</h4>
+          <p>Prize: ₹2000 Shopping Voucher<br>Winner Selection: Highest Instagram Likes<br>Announcement: After contest ends</p>
+        </div>
+        <div class="detail-item">
+          <h4>⏳ Validity</h4>
+          <p>Offer valid for 20 days only!<br>Start Date: [Start Date]<br>End Date: [End Date]</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="branding">
+        <h2>Ganesh Fruit Juice Centre</h2>
+        <p>🌐 https://my-site-olive-one.vercel.app/</p>
+        <p>📸 @your_instagram_handle</p>
+        <div class="cta-text">Join Now & Be Our Lucky Winner!</div>
+      </div>
+      <div class="qr-container">
+        <img src="qrcode.jpg" alt="Scan QR Code">
+        <p>Scan to Visit<br>Our Website</p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
