@@ -29,7 +29,8 @@
       background: var(--bg);
       color: var(--txt);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       padding: 20px;
     }
 
@@ -300,8 +301,29 @@
       body { padding-top: 60px; } /* Prevent overlap */
     }
 
+    .back-btn-bottom {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--txt);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font: 700 1rem var(--fh);
+      box-shadow: var(--sh);
+      transition: all 0.3s ease;
+      margin-top: 25px;
+      margin-bottom: 20px;
+    }
+    .back-btn-bottom:hover {
+      background: var(--pri);
+      transform: translateY(-2px);
+    }
+
     /* PRINT STYLES */
     @media print {
+      .back-btn-bottom { display: none !important; }
       .back-btn { display: none !important; }
       body { padding: 0; background: #fff; }
       .poster { box-shadow: none; border: none; max-width: 100%; }
@@ -383,6 +405,8 @@
     </div>
 
   </div>
+
+  <a href="index.html" class="back-btn-bottom">← Back to Site</a>
 
 </body>
 </html>
