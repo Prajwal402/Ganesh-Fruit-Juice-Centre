@@ -270,8 +270,39 @@
       .qr-container { margin: 0 auto; }
     }
     
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: var(--txt);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font: 700 0.9rem var(--fh);
+      box-shadow: var(--sh);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    .back-btn:hover {
+      background: var(--pri);
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 850px) {
+      .back-btn {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+      }
+      body { padding-top: 60px; } /* Prevent overlap */
+    }
+
     /* PRINT STYLES */
     @media print {
+      .back-btn { display: none !important; }
       body { padding: 0; background: #fff; }
       .poster { box-shadow: none; border: none; max-width: 100%; }
       .cta-text { animation: none; }
@@ -279,6 +310,8 @@
   </style>
 </head>
 <body>
+
+  <a href="index.html" class="back-btn">← Back to Site</a>
 
   <div class="poster">
     
@@ -303,7 +336,7 @@
             <li>Take a beautiful photo of your juice</li>
             <li>Post a 5-star Google Review</li>
             <li>Upload the photo on Instagram</li>
-            <li>Tag our official page <b>@your_instagram_handle</b></li>
+            <li>Tag our official page <b>@sri_ganesh_juice_09</b></li>
             <li><strong>Highest likes wins!</strong></li>
           </ul>
         </div>
@@ -316,7 +349,7 @@
             <li>Take a beautiful photo when it arrives</li>
             <li>Post a 5-star Google Review</li>
             <li>Upload the photo on Instagram</li>
-            <li>Tag our official page <b>@your_instagram_handle</b></li>
+            <li>Tag our official page <b>@sri_ganesh_juice_09</b></li>
             <li><strong>Highest likes wins!</strong></li>
           </ul>
         </div>
@@ -339,8 +372,8 @@
     <div class="footer">
       <div class="branding">
         <h2>Ganesh Fruit Juice Centre</h2>
-        <p>🌐 https://my-site-olive-one.vercel.app/</p>
-        <p>📸 @your_instagram_handle</p>
+        <p>🌐 www.shriganeshfruitjuicee.shop</p>
+        <p>📸 @sri_ganesh_juice_09</p>
         <div class="cta-text">Join Now & Be Our Lucky Winner!</div>
       </div>
       <div class="qr-container">
