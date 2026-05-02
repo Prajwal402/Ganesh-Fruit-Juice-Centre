@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lucky Customer Contest - Ganesh Fruit Juice Centre</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&family=Inter:wght@400;500;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
-      --pri: #FF9800; /* Bright Orange */
+      --pri: #FF9800;
+      /* Bright Orange */
       --pri-dk: #F57C00;
-      --sec: #4CAF50; /* Fresh Green */
+      --sec: #4CAF50;
+      /* Fresh Green */
       --sec-dk: #388E3C;
-      --acc: #FFEB3B; /* Vibrant Yellow */
+      --acc: #FFEB3B;
+      /* Vibrant Yellow */
       --bg: #FFFDF7;
       --txt: #2C3E50;
       --r: 20px;
@@ -22,8 +28,12 @@
       --fb: 'Inter', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: var(--fb);
       background: var(--bg);
@@ -73,7 +83,7 @@
       padding: 5px 25px;
       border-radius: 50px;
       transform: rotate(-3deg);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       margin-bottom: 15px;
       letter-spacing: 2px;
     }
@@ -81,18 +91,19 @@
     .header-title {
       font: 900 3rem/1.1 var(--fh);
       text-transform: uppercase;
-      text-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+      text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
       margin-bottom: 10px;
     }
 
     .header-prize {
       font: 800 2.2rem var(--fh);
-      color: #D32F2F; /* Bold Red for prize */
+      color: #D32F2F;
+      /* Bold Red for prize */
       background: #fff;
       display: inline-block;
       padding: 10px 30px;
       border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       margin-top: 10px;
     }
 
@@ -108,7 +119,7 @@
       margin-bottom: 25px;
       position: relative;
     }
-    
+
     .section-title::after {
       content: '';
       display: block;
@@ -180,7 +191,7 @@
       gap: 20px;
       justify-content: space-between;
       border-left: 5px solid var(--pri);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     }
 
     .detail-item {
@@ -236,9 +247,17 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     .qr-container {
@@ -264,13 +283,29 @@
 
     /* RESPONSIVE */
     @media (max-width: 650px) {
-      .header-title { font-size: 2.2rem; }
-      .header-prize { font-size: 1.6rem; }
-      .options-grid { grid-template-columns: 1fr; gap: 40px; }
-      .footer { flex-direction: column; text-align: center; }
-      .qr-container { margin: 0 auto; }
+      .header-title {
+        font-size: 2.2rem;
+      }
+
+      .header-prize {
+        font-size: 1.6rem;
+      }
+
+      .options-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .footer {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .qr-container {
+        margin: 0 auto;
+      }
     }
-    
+
     .back-btn {
       position: fixed;
       top: 20px;
@@ -285,11 +320,12 @@
       z-index: 100;
       transition: all 0.3s ease;
     }
+
     .back-btn:hover {
       background: var(--pri);
       transform: translateY(-2px);
     }
-    
+
     @media (max-width: 850px) {
       .back-btn {
         position: absolute;
@@ -298,7 +334,12 @@
         padding: 8px 15px;
         font-size: 0.8rem;
       }
-      body { padding-top: 60px; } /* Prevent overlap */
+
+      body {
+        padding-top: 60px;
+      }
+
+      /* Prevent overlap */
     }
 
     .back-btn-bottom {
@@ -316,6 +357,7 @@
       margin-top: 25px;
       margin-bottom: 20px;
     }
+
     .back-btn-bottom:hover {
       background: var(--pri);
       transform: translateY(-2px);
@@ -323,20 +365,38 @@
 
     /* PRINT STYLES */
     @media print {
-      .back-btn-bottom { display: none !important; }
-      .back-btn { display: none !important; }
-      body { padding: 0; background: #fff; }
-      .poster { box-shadow: none; border: none; max-width: 100%; }
-      .cta-text { animation: none; }
+      .back-btn-bottom {
+        display: none !important;
+      }
+
+      .back-btn {
+        display: none !important;
+      }
+
+      body {
+        padding: 0;
+        background: #fff;
+      }
+
+      .poster {
+        box-shadow: none;
+        border: none;
+        max-width: 100%;
+      }
+
+      .cta-text {
+        animation: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <a href="index.html" class="back-btn">← Back to Site</a>
 
   <div class="poster">
-    
+
     <!-- HEADER -->
     <div class="header">
       <div class="header-free">FREE! FREE! FREE!</div>
@@ -347,7 +407,7 @@
     <!-- CONTENT -->
     <div class="content">
       <h2 class="section-title">How to Participate</h2>
-      
+
       <div class="options-grid">
         <!-- OPTION 1 -->
         <div class="option-card">
@@ -381,11 +441,12 @@
       <div class="details-box">
         <div class="detail-item">
           <h4>🎁 Reward Details</h4>
-          <p>Prize: ₹1000 Shopping Voucher<br>Winner Selection: Highest Instagram Likes<br>Announcement: After contest ends</p>
+          <p>Prize: ₹1000 Free Cash <br>Winner Selection: Highest Instagram Likes<br>Announcement: After contest ends
+          </p>
         </div>
         <div class="detail-item">
           <h4>⏳ Validity</h4>
-          <p>Offer valid for 20 days only!<br>Start Date: [Start Date]<br>End Date: [End Date]</p>
+          <p>Offer valid for 20 days only!<br>Start Date: [03-05-26]<br>End Date: [22-05-26]</p>
         </div>
       </div>
     </div>
@@ -396,7 +457,8 @@
         <h2>Ganesh Fruit Juice Centre</h2>
         <p>🌐 www.shriganeshfruitjuicee.shop</p>
         <p>📸 @sri_ganesh_juice_09</p>
-        <a href="https://www.instagram.com/sri_ganesh_juice_09/#" target="_blank" class="cta-text" style="text-decoration: none;">Join Now & Be Our Lucky Winner!</a>
+        <a href="https://www.instagram.com/sri_ganesh_juice_09/#" target="_blank" class="cta-text"
+          style="text-decoration: none;">Join Now & Be Our Lucky Winner!</a>
       </div>
       <div class="qr-container">
         <img src="qrcode.jpg" alt="Scan QR Code">
@@ -409,4 +471,5 @@
   <a href="index.html" class="back-btn-bottom">← Back to Site</a>
 
 </body>
+
 </html>
